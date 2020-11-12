@@ -7,21 +7,24 @@ Scrum record:  A sentence or two recording each member's accomplishments, concer
 Sprint # 1 - SCRUM Master: @Thomas Weathers
 
 Sprint goal:
-            - decide on main features
-            - goals of the project 
-            - framework/language choices confirmed for front-end, back-end and Cloud
-            - Develop a "Hello World" application runnable on IOS and Android simulator
-            - initialize and setup github
-            - initialize and setup necessary software on personal computers
+        
+        - decide on main features
+        - goals of the project 
+        - framework/language choices confirmed for front-end, back-end and Cloud
+        - Develop a "Hello World" application runnable on IOS and Android simulator
+        - initialize and setup github
+        - initialize and setup necessary software on personal computers
 
 Product log: 
-    Front-end: Flutter
-    Back-end:  Flask
-    Cloud:     Google Cloud
-    github: GoBabyGo-Mobile
+        
+        Front-end:  Flutter
+        Back-end:   Flask
+        Cloud:      Google Cloud
+        github:     GoBabyGo-Mobile
 
 
 Member task:
+        
         All:
         - decide main features of the application
         - goals of the project
@@ -36,4 +39,12 @@ Member task:
 
 Scrum record:
 
+        Aishwarya:
+        Evie:
+        Nicholas:
+        Christien:
+        Thomas: 
+
+
+---------------------------------------------------
 Sprint # 1 Review - 11/13 
