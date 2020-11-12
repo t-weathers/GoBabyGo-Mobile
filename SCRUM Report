@@ -15,14 +15,24 @@ Sprint goal:
             - initialize and setup necessary software on personal computers
 
 Product log: 
-        
+    Front-end: Flutter
+    Back-end:  Flask
+    Cloud:     Google Cloud
+    github: GoBabyGo-Mobile
+
 
 Member task:
-        Aishwarya: 
-        Evie:
-        Nicholas:
-        Christien:
-        Thomas: this is a test of the branch 
+        All:
+        - decide main features of the application
+        - goals of the project
+        - framework/language choices confirmed
+        - setup necessary software on persnal computers
+
+        Aishwarya: design review presentation
+        Evie: build starter flutter project
+        Nicholas: build starter flask project
+        Christien: build starter flask project
+        Thomas: initialize and setup github 
 
 Scrum record:
 
