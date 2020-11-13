@@ -22,6 +22,18 @@ Product log:
         Cloud:      Google Cloud
         github:     GoBabyGo-Mobile
 
+        tasks:
+        -> decide main features
+        -> decide goals of the project
+        -> setup github
+        -> choose then install software on personal computers
+        -> build frontend
+        -> build backend
+        -> connect front-end and backend
+        -> build IOS dependencies and test
+        -> build Android dependencies and test
+        -> develop "Hello World" application
+        -> complete presentation/documentation
 
 Member task:
         
@@ -40,10 +52,20 @@ Member task:
 Scrum record:
 
         Aishwarya:
-        Evie:
-        Nicholas:
-        Christien:
+
+        Evie: 
+            So far I have been able to create a Rest API using Flask and have been able to call that information using flutter. I am stuck on converting that information into a string that I can display to the application screen. 
+
+        Nicholas: 
+            accomplishments: Successfully create a dart/Flutter application on an android device. 
+            Concerns: connecting our Flask database to Google Cloud services and being able to successfully make calls to it. 
+            Roadblocks: Google cloud services
+
+        Christien: 
+            I was able to get a Flask API connecting to a front end. Added presentation notes to much of Design Review power point and filled out Perceived Challenges/Technical Hurdles. My biggest road block will be integrating Google Cloud services to our frontend and backend.
+
         Thomas: 
+            I was able to successfuly set up the github and get the program running on my IOS machine. I was also able to install all of the necessary software onto my local machine. The only percieved roadblocks are getting this running for all of our members individually on their machines, and getting funding settled for cloud integration. 
 
 
 ---------------------------------------------------
