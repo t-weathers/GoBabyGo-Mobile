@@ -51,7 +51,8 @@ Member task:
 
 Scrum record:
 
-        Aishwarya:
+<<<<<<< HEAD
+        Aishwarya: Having issues creating a path to my flutter folder so I am unable to run any flutter commands.
 
         Evie: 
             So far I have been able to create a Rest API using Flask and have been able to call that information using flutter. I am stuck on converting that information into a string that I can display to the application screen. 
