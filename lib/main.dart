@@ -124,23 +124,24 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: FutureBuilder<Album>(
-        future: album,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text(snapshot.data.data);
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
+          future: album,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.data);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
 
-          // By default, show a loading spinner.
-          return CircularProgressIndicator();
-        },
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
+        ),
       ),
-      ),
-     // floatingActionButton: FloatingActionButton(
-     //   onPressed: _incrementCounter(),
-     //   tooltip: 'Increment',
-     //   child: Icon(Icons.add),
-    //  ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter(),
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      //  ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
