@@ -2,74 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:testing_app/password.dart';
-import 'package:testing_app/signup.dart';
+import 'package:testing_app/welcome.dart';
 
-//From get data from internet
-
-Future<Album> fetchAlbum() async {
-  final response = await http.get('http://127.0.0.1:5000/');
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Album.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
-
-class Album {
-  final String data;
-
-  Album({this.data});
-
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      data: json['data'],
-    );
-  }
-}
-
-//// END /////
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Go Baby Go',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.orange,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Go Baby Go'),
-    );
-  }
-}
-
-//first home page on login
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class Password extends StatefulWidget {
+  Password({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -83,39 +19,39 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _PasswordState createState() => _PasswordState();
 }
 
 //first page on login
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PasswordState extends State<Password> {
   TextStyle style =
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
-        obscureText: false,
+    final passwordField = TextField(
+        obscureText: true,
         style: style,
         cursorColor: Colors.white,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
+          hintText: "Password",
           hintStyle: TextStyle(color: Colors.white),
           filled: true,
           fillColor: Color.fromRGBO(235, 152, 78, 1.0),
-          //border before being clicked
+          //border on load (not clicked)
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(32.0),
           ),
-          //border after click
+          //border when clicked
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(32.0),
           ),
         ));
-    final loginButon = Material(
+    final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.orange[800],
@@ -126,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Password()),
+            MaterialPageRoute(builder: (context) => Welcome()),
           );
         },
         child: Text("Login",
@@ -135,24 +71,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-    final signupButton = Material(
+    final backButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.orange[800],
+      color: Colors.white,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Signup()),
-          );
+          Navigator.pop(context);
         },
-        child: Text("Sign Up",
+        child: Text("Back",
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.orange[800], fontWeight: FontWeight.bold)),
       ),
     );
 
@@ -177,16 +110,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 40.0),
-                emailField,
+                SizedBox(height: 45.0),
+                passwordField,
                 SizedBox(
                   height: 35.0,
                 ),
-                loginButon,
+                loginButton,
                 SizedBox(
                   height: 35.0,
                 ),
-                signupButton,
+                backButton,
                 SizedBox(
                   height: 15.0,
                 ),
