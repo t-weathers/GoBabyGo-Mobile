@@ -17,9 +17,22 @@ class _SignupState extends State<Signup> {
   TextStyle style =
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
 
+  final usernamestring = TextEditingController();
+  final passwordstring = TextEditingController();
+  final emailstring = TextEditingController();
+
+  clearInputText() {
+    passwordstring.clear();
+    emailstring.clear();
+  }
+
+  //TODO: add username choice
+  //      maybe ask for kiddo or parent name or both??
+
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
+        controller: emailstring,
         obscureText: false,
         style: style,
         cursorColor: Colors.white,
@@ -41,6 +54,7 @@ class _SignupState extends State<Signup> {
           ),
         ));
     final passwordField = TextField(
+        controller: passwordstring,
         obscureText: true,
         style: style,
         cursorColor: Colors.white,
@@ -70,6 +84,7 @@ class _SignupState extends State<Signup> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearInputText();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Welcome()),
@@ -90,6 +105,7 @@ class _SignupState extends State<Signup> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearInputText();
           Navigator.pop(context);
         },
         child: Text("Back",

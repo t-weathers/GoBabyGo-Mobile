@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/welcome.dart';
 
-class Password extends StatefulWidget {
-  Password({Key key, this.title}) : super(key: key);
+class Login extends StatefulWidget {
+  Login({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -19,18 +19,25 @@ class Password extends StatefulWidget {
   final String title;
 
   @override
-  _PasswordState createState() => _PasswordState();
+  _LoginState createState() => _LoginState();
 }
 
 //first page on login
 
-class _PasswordState extends State<Password> {
+class _LoginState extends State<Login> {
   TextStyle style =
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
+
+  final passwordstring = TextEditingController();
+
+  clearTextInput() {
+    passwordstring.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     final passwordField = TextField(
+        controller: passwordstring,
         obscureText: true,
         style: style,
         cursorColor: Colors.white,
@@ -60,6 +67,7 @@ class _PasswordState extends State<Password> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearTextInput();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Welcome()),
@@ -80,6 +88,7 @@ class _PasswordState extends State<Password> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearTextInput();
           Navigator.pop(context);
         },
         child: Text("Back",
@@ -93,10 +102,8 @@ class _PasswordState extends State<Password> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.orange[800], Colors.white])),
+            color: Colors.orange[800]
+          ),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(

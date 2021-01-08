@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:testing_app/password.dart';
+import 'package:testing_app/login.dart';
 import 'package:testing_app/signup.dart';
 
 //From get data from internet
@@ -91,68 +91,56 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextStyle style =
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
+  final emailstring = TextEditingController();
+
+  clearTextInput() {
+    emailstring.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
-        obscureText: false,
-        style: style,
-        cursorColor: Colors.white,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          hintStyle: TextStyle(color: Colors.white),
-          filled: true,
-          fillColor: Color.fromRGBO(235, 152, 78, 1.0),
-          //border before being clicked
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-          //border after click
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-        ));
     final loginButon = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.orange[800],
+      borderRadius: BorderRadius.circular(5.0),
+      color: Colors.white,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearTextInput();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Password()),
+            MaterialPageRoute(builder: (context) => Login()),
           );
         },
         child: Text("Login",
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.orange[800], fontWeight: FontWeight.bold)),
       ),
     );
     final signupButton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.orange[800],
+      borderRadius: BorderRadius.circular(5.0),
+      color: Colors.white,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: EdgeInsets.all(0),
         //THIS IS WHERE THE BUTTON CLICK GOES
         onPressed: () {
+          clearTextInput();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Signup()),
           );
         },
-        child: Text("Sign Up",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+        child: Text(
+          "Create an Account",
+          textAlign: TextAlign.left,
+          style: style.copyWith(
+              color: Colors.orange[800], fontWeight: FontWeight.bold)
+        ),
       ),
     );
 
@@ -160,10 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.orange[800], Colors.white])),
+            color: Colors.orange[800],
+          ),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
@@ -177,8 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 40.0),
-                emailField,
                 SizedBox(
                   height: 35.0,
                 ),
