@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Go Baby Go',
+      title: 'Go Baby Go - About',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.orange,
+        //primarySwatch: Colors.orange,
+        primaryColor: Colors.orange,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.grey[200],
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: MediaQuery.of(context).size.width/1.5,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
 
@@ -110,6 +111,35 @@ class _MyHomePageState extends State<MyHomePage> {
             style: style.copyWith(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
       ),
+    );
+
+    final navBar = Material(
+      elevation: 2.0,
+      //borderRadius: BorderRadius.circular(8),
+      color: Colors.orange[400],
+      //color: Colors.white,
+        child: Column(
+          //width:MediaQuery.of(context).size.width/5,
+            //color: Colors.orange[400],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //color: Colors.orange[400],
+          children: [
+            SizedBox(
+              height:35,
+              child: Image.asset(
+                "assets/facebook.png",
+                width:MediaQuery.of(context).size.width/4,
+                height:35,
+                //color: Colors.orange[400],
+                //fit: BoxFit.contain,
+              ),
+            ), //Image.asset("assets/facebook.png", fit:BoxFit.contain),
+            InkWell(child: new Text('Profile')
+            ),
+          ]
+        ),
+
+
     );
     final connect = Material(
       elevation: 5.0,
@@ -272,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.grey[200],
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: MediaQuery.of(context).size.width/1.5,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //THIS IS WHERE THE BUTTON CLICK GOES
 
@@ -325,15 +355,15 @@ class _MyHomePageState extends State<MyHomePage> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.orange[800], Colors.white])),
+                  colors: [Colors.orange[400], Colors.orange[400]])),
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
 
-                        Text("GoBabyGo",
+                        Text("GoBabyGo - About",
                             style: style1,
                             textAlign: TextAlign.center),
                            // style: style.copyWith(
@@ -342,14 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           height:20.0,
                         ),
                        // emailField,
-                    Text("About",
-                        textAlign: TextAlign.center,
-                        style: style.copyWith(
-                            color:Colors.black, fontWeight:FontWeight.bold)),
 
-                        SizedBox(
-                          height: 10.0,
-                        ),
                         loginButon,
                         SizedBox(
                           height: 20.0,
@@ -407,13 +430,32 @@ class _MyHomePageState extends State<MyHomePage> {
                       // connect1,
                         /*SizedBox(
                           height: 25.0,
-                          child: Image.asset("assets/IG.png",
+                          child: Imfage.asset("assets/IG.png",
                           fit:BoxFit.contain,
                         ),
                         ),*/
                         SizedBox(
-                          height: 15.0,
+                          height: 100.0,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children:[
+                            new Flexible(child: navBar), //connect,
+                            SizedBox(width: 5),
+                            new Flexible(child: navBar), //connect1,
+                            SizedBox(width: 5),
+                            new Flexible(child: navBar), //connect1,
+                            SizedBox(width: 5),
+                            new Flexible(child: navBar), //connect1,
+                            SizedBox(width: 5),
+                            new Flexible(child: navBar), //connect1,
+                            //new Flexible(child: connect1),
+                          ],
+                        ),
+                        //right here I need to add code for navigation bar using ROW()
+
+
+
                       ],
             ),
           ),
