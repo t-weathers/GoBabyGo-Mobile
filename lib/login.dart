@@ -29,39 +29,39 @@ class _LoginState extends State<Login> {
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
 
   final passwordstring = TextEditingController();
+  final emailstring = TextEditingController();
 
   clearTextInput() {
     passwordstring.clear();
+    emailstring.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    final emailField = TextField(
+        controller: emailstring,
+        obscureText: true,
+        style: style,
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Email",
+          hintStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ));
     final passwordField = TextField(
         controller: passwordstring,
         obscureText: true,
         style: style,
-        cursorColor: Colors.white,
+        cursorColor: Colors.black,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.white),
-          filled: true,
-          fillColor: Color.fromRGBO(235, 152, 78, 1.0),
-          //border on load (not clicked)
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-          //border when clicked
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
+          hintStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ));
     final loginButton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.orange[800],
+      borderRadius: BorderRadius.circular(5.0),
+      color: Colors.orange[900],
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -73,68 +73,124 @@ class _LoginState extends State<Login> {
             MaterialPageRoute(builder: (context) => Welcome()),
           );
         },
-        child: Text("Login",
+        child: Text("Login Now",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-    final backButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.white,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        //THIS IS WHERE THE BUTTON CLICK GOES
-        onPressed: () {
-          clearTextInput();
-          Navigator.pop(context);
-        },
-        child: Text("Back",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.orange[800], fontWeight: FontWeight.bold)),
-      ),
-    );
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.orange[800]
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.orange[900],
+        toolbarHeight: 150,
+        leading: BackButton(
+          color: Colors.white,
+        ),
+        elevation: 0.0,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children:[
+            Image.asset(
+                    "assets/GoBabyGo_WEBLOGO.png",
+                    fit: BoxFit.contain,
+                    alignment: FractionalOffset.center,
+                    height: 100,
+                  
+                  ),
+          ]
+      ),
+        
+          
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: Colors.orange[900],
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+              //padding: EdgeInsets.all(30),
+                child: Text(
+                  "Login",
+                  textAlign: TextAlign.left,
+                  style: style.copyWith( fontSize: 25,
+                    color: Colors.white, fontWeight: FontWeight.bold))
+              ),
+            Container(
+              padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 30.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 70.0,
+                    ),
+                  emailField,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  passwordField,
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  loginButton,
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                ],
+              )
+            )
+          ],
+        )        
+      
+      /*body: Row(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget> [
+              Expanded(child: Container(
+                color: Colors.orange[900],
+                height: 200.0,
+                child: SizedBox(
                   height: 200.0,
                   child: Image.asset(
                     "assets/GoBabyGo_WEBLOGO.png",
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 45.0),
-                passwordField,
-                SizedBox(
-                  height: 35.0,
                 ),
-                loginButton,
-                SizedBox(
-                  height: 35.0,
-                ),
-                backButton,
-                SizedBox(
-                  height: 15.0,
-                ),
+              ),
+            ],
+          ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                  SizedBox(
+                    height: 45.0,
+                    ),
+                  passwordField,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  loginButton,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  backButton,
+                  SizedBox(
+                    height: 15.0,
+                  ),
               ],
             ),
-          ),
-        ),
+        ],
       ),
+      */
     );
   }
 }

@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Text("Login",
             textAlign: TextAlign.left,
             style: style.copyWith(
-                color: Colors.orange[800], fontWeight: FontWeight.bold)),
+                color: Colors.orange[900], fontWeight: FontWeight.bold)),
       ),
     );
     final signupButton = Material(
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "Create an Account",
           textAlign: TextAlign.left,
           style: style.copyWith(
-              color: Colors.orange[800], fontWeight: FontWeight.bold)
+              color: Colors.orange[900], fontWeight: FontWeight.bold)
         ),
       ),
     );
@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.orange[800],
+            color: Colors.orange[900],
           ),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
