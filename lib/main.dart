@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:testing_app/activities.dart';
+import 'package:testing_app/faq.dart';
+import 'package:testing_app/profile.dart';
+import 'package:testing_app/timelog.dart';
+import 'package:testing_app/forum.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import './my_flutter_app_icons.dart';
 
 
 //From get data from internet
@@ -62,10 +68,14 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+  //_MyTimeLogPageState.createState() => _MyyTimeLogPageState();
 }
 
 //first page on login
+//class _MyTimeLogPageState extends State<MyHomePage> {
 
+
+//}
 class _MyHomePageState extends State<MyHomePage> {
   TextStyle style =
   TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
@@ -73,6 +83,24 @@ class _MyHomePageState extends State<MyHomePage> {
   TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 36.0);
   TextStyle connectStyle =
   TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 16);
+
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    profile(),
+    forum(),
+    timelog(),
+    activities(),
+    faq(),
+
+
+
+  ];
+
+  void onTappedBar(int index){
+    setState((){
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height:35,
               child: Image.asset(
-                "assets/facebook.png",
+                "assets/time.png",
                 width:MediaQuery.of(context).size.width/4,
                 height:35,
                 //color: Colors.orange[400],
@@ -349,118 +377,55 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.orange[400], Colors.orange[400]])),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+     // appBar: AppBar(
+       // title: Text('Profile'),
+        //backgroundColor: Colors.grey,
+        //centerTitle: true,
+      //),
 
-                        Text("GoBabyGo - About",
-                            style: style1,
-                            textAlign: TextAlign.center),
-                           // style: style.copyWith(
-                            //color:Csolors.black, fontWeight:FontWeight.bold)),
-                        SizedBox(
-                          height:20.0,
-                        ),
-                       // emailField,
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        //backgroundColor: Colors.grey,
+        onTap: onTappedBar,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(MyFlutterApp.user),
+            label: "Profile",
+            backgroundColor: Colors.grey,
+            //label: 'Profile',
+           /// icon: Icon(MyFlutterApp.user),
+          //  icon: IconButton({
+           //   icon: Icon(MyFlutterApp.user),
+             // onPressed: NULL,
+            //}),
+    ),
+    BottomNavigationBarItem(
+    label:'Forum',
+    icon: Icon(MyFlutterApp.chat),
 
-                        loginButon,
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                      Text("Resource Links",
-                        textAlign: TextAlign.center,
-                        style: style.copyWith(
-                            color:Colors.black, fontWeight:FontWeight.bold)),
-
-                        SizedBox(
-                          height:10.0,
-                        ),
-                        signupButton,
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text("Connect with Us!",
-                          textAlign: TextAlign.center,
-                          style: style.copyWith(
-                              color:Colors.black, fontWeight:FontWeight.bold)),
-
-
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            new Flexible(child: connect), //connect,
-                            SizedBox(width: 5),
-                            new Flexible(child: connect1), //connect1,
-                            //new Flexible(child: connect1),
-                          ],
-                        ),
-                        /*FractionallySizedBox(
-                          alignment: Alignment.topCenter,
-                          widthFactor: 0.5,
-                          child: Container(
-                            connect,
-                          ),
-                        ),*/
-                      //  connect,
-                        SizedBox(
-                          height:10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            new Flexible(child: connect2), //connect,
-                            SizedBox(width: 5),
-                            new Flexible(child: connect3), //connect1,
-                            //new Flexible(child: connect1),
-                          ],
-                        ),
-                      // connect1,
-                        /*SizedBox(
-                          height: 25.0,
-                          child: Imfage.asset("assets/IG.png",
-                          fit:BoxFit.contain,
-                        ),
-                        ),*/
-                        SizedBox(
-                          height: 100.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            new Flexible(child: navBar), //connect,
-                            SizedBox(width: 5),
-                            new Flexible(child: navBar), //connect1,
-                            SizedBox(width: 5),
-                            new Flexible(child: navBar), //connect1,
-                            SizedBox(width: 5),
-                            new Flexible(child: navBar), //connect1,
-                            SizedBox(width: 5),
-                            new Flexible(child: navBar), //connect1,
-                            //new Flexible(child: connect1),
-                          ],
-                        ),
-                        //right here I need to add code for navigation bar using ROW()
+    ),
+    BottomNavigationBarItem(
+    label:'Time Log',
+    icon: Icon(MyFlutterApp.future),
+    ),
+    BottomNavigationBarItem(
+    label: 'Activities',
+    icon: Icon(MyFlutterApp.steering_wheel),
+    ),
+    BottomNavigationBarItem(
+    label: 'FAQ',
+    icon: Icon(MyFlutterApp.information),
+    ),
 
 
 
-                      ],
-            ),
-          ),
-        ),
-      ),
+    ],
+    selectedItemColor: Colors.amber,
+
+
+
+    ),
     );
+    }
   }
-}
