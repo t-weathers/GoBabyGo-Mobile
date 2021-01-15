@@ -14,6 +14,23 @@ class _activitiesState extends State<activities>{
         backgroundColor: Colors.grey,
         centerTitle: true,
       ),
+      body: Center(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Explore your next activity",
+                  textAlign: TextAlign.center),
+              SizedBox(height:20.0,),
+              Text("Recent activity"),
+              SizedBox(height:25.0,),
+              Text("Categories"),
+
+            ],
+        ),
+
+
+      ),
     );
   }
 }
