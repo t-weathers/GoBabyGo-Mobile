@@ -87,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     profile(),
-    forum(),
     timelog(),
     activities(),
     faq(),
@@ -400,22 +399,25 @@ class _MyHomePageState extends State<MyHomePage> {
              // onPressed: NULL,
             //}),
     ),
-    BottomNavigationBarItem(
-    label:'Forum',
-    icon: Icon(MyFlutterApp.chat),
+  //  BottomNavigationBarItem(
+  //  label:'Forum',
+  //  icon: Icon(MyFlutterApp.chat),
 
-    ),
+   // ),
     BottomNavigationBarItem(
     label:'Time Log',
     icon: Icon(MyFlutterApp.future),
+      backgroundColor: Colors.grey,
     ),
     BottomNavigationBarItem(
     label: 'Activities',
     icon: Icon(MyFlutterApp.steering_wheel),
+      backgroundColor: Colors.grey,
     ),
     BottomNavigationBarItem(
     label: 'FAQ',
     icon: Icon(MyFlutterApp.information),
+      backgroundColor: Colors.grey,
     ),
 
 
