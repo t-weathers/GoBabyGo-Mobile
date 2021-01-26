@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:testing_app/home.dart';
 import 'package:testing_app/welcome.dart';
 
 class Signup extends StatefulWidget {
@@ -87,7 +88,7 @@ class _SignupState extends State<Signup> {
           clearInputText();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Welcome()),
+            MaterialPageRoute(builder: (context) => MyHomePage()),
           );
         },
         child: Text("Sign Up",
