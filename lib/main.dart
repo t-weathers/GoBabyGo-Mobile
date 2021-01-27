@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:testing_app/home.dart';
 import 'package:testing_app/login.dart';
 import 'package:testing_app/signup.dart';
 
@@ -61,15 +62,12 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyLandPage(title: 'Go Baby Go'),
+      home: LoginPage(title: 'Go Baby Go'),
     );
   }
 }
-
-//first home page on login
-
-class MyLandPage extends StatefulWidget {
-  MyLandPage({Key key, this.title}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -83,102 +81,150 @@ class MyLandPage extends StatefulWidget {
   final String title;
 
   @override
-  _MyLandPageState createState() => _MyLandPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-//first page on login
-
-class _MyLandPageState extends State<MyLandPage> {
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
-  final emailstring = TextEditingController();
-
-  clearTextInput() {
-    emailstring.clear();
-  }
-
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    final loginButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(5.0),
-      color: Colors.white,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        //THIS IS WHERE THE BUTTON CLICK GOES
-        onPressed: () {
-          clearTextInput();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Login()),
-          );
-        },
-        child: Text("Login",
-            textAlign: TextAlign.left,
-            style: style.copyWith(
-                color: Colors.orange[900], fontWeight: FontWeight.bold)),
+    return Scaffold(
+      body: Container(
+        color: Colors.orange[900],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                    "assets/GoBabyGo_WEBLOGO.png",
+                    fit: BoxFit.contain,
+                    alignment: FractionalOffset.center,
+                    height: 150,
+                  
+                  ),
+              SizedBox(height: 100),
+              _signInGoogleButton(),
+              SizedBox(height:30),
+              _signInAppleButton(),
+              SizedBox(height:30),
+              _createAccountButton(),
+            ],
+          ),
+        ),
       ),
     );
-    final signupButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(5.0),
+  }
+
+  Widget _signInGoogleButton() {
+    return RaisedButton(
+      splashColor: Colors.grey,
       color: Colors.white,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(0),
-        //THIS IS WHERE THE BUTTON CLICK GOES
-        onPressed: () {
-          clearTextInput();
+      onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
+          );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _signInAppleButton(){
+    return RaisedButton(
+      splashColor: Colors.grey,
+      color: Colors.white,
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
+          );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //change to apple logo
+            Image(image: AssetImage("assets/apple_logo.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Apple',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _createAccountButton(){
+    return RaisedButton(
+      splashColor: Colors.grey,
+      color: Colors.white,
+      onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Signup()),
           );
-        },
-        child: Text(
-          "Create an Account",
-          textAlign: TextAlign.left,
-          style: style.copyWith(
-              color: Colors.orange[900], fontWeight: FontWeight.bold)
-        ),
-      ),
-    );
-
-    return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.orange[900],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 200.0,
-                  child: Image.asset(
-                    "assets/GoBabyGo_WEBLOGO.png",
-                    fit: BoxFit.contain,
-                  ),
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                'Create Account',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
                 ),
-                SizedBox(
-                  height: 35.0,
-                ),
-                loginButon,
-                SizedBox(
-                  height: 35.0,
-                ),
-                signupButton,
-                SizedBox(
-                  height: 15.0,
-                ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
+
+
 }
