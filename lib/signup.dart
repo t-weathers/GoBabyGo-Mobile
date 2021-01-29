@@ -19,6 +19,7 @@ class _SignupState extends State<Signup> {
       TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
 
   final usernamestring = TextEditingController();
+  
   final passwordstring = TextEditingController();
   final emailstring = TextEditingController();
 

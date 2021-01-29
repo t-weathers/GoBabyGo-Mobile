@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
-import 'package:testing_app/login.dart';
 import 'package:testing_app/signup.dart';
 
 //From get data from internet
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Signup()),
+            MaterialPageRoute(builder: (context) => CreateAccount1()),
           );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
