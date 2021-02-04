@@ -2,13 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:testing_app/loginGoogle.dart';
 import 'package:testing_app/user_model.dart';
 
-import 'home.dart';
+import 'create_account_parent.dart';
 
-class CreateAccountParent extends StatefulWidget {
-    CreateAccountParent({Key key, this.title}) : super(key: key);
+class LoginApple extends StatefulWidget {
+    LoginApple({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -22,10 +21,10 @@ class CreateAccountParent extends StatefulWidget {
   final String title;
 
   @override
-  _CreateAccountParent createState() => _CreateAccountParent();
+  _LoginApple createState() => _LoginApple();
 }
 
-class _CreateAccountParent extends State<CreateAccountParent>{
+class _LoginApple extends State<LoginApple>{
   final _formKey = GlobalKey<FormState>();
   New_User _new_user = new New_User();
   String userTypeString;  //"Parent","Clinician","Administrator","Other"
@@ -39,7 +38,7 @@ class _CreateAccountParent extends State<CreateAccountParent>{
           color:Colors.white,
         ),
         backgroundColor: Colors.orange[900],
-        title: Text("Create an Account (Parent)",style: TextStyle(color: Colors.white)),
+        title: Text("Login with Apple",style: TextStyle(color: Colors.white)),
         centerTitle: false,
         
       ),
@@ -93,14 +92,24 @@ class _CreateAccountParent extends State<CreateAccountParent>{
                           return null;
                         },
                         decoration: InputDecoration(
-                          labelText: "Child's First Name",
+                          labelText: "Email",
                         )
                       ),
-                      SizedBox(height:80),
+                      SizedBox(height:30),
+                      TextFormField( //first name
+                        onSaved: (val) => _new_user.fName = val,
+                        
+                        validator: (val){
+                          if(val.isEmpty) return "This field is required";
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                        )
+                      ),
                       
                       
-                      
-                      
+                      SizedBox(height:30),
                       _createAccountButton(),
                       ],
                     ),
@@ -140,7 +149,7 @@ class _CreateAccountParent extends State<CreateAccountParent>{
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Finish',
+                'Login',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,

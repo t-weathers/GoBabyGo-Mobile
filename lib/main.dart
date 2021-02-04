@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
-import 'package:testing_app/login.dart';
+import 'package:testing_app/loginGoogle.dart';
+
+import 'loginApple.dart';
 
 //From get data from internet
 
@@ -126,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Login()),
+            MaterialPageRoute(builder: (context) => LoginGoogle()),
           );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
@@ -163,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Login()),
+            MaterialPageRoute(builder: (context) => LoginApple()),
           );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
