@@ -2,12 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:testing_app/login.dart';
 import 'package:testing_app/user_model.dart';
 
-import 'create_account_parent.dart';
+import 'home.dart';
 
-class Login extends StatefulWidget {
-    Login({Key key, this.title}) : super(key: key);
+class CreateAccountParent extends StatefulWidget {
+    CreateAccountParent({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,10 +22,10 @@ class Login extends StatefulWidget {
   final String title;
 
   @override
-  _Login createState() => _Login();
+  _CreateAccountParent createState() => _CreateAccountParent();
 }
 
-class _Login extends State<Login>{
+class _CreateAccountParent extends State<CreateAccountParent>{
   final _formKey = GlobalKey<FormState>();
   New_User _new_user = new New_User();
   String userTypeString;  //"Parent","Clinician","Administrator","Other"
@@ -38,7 +39,7 @@ class _Login extends State<Login>{
           color:Colors.white,
         ),
         backgroundColor: Colors.orange[900],
-        title: Text("Login",style: TextStyle(color: Colors.white)),
+        title: Text("Create an Account (Parent)",style: TextStyle(color: Colors.white)),
         centerTitle: false,
         
       ),
@@ -92,24 +93,14 @@ class _Login extends State<Login>{
                           return null;
                         },
                         decoration: InputDecoration(
-                          labelText: "Email",
+                          labelText: "Child's First Name",
                         )
                       ),
-                      SizedBox(height:30),
-                      TextFormField( //first name
-                        onSaved: (val) => _new_user.fName = val,
-                        
-                        validator: (val){
-                          if(val.isEmpty) return "This field is required";
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                        )
-                      ),
+                      SizedBox(height:80),
                       
                       
-                      SizedBox(height:30),
+                      
+                      
                       _createAccountButton(),
                       ],
                     ),
@@ -149,7 +140,7 @@ class _Login extends State<Login>{
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Login',
+                'Finish',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,

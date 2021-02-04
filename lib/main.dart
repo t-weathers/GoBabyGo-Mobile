@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
 import 'package:testing_app/login.dart';
-import 'package:testing_app/signup.dart';
 
 //From get data from internet
 
@@ -64,6 +63,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: LoginPage(title: 'Go Baby Go'),
+      routes: <String, WidgetBuilder> {
+        '/MyHomePage': (BuildContext context) => MyHomePage(),
+        
+    },
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:testing_app/user_model.dart';
 
+import 'create_account_parent.dart';
+
 class CreateAccount1 extends StatefulWidget {
     CreateAccount1({Key key, this.title}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _CreateAccount1 extends State<CreateAccount1>{
   final _formKey = GlobalKey<FormState>();
   New_User _new_user = new New_User();
   String userTypeString;  //"Parent","Clinician","Administrator","Other"
+  
   
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,11 @@ class _CreateAccount1 extends State<CreateAccount1>{
                       children: <Widget>[
                       TextFormField( //first name
                         onSaved: (val) => _new_user.fName = val,
+                        
+                        validator: (val){
+                          if(val.isEmpty) return "This field is required";
+                          return null;
+                        },
                         decoration: InputDecoration(
                           labelText: "First Name",
                         )
@@ -92,10 +100,20 @@ class _CreateAccount1 extends State<CreateAccount1>{
                         onSaved: (val) => _new_user.lastInit = val,
                         decoration: InputDecoration(labelText: "Last Initial"),
                         maxLength: 1,
+                        validator: (val){
+                          if(val.isEmpty){return "This field is required";}
+                          return null;
+                        },
                       ),
                       SizedBox(height:30),
                       DropdownButtonFormField<String>(
                         onSaved: (val) => _new_user.userType = val,
+                       
+                        validator: (val){
+                          if(val == null){return "This field is required";}
+                          else{return null;}
+                          
+                        },
                         value: userTypeString,
                         items: 
                           ['Parent','Clinician','Administator','Other'
@@ -113,12 +131,12 @@ class _CreateAccount1 extends State<CreateAccount1>{
                             });
                           },
                           decoration: InputDecoration(
-                            labelText: 'UserType',
+                            labelText: 'Relationship to GoBabyGo',
                           ),
                       ),
                       
                       SizedBox(height:30),
-                      _createAccountButton(),
+                      _createAccountButton(userTypeString),
                       ],
                     ),
                   ),
@@ -130,7 +148,7 @@ class _CreateAccount1 extends State<CreateAccount1>{
       )
     ));
   }
-  Widget _createAccountButton(){
+  Widget _createAccountButton(String userType){
     return RaisedButton(
       splashColor: Colors.grey,
       color: Colors.orange[900],
@@ -139,10 +157,19 @@ class _CreateAccount1 extends State<CreateAccount1>{
         //add validation, 
         //submit form,
         //push to next create acct page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateAccount1()),
-          );
+        
+        if (_formKey.currentState.validate()) {
+          _formKey.currentState.save();
+          if (userType == "Parent"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateAccountParent()),
+            );
+          }
+          else{
+            Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);  //go to next page with no possibility to go back
+          }
+        }
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
