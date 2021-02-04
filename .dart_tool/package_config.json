@@ -140,6 +140,12 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "string_validator",
+      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/string_validator-0.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0-nullsafety.1",
       "packageUri": "lib/",
@@ -206,7 +212,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-01-15T04:19:34.058895Z",
+  "generated": "2021-02-04T00:55:11.022035Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
