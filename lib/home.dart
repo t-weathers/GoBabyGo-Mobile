@@ -353,7 +353,9 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: new Icon(MyFlutterApp.user),
             label: "Profile",
-            backgroundColor: Colors.grey,
+           // backgroundColor: Colors.orange[900],
+            backgroundColor: Colors.grey[350],
+            // backgroundColor: Colors.grey[600],
             //label: 'Profile',
            /// icon: Icon(MyFlutterApp.user),
           //  icon: IconButton({
@@ -369,23 +371,29 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem(
     label:'Time Log',
     icon: Icon(MyFlutterApp.future),
-      backgroundColor: Colors.grey,
+      //backgroundColor: Colors.orange[900],
+      backgroundColor: Colors.grey[350],
+      // backgroundColor: Colors.grey[600],
     ),
     BottomNavigationBarItem(
     label: 'Activities',
     icon: Icon(MyFlutterApp.steering_wheel),
-      backgroundColor: Colors.grey,
+     // backgroundColor: Colors.orange[900],
+      backgroundColor: Colors.grey[350],
+      // backgroundColor: Colors.grey[600],
     ),
     BottomNavigationBarItem(
     label: 'FAQ',
     icon: Icon(MyFlutterApp.information),
-      backgroundColor: Colors.grey,
+     // backgroundColor: Colors.orange[900],
+      backgroundColor: Colors.grey[350],
+     // backgroundColor: Colors.grey[600],
     ),
 
 
 
     ],
-    selectedItemColor: Colors.amber,
+    selectedItemColor: Colors.orange[900],
 
 
 

@@ -34,8 +34,9 @@ class _faqState extends State<faq>{
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text('FAQ'),
-        backgroundColor: Colors.grey,
+        title: Text('FAQ', style: TextStyle(color: Colors.white, fontSize:24)),
+        backgroundColor: Colors.orange[900],
+
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -61,25 +62,35 @@ class _faqState extends State<faq>{
                // print("List at index [index]: ");
 
                 //print(lists[index]["four"]["question"]); //+ lists[index]);
-                return  Container(
+                return
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                          height:25
+                      ),
+                  Container(
                   width: 295,
                   height: 65,
-
+                  //children:
                   child:
+
                   RaisedButton(
                     elevation: 8.0,
                     // shape: Border.all(color: Colors.amber, width: 1.0),
-                    shape: RoundedRectangleBorder(  borderRadius: BorderRadius.circular(20.0), side: BorderSide(color: Colors.orangeAccent, width: 1.5
+                    shape: RoundedRectangleBorder(  borderRadius: BorderRadius.circular(20.0), side: BorderSide(color: Colors.orange[900], width: 1.5
                     ),
                     ),
-                    color:Color.fromRGBO(200, 200, 200, 0.4),
+                    color:Colors.white,
+                    //color:Color.fromRGBO(200, 200, 200, 0.4),
 
                     // Text('Acceleration', style: TextStyle(fontSize:18)),
 
 
 
 
-                    textColor: Colors.black54,
+                    textColor: Colors.grey[600],
                     splashColor: Colors.orange,
                     //padding: EdgeInsets.symmetric(vertical: 30, horizontal: 100),
                     onPressed: (){
@@ -90,14 +101,18 @@ class _faqState extends State<faq>{
                       children: <Widget> [
                         Container(
                             width:235,
-                            child: Text(lists[index][catArray[index]]["question"], style: TextStyle(fontSize:18)), alignment: Alignment.centerLeft
+                            child: Text(lists[index][catArray[index]]["question"], style: TextStyle(fontSize:18, color:Colors.grey[600])), alignment: Alignment.centerLeft
                         ),
                         Align(child: Icon(Icons.arrow_downward), alignment: Alignment.centerRight),
                       ],
                     ),
 
                   ),
-                );
+
+                ),
+
+                ],
+                  );
 
 
               }
