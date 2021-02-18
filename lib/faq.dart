@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+
 
 import 'dialog.dart';
 
@@ -9,9 +14,14 @@ class faq extends StatefulWidget{
 }
 
 class _faqState extends State<faq>{
+
+  final dbRef = FirebaseDatabase.instance.reference().child("faqCategories");
+  List<Map<dynamic, dynamic>> lists = [];
+  dialog myDialog = new dialog();
+  final catArray = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen"];
   @override
   Widget build(BuildContext context){
-    final activityButton =     RaisedButton(
+  /*  final activityButton =     RaisedButton(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
           side: BorderSide(color: Colors.red)),
@@ -20,7 +30,7 @@ class _faqState extends State<faq>{
       textColor: Colors.white,
       child: Text("Buy now".toUpperCase(),
           style: TextStyle(fontSize: 14)),
-    );
+    );*/
 
     return new Scaffold(
       appBar: AppBar(
@@ -28,7 +38,75 @@ class _faqState extends State<faq>{
         backgroundColor: Colors.grey,
         centerTitle: true,
       ),
-      body: Center(
+      body: FutureBuilder(
+        future: dbRef.once(),
+        builder: (context, AsyncSnapshot<DataSnapshot> snapshot){
+          if (snapshot.hasData){
+            lists.clear();
+            Map<dynamic, dynamic> values = snapshot.data.value;
+            values.forEach((key, value){
+              lists.add(values);
+            });
+           // if (lists != null){
+            //  print(lists);
+           // }
+
+            return new ListView.builder(
+              shrinkWrap: true,
+              itemCount: lists.length,
+
+              itemBuilder:(BuildContext context, int index){
+
+
+               // print("List at index [index]: ");
+
+                //print(lists[index]["four"]["question"]); //+ lists[index]);
+                return  Container(
+                  width: 295,
+                  height: 65,
+
+                  child:
+                  RaisedButton(
+                    elevation: 8.0,
+                    // shape: Border.all(color: Colors.amber, width: 1.0),
+                    shape: RoundedRectangleBorder(  borderRadius: BorderRadius.circular(20.0), side: BorderSide(color: Colors.orangeAccent, width: 1.5
+                    ),
+                    ),
+                    color:Color.fromRGBO(200, 200, 200, 0.4),
+
+                    // Text('Acceleration', style: TextStyle(fontSize:18)),
+
+
+
+
+                    textColor: Colors.black54,
+                    splashColor: Colors.orange,
+                    //padding: EdgeInsets.symmetric(vertical: 30, horizontal: 100),
+                    onPressed: (){
+                      myDialog.info(context, lists[index][catArray[index]]["question"], lists[index][catArray[index]]["answer"]);
+
+                    },
+                    child: Row(
+                      children: <Widget> [
+                        Container(
+                            width:235,
+                            child: Text(lists[index][catArray[index]]["question"], style: TextStyle(fontSize:18)), alignment: Alignment.centerLeft
+                        ),
+                        Align(child: Icon(Icons.arrow_downward), alignment: Alignment.centerRight),
+                      ],
+                    ),
+
+                  ),
+                );
+
+
+              }
+            );
+          }
+          return CircularProgressIndicator();
+        }
+      )
+   /*   body: Center(
 
         child: SingleChildScrollView(
           child: Column(
@@ -331,7 +409,7 @@ class _faqState extends State<faq>{
 
       ),
 
-      ),
+      ),*/
     );
   }
 }
