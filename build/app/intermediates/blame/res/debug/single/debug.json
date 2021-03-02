@@ -140,6 +140,10 @@
         "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\8014592fef965c457f4d96ed4583a915\\core-1.1.0\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
     },
     {
+        "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_disabled.xml.flat",
+        "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\1714d66bcdb20184a230a97f61880394\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml"
+    },
+    {
         "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
         "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\8014592fef965c457f4d96ed4583a915\\core-1.1.0\\res\\drawable-mdpi-v4\\notify_panel_notification_icon_bg.png"
     },
@@ -148,8 +152,16 @@
         "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\8014592fef965c457f4d96ed4583a915\\core-1.1.0\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
+        "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_light_normal.xml.flat",
+        "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\1714d66bcdb20184a230a97f61880394\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml"
+    },
+    {
         "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
         "source": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\drawable-watch-v20_common_google_signin_btn_text_dark_normal.xml.flat",
+        "source": "C:\\Users\\chotchki\\.gradle\\caches\\transforms-2\\files-2.1\\1714d66bcdb20184a230a97f61880394\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml"
     },
     {
         "merged": "C:\\Users\\chotchki\\AndroidStudioProjects\\GoBabyGo-Mobile\\build\\app\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_dark_normal.xml.flat",

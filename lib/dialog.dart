@@ -17,7 +17,7 @@ class dialog{
           actions: <Widget> [
             FlatButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Ok', style: TextStyle(fontSize: 26))),
+              child: Text('Ok', style: TextStyle(fontSize: 26, color: Colors.orange[900]))),
 
           ],
         );

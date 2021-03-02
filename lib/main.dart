@@ -7,6 +7,9 @@ import 'package:testing_app/home.dart';
 import 'package:testing_app/loginGoogle.dart';
 
 import 'loginApple.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+
 
 //From get data from internet
 
@@ -91,6 +94,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoggedIn = false;
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  _login() async {
+    try {
+      await _googleSignIn.signIn();
+      setState(() {
+        _isLoggedIn = true;
+      });
+
+
+
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+
+    }
+    catch (err){
+      print(err);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,12 +147,22 @@ class _LoginPageState extends State<LoginPage> {
     return RaisedButton(
       splashColor: Colors.grey,
       color: Colors.white,
-      onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginGoogle()),
-          );
+      onPressed: () async {
+         await _login();
+         Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+         //Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+       // Navigator.push(
+        //  context,
+         // MaterialPageRoute(builder: (context) => home()),
+        //);
       },
+      //onPressed: () {
+ //         Navigator.push(
+   //         context,
+     //       MaterialPageRoute(builder: (context) => LoginGoogle()),
+       //   );
+      //},
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       

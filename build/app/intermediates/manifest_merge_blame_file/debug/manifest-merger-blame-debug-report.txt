@@ -15,10 +15,10 @@
 14-->C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\android\app\src\debug\AndroidManifest.xml:6:5-66
 14-->C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\android\app\src\debug\AndroidManifest.xml:6:22-64
 15    <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
-16    <!-- <uses-sdk android:minSdkVersion="14" /> -->
+16    <!-- <uses-sdk android:minSdkVersion="14"/> -->
 17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-17-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:13:5-79
-17-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:13:22-76
+17-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:25:5-79
+17-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:25:22-76
 18    <uses-permission android:name="android.permission.WAKE_LOCK" />
 18-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:24:5-68
 18-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:24:22-65
@@ -116,112 +116,147 @@
 78-->[:url_launcher] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
 79
 80        <service
-80-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
+80-->[:firebase_database] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
 81            android:name="com.google.firebase.components.ComponentDiscoveryService"
-81-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:8:18-89
+81-->[:firebase_database] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:8:18-89
 82            android:directBootAware="true"
 82-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:35:13-43
 83            android:exported="false" >
-83-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:19:13-37
+83-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:31:13-37
 84            <meta-data
-84-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
-85                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-85-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-134
+84-->[:firebase_database] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+85                android:name="com.google.firebase.components:io.flutter.plugins.firebase.database.FlutterFirebaseAppRegistrar"
+85-->[:firebase_database] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-127
 86                android:value="com.google.firebase.components.ComponentRegistrar" />
-86-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+86-->[:firebase_database] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
 87            <meta-data
-87-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
-88                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-88-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
+87-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+88                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+88-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-134
 89                android:value="com.google.firebase.components.ComponentRegistrar" />
-89-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+89-->[:cloud_firestore] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
 90            <meta-data
-90-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:20:13-22:85
-91                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-91-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:21:17-111
+90-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+91                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+91-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
 92                android:value="com.google.firebase.components.ComponentRegistrar" />
-92-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:22:17-82
+92-->[:firebase_core] C:\Users\chotchki\AndroidStudioProjects\GoBabyGo-Mobile\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
 93            <meta-data
-93-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:30:13-32:85
-94                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-94-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:31:17-139
+93-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:32:13-34:85
+94                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+94-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:33:17-109
 95                android:value="com.google.firebase.components.ComponentRegistrar" />
-95-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:32:17-82
+95-->[com.google.firebase:firebase-database:19.6.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\9db356b0d245997d2219c4795d4ec1be\firebase-database-19.6.0\AndroidManifest.xml:34:17-82
 96            <meta-data
-96-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:18:13-20:85
-97                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-97-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:19:17-127
+96-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:20:13-22:85
+97                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+97-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:21:17-111
 98                android:value="com.google.firebase.components.ComponentRegistrar" />
-98-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:20:17-82
-99            <!--
-100                This registrar is not defined in the dynamic-module-support sdk itself to allow non-firebase
-101                clients to use it as well, by defining this registrar in their own core/common library.
-102            -->
-103            <meta-data
-103-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:43:13-45:85
-104                android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar"
-104-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:44:17-121
-105                android:value="com.google.firebase.components.ComponentRegistrar" />
-105-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:45:17-82
-106        </service>
-107
-108        <activity
-108-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
-109            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-109-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
-110            android:exported="false"
-110-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
-111            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-111-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
-112
-113        <provider
-113-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:26:9-31:39
-114            android:name="com.google.firebase.provider.FirebaseInitProvider"
-114-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:27:13-77
-115            android:authorities="com.example.testing_app.firebaseinitprovider"
-115-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:28:13-72
-116            android:directBootAware="true"
-116-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:29:13-43
+98-->[com.google.firebase:firebase-firestore:22.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\2bb9b21d9e99c69d0c45a54e9190ca07\jetified-firebase-firestore-22.0.2\AndroidManifest.xml:22:17-82
+99            <meta-data
+99-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:30:13-32:85
+100                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+100-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:31:17-139
+101                android:value="com.google.firebase.components.ComponentRegistrar" />
+101-->[com.google.android.gms:play-services-measurement-api:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d27555300d6e2f5b0638b5cadc94073e\play-services-measurement-api-18.0.2\AndroidManifest.xml:32:17-82
+102            <meta-data
+102-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:18:13-20:85
+103                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+103-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:19:17-127
+104                android:value="com.google.firebase.components.ComponentRegistrar" />
+104-->[com.google.firebase:firebase-installations:16.3.5] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\a25a539d70e5c3d4348a65fba8c8225b\firebase-installations-16.3.5\AndroidManifest.xml:20:17-82
+105            <!--
+106                This registrar is not defined in the dynamic-module-support sdk itself to allow non-firebase
+107                clients to use it as well, by defining this registrar in their own core/common library.
+108            -->
+109            <meta-data
+109-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:43:13-45:85
+110                android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar"
+110-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:44:17-121
+111                android:value="com.google.firebase.components.ComponentRegistrar" />
+111-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:45:17-82
+112        </service>
+113
+114        <activity
+114-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:23:9-27:75
+115            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+115-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:24:13-93
+116            android:excludeFromRecents="true"
+116-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:25:13-46
 117            android:exported="false"
-117-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:30:13-37
-118            android:initOrder="100" />
-118-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:31:13-36
-119
-120        <receiver
-120-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:29:9-33:20
-121            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-121-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:30:13-85
-122            android:enabled="true"
-122-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:31:13-35
-123            android:exported="false" >
-123-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:32:13-37
-124        </receiver>
-125
-126        <service
-126-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:35:9-38:40
-127            android:name="com.google.android.gms.measurement.AppMeasurementService"
-127-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:36:13-84
-128            android:enabled="true"
-128-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:37:13-35
-129            android:exported="false" />
-129-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:38:13-37
-130        <service
-130-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:39:9-43:72
-131            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-131-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:40:13-87
-132            android:enabled="true"
-132-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:41:13-35
-133            android:exported="false"
-133-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:42:13-37
-134            android:permission="android.permission.BIND_JOB_SERVICE" />
-134-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:43:13-69
-135
-136        <meta-data
-136-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
-137            android:name="com.google.android.gms.version"
-137-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
-138            android:value="@integer/google_play_services_version" />
-138-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
-139    </application>
-140
-141</manifest>
+117-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:26:13-37
+118            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+118-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:27:13-72
+119        <!--
+120            Service handling Google Sign-In user revocation. For apps that do not integrate with
+121            Google Sign-In, this service will never be started.
+122        -->
+123        <service
+123-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:33:9-36:110
+124            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+124-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:34:13-89
+125            android:exported="true"
+125-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:35:13-36
+126            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
+126-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\1714d66bcdb20184a230a97f61880394\jetified-play-services-auth-16.0.1\AndroidManifest.xml:36:13-107
+127
+128        <activity
+128-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+129            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+129-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+130            android:exported="false"
+130-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+131            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+131-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\e2d300f4a60845878ad377b5cd04ce7e\play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+132
+133        <provider
+133-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:26:9-31:39
+134            android:name="com.google.firebase.provider.FirebaseInitProvider"
+134-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:27:13-77
+135            android:authorities="com.example.testing_app.firebaseinitprovider"
+135-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:28:13-72
+136            android:directBootAware="true"
+136-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:29:13-43
+137            android:exported="false"
+137-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:30:13-37
+138            android:initOrder="100" />
+138-->[com.google.firebase:firebase-common:19.5.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\52c88ba3fd1aa7c4c388d1f4020e2430\jetified-firebase-common-19.5.0\AndroidManifest.xml:31:13-36
+139
+140        <receiver
+140-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:29:9-33:20
+141            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+141-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:30:13-85
+142            android:enabled="true"
+142-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:31:13-35
+143            android:exported="false" >
+143-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:32:13-37
+144        </receiver>
+145
+146        <service
+146-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:35:9-38:40
+147            android:name="com.google.android.gms.measurement.AppMeasurementService"
+147-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:36:13-84
+148            android:enabled="true"
+148-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:37:13-35
+149            android:exported="false" />
+149-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:38:13-37
+150        <service
+150-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:39:9-43:72
+151            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+151-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:40:13-87
+152            android:enabled="true"
+152-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:41:13-35
+153            android:exported="false"
+153-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:42:13-37
+154            android:permission="android.permission.BIND_JOB_SERVICE" />
+154-->[com.google.android.gms:play-services-measurement:18.0.2] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\d723e01e34d8b3f4ef2496668d05e7cc\play-services-measurement-18.0.2\AndroidManifest.xml:43:13-69
+155
+156        <meta-data
+156-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+157            android:name="com.google.android.gms.version"
+157-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+158            android:value="@integer/google_play_services_version" />
+158-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\chotchki\.gradle\caches\transforms-2\files-2.1\146254dcda5f96540657a84e55ec08f9\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+159    </application>
+160
+161</manifest>
