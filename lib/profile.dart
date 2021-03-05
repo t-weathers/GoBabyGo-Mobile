@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class profile extends StatefulWidget{
+  profile({Key key, this.gsi}) : super(key: key);
+
+  final GoogleSignIn gsi;
   @override
   _profileState createState() => _profileState();
 }
@@ -10,8 +14,8 @@ class _profileState extends State<profile>{
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Colors.grey,
+        title: Text('Profile', style: TextStyle(color: Colors.white, fontSize:24)),
+        backgroundColor: Colors.orange[900],
         centerTitle: true,
       ),
     );

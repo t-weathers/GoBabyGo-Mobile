@@ -8,6 +8,9 @@ import 'package:testing_app/loginGoogle.dart';
 
 import 'loginApple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 
 
@@ -95,24 +98,54 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isLoggedIn = false;
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  _login() async {
-    try {
-      await _googleSignIn.signIn();
+  //await Firebase.intializeApp();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+
+
+
+  Future<String> login() async {
+
+      final GoogleSignInAccount _googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.getCredential
+    (idToken: _googleSignInAuthentication.idToken, accessToken: _googleSignInAuthentication.accessToken);
+
+      final AuthResult authResult = await _auth.signInWithCredential(credential);
+      final FirebaseUser _user = authResult.user;
+
+
+      print('here!!');
+        assert(!_user.isAnonymous);
+        assert(await _user.getIdToken() != null);
+      print('here!!!');
+        final FirebaseUser currentUser = await _auth.currentUser();
+        assert(_user.uid == currentUser.uid);
+        print("Signing in with google: $_user");
+        return 'signInWithGoogle succeeded: $_user';
+
+
+
+      //print("Here");
+
+
       setState(() {
         _isLoggedIn = true;
       });
 
 
 
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+
 
     }
-    catch (err){
+ /*   catch (err){
       print(err);
-    }
-  }
+    }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,8 +181,15 @@ class _LoginPageState extends State<LoginPage> {
       splashColor: Colors.grey,
       color: Colors.white,
       onPressed: () async {
-         await _login();
-         Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+         await login();
+         print("Here");
+         print("CurrentUsersEmail: $_user");
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
+         ),
+         );
+
+        // Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
          //Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
        // Navigator.push(

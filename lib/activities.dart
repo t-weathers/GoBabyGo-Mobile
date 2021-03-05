@@ -10,8 +10,8 @@ class _activitiesState extends State<activities>{
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Activities'),
-        backgroundColor: Colors.grey,
+        title: Text('Activities', style: TextStyle(color: Colors.white, fontSize:24)),
+        backgroundColor: Colors.orange[900],
         centerTitle: true,
       ),
       body: Center(
