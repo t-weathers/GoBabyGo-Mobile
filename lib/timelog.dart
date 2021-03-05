@@ -3,8 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class timelog extends StatefulWidget{
   timelog({Key key, this.gsi}) : super(key: key);
-
-  final GoogleSignIn gsi;
+  //final String gsi;
+  final GoogleSignInAccount gsi;
 
 
   @override
@@ -23,7 +23,7 @@ class _timelogState extends State<timelog>{
       ),
       body: Center(
         child:
-    Text(widget.gsi.currentUser.email)
+    Text(widget.gsi.email)
 
       )
     );

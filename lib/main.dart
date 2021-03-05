@@ -104,30 +104,43 @@ class _LoginPageState extends State<LoginPage> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
-
+  GoogleSignInAccount _googleSignInAccount;
 
 
   Future<String> login() async {
+    try {
+      print("here");
+      _googleSignInAccount = await _googleSignIn
+          .signIn();
+      print("here!");
+      if (_googleSignInAccount == null){
+        print('Google Signin ERROR! user: null');
+        return null;
+      }
 
-      final GoogleSignInAccount _googleSignInAccount = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount.authentication;
-
+      final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
+          .authentication;
+      print("here!!");
       final AuthCredential credential = GoogleAuthProvider.getCredential
-    (idToken: _googleSignInAuthentication.idToken, accessToken: _googleSignInAuthentication.accessToken);
-
-      final AuthResult authResult = await _auth.signInWithCredential(credential);
+        (idToken: _googleSignInAuthentication.idToken,
+          accessToken: _googleSignInAuthentication.accessToken);
+      print("here!!!");
+      final AuthResult authResult = await _auth.signInWithCredential(
+          credential);
+      print("here!!!!");
       final FirebaseUser _user = authResult.user;
+      print("here!!!!!");
 
-
-      print('here!!');
-        assert(!_user.isAnonymous);
-        assert(await _user.getIdToken() != null);
-      print('here!!!');
-        final FirebaseUser currentUser = await _auth.currentUser();
-        assert(_user.uid == currentUser.uid);
-        print("Signing in with google: $_user");
-        return 'signInWithGoogle succeeded: $_user';
-
+    //  print('here!!');
+      assert(!_user.isAnonymous);
+      assert(await _user.getIdToken() != null);
+      print("here!!!!!!");
+      //print('here!!!');
+      final FirebaseUser currentUser = await _auth.currentUser();
+      assert(_user.uid == currentUser.uid);
+      print("here!!!!!!!");
+      //print("Signing in with google: $_user");
+      return 'signInWithGoogle succeeded: $_user';
 
 
       //print("Here");
@@ -137,14 +150,13 @@ class _LoginPageState extends State<LoginPage> {
         _isLoggedIn = true;
       });
 
+  }
 
+  catch  (err){
+  print(err);
+  }
+}
 
-
-
-    }
- /*   catch (err){
-      print(err);
-    }*/
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +194,11 @@ class _LoginPageState extends State<LoginPage> {
       color: Colors.white,
       onPressed: () async {
          await login();
-         print("Here");
-         print("CurrentUsersEmail: $_user");
+        // print("Here");
+         //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
+        // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount),
          ),
          );
 

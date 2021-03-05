@@ -21,8 +21,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.gsi}) : super(key: key);
-
-  final GoogleSignIn gsi;
+  //final String gsi;
+  final GoogleSignInAccount gsi;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -51,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //@override
   //_MyHomePageState({Key key, @required this.googleSI}) : super(key: key);
-
-  GoogleSignIn googleSignIn;
+  //String googleSignIn;
+  GoogleSignInAccount googleSignIn;
   void initState(){
     googleSignIn = widget.gsi;
     super.initState();
