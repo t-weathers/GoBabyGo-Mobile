@@ -7,41 +7,15 @@ import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activitiesResults.dart';
 import 'dialog.dart';
 
-
-class Category {
-  //final int id;
-  final String categoryName;
-  final List<String> activityNames;
-
-  Category({this.categoryName, this.activityNames});
-
-  factory Category.fromJson(Map<String, dynamic> json){
-    return Category(
-        categoryName: json["CategoryName"],
-        activityNames: json["Activities"]
-    );
-  }
-}
-//
-// class Activity {
-//   final int id;
-//   final String activityName;
-//   final String description;
-//   final String disclaimer;
-//   final List<Steps> steps;
-//
-// }
-
 class activities extends StatefulWidget{
   @override
   _activitiesState createState() => _activitiesState();
 }
 
 class _activitiesState extends State<activities> {
-  final dbRef = FirebaseDatabase.instance.reference().child("Categories_test");
-  final dbRefAct = FirebaseDatabase.instance.reference().child("Categories_test/Activities");
+  final dbRef = FirebaseDatabase.instance.reference().child("Categories");
   List<Map<dynamic, dynamic>> lists = [];
-  final catArray = ["Zero", "One"];
+  final catArray = ["One", "Two"];
   final actArray = ["Activity0", "Activity1"];
 
   //Adding:
@@ -73,21 +47,25 @@ class _activitiesState extends State<activities> {
                    child: Material(
                      child: InkWell(
                      onTap: (){
-                       int actIndex = index;
-                       String activityArray;
-                       print("activity array?");
-                       while(actArray.length != 0) {
+                       if (activitesArray != null){
+                         activitesArray.clear();
+                         print ("This is the activities array cleared:");
+                         print(activitesArray);
+                       }
+                       int actIndex = 0;
+                       int actLength = actArray.length;
+                       while(actLength != 0) {
                          print("activity:" + lists[index][catArray[index]]["Activity" +
                              actIndex.toString()])  ;
                          activitesArray.add(lists[index][catArray[index]]["Activity" +
                              actIndex.toString()]);
                          actIndex++;
-                         actArray.length--;
-
+                         actLength--;
                        }
-                       print("activities array[0]: " + activitesArray[0]);
-                       print(lists[index][catArray[index]]["categoryName"]);
-                       final activitiesData data = activitiesData(categoryName: lists[index][catArray[index]]["categoryName"], activityNames: activitesArray);
+                       print ("This is the activities array:");
+                       print(activitesArray);
+                       print(lists[index][catArray[index]]["CategoryName"]);
+                       final activitiesData data = activitiesData(categoryName: lists[index][catArray[index]]["CategoryName"], activityNames: activitesArray);
                        Navigator.push(context,
                        MaterialPageRoute(builder: (context) => activitiesResults(
                          data: data,
@@ -96,7 +74,7 @@ class _activitiesState extends State<activities> {
                      },
                    child: Card(
                      child: Center(
-                      child: Text(lists[index][catArray[index]]["categoryName"], style: TextStyle(fontSize:18, color:Colors.grey[600]))
+                      child: Text(lists[index][catArray[index]]["CategoryName"], style: TextStyle(fontSize:18, color:Colors.grey[600]))
                      )
                    )
                  )
@@ -110,22 +88,3 @@ class _activitiesState extends State<activities> {
     );
   }
 }
-
-
-
-// return GridView.builder(
-// gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-// itemCount: lists.length,
-// itemBuilder: (BuildContext context, int index){
-// return Container(
-// child: Card(
-// child: Center(
-// child: Text(lists[index][catArray[index]]["categoryName"], style: TextStyle(fontSize:18, color:Colors.grey[600]))
-// )
-// )
-// );
-// });
-// }
-
-// GridTile(
-// child: Text(lists[index][catArray[index]]["CategoryName"],style: TextStyle(fontSize:18, color:Colors.grey[600]))
