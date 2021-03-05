@@ -27,7 +27,7 @@ class _activitiesState extends State<activities> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Activities', style: TextStyle(color: Colors.white, fontSize:24)),
-          backgroundColor: Colors.orange[900],
+        backgroundColor: Colors.orange[900],
       ),
       body: FutureBuilder(
           future: dbRef.once(),
