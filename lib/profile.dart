@@ -17,16 +17,17 @@ class _profileState extends State<profile>{
 
   Widget build(BuildContext context){
     final _controllerParentName = TextEditingController();
-    _controllerParentName.text = "ParentName";
+    _controllerParentName.text = widget.gsi.displayName;
     final _controllerChildName = TextEditingController();
     _controllerChildName.text = "ChildName";
     final _controllerEmail = TextEditingController();
-    _controllerEmail.text = "email";
+    _controllerEmail.text = widget.gsi.email;
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Profile'),
-          backgroundColor: Colors.grey,
+
+          title: Text('Profile', style: TextStyle(color: Colors.white, fontSize:24)),
+          backgroundColor: Colors.orange[900],
           centerTitle: true,
         ),
         body: Container(
