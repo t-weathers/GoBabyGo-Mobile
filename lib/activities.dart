@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/activitiesData.dart';
+import 'package:testing_app/activitiesResults.dart';
 import 'dialog.dart';
 
 
@@ -42,6 +44,10 @@ class _activitiesState extends State<activities> {
   final catArray = ["Zero", "One"];
   final actArray = ["Activity0", "Activity1"];
 
+  //Adding:
+  //final activitiesData data = activitiesData(categoryName: 'test', activityNames: ["test1", "test2"]);
+  List<String> activitesArray = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,14 +75,24 @@ class _activitiesState extends State<activities> {
                      onTap: (){
                        int actIndex = index;
                        String activityArray;
+                       print("activity array?");
                        while(actArray.length != 0) {
-                         print(lists[index][catArray[index]]["Activity" +
+                         print("activity:" + lists[index][catArray[index]]["Activity" +
                              actIndex.toString()])  ;
+                         activitesArray.add(lists[index][catArray[index]]["Activity" +
+                             actIndex.toString()]);
                          actIndex++;
                          actArray.length--;
-                         //print(activityArray);
+
                        }
+                       print("activities array[0]: " + activitesArray[0]);
                        print(lists[index][catArray[index]]["categoryName"]);
+                       final activitiesData data = activitiesData(categoryName: lists[index][catArray[index]]["categoryName"], activityNames: activitesArray);
+                       Navigator.push(context,
+                       MaterialPageRoute(builder: (context) => activitiesResults(
+                         data: data,
+                       )));
+
                      },
                    child: Card(
                      child: Center(
