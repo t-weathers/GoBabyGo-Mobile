@@ -27,6 +27,7 @@ class activityPage extends StatelessWidget{
   final stepsArray = ["One", "Two", "Three"];
   List<Map<dynamic, dynamic>> lists = [];
   final dbRef = FirebaseDatabase.instance.reference().child("Activities");
+  int stepsIndex;
       // .orderByChild("ActivityName")
       // .equalTo(activityName);
 
@@ -54,15 +55,13 @@ class activityPage extends StatelessWidget{
               shrinkWrap: true,
               itemCount: lists.length,
               itemBuilder: (BuildContext context, int index){
-                  int stepsIndex = index;
+                  stepsIndex = index;
+                  print ("this is stepsIndex: " + stepsIndex.toString());
                     return Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            while (stepsArray.length != 0){
-                              Text("Activty Steps: " + lists[index]["Steps"][stepsArray][stepsIndex]),
-                              stepsIndex++;
-                            }
+                          children:[
+                            for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++) Text("Activty Steps: " + lists[index]["Steps"][stepsArray[stepsIndex]]),
                 ],
               ),
 
