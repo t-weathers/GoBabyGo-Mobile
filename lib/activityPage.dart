@@ -51,22 +51,20 @@ class activityPage extends StatelessWidget{
             lists.add(values);
           });
 
-          return new ListView.builder(
-              shrinkWrap: true,
-              itemCount: lists.length,
-              itemBuilder: (BuildContext context, int index){
-                  stepsIndex = index;
-                  print ("this is stepsIndex: " + stepsIndex.toString());
-                    return Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:[
-                            for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++) Text("Activty Steps: " + lists[index]["Steps"][stepsArray[stepsIndex]]),
+          return new Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 10),
+                  Container(
+                      padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                      child: Text("Activty Description: " + lists[0]["Description"])
+                  ),
+                  for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++) Text("Activty Steps: " + lists[0]["Steps"][stepsArray[stepsIndex]])
                 ],
               ),
-
-            );
-              });
+          );
         }
         return CircularProgressIndicator();
       }
@@ -74,6 +72,10 @@ class activityPage extends StatelessWidget{
     );
   }
 }
+
+
+
+
 
 
 // return new Container(
