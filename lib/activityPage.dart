@@ -24,7 +24,7 @@ import 'package:testing_app/activitiesData.dart';
 class activityPage extends StatelessWidget{
   final String activityName;
   activityPage({this.activityName});
-  final actArray = ["One", "Two"];
+  final stepsArray = ["One", "Two", "Three"];
   List<Map<dynamic, dynamic>> lists = [];
   final dbRef = FirebaseDatabase.instance.reference().child("Activities");
       // .orderByChild("ActivityName")
@@ -54,24 +54,19 @@ class activityPage extends StatelessWidget{
               shrinkWrap: true,
               itemCount: lists.length,
               itemBuilder: (BuildContext context, int index){
-                if (lists[index]["ActivityName"] == activityName){
-                  print("This is what the activityPage().activityName has: " + activityPage().activityName.toString());
-                  // print("The name of the activty in list: " + lists[index]["ActivityName"]);
-                  // print("the stored activity name: " + activityName);
-                  // print("This is the length of the list: " + lists.length.toString());
-                  // print(index);
+                  int stepsIndex = index;
                     return Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Activty Description: " + lists[index]["Description"]),
+                            while (stepsArray.length != 0){
+                              Text("Activty Steps: " + lists[index]["Steps"][stepsArray][stepsIndex]),
+                              stepsIndex++;
+                            }
                 ],
               ),
 
             );
-    }else{
-                  print("I guess its not a match");
-                }
               });
         }
         return CircularProgressIndicator();
@@ -85,3 +80,34 @@ class activityPage extends StatelessWidget{
 // return new Container(
 //   child: new Text(lists[1]["Description"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
 // );
+
+// print("This is what the activityPage().activityName has: " + activityPage().activityName.toString());
+// print("The name of the activty in list: " + lists[index]["ActivityName"]);
+// print("the stored activity name: " + activityName);
+// print("This is the length of the list: " + lists.length.toString());
+// print(index);
+
+// return new ListView.builder(
+// shrinkWrap: true,
+// itemCount: lists.length,
+// itemBuilder: (BuildContext context, int index){
+// if (lists[index]["ActivityName"] == activityName){
+// print("This is what the activityPage().activityName has: " + activityPage().activityName.toString());
+// // print("The name of the activty in list: " + lists[index]["ActivityName"]);
+// // print("the stored activity name: " + activityName);
+// // print("This is the length of the list: " + lists.length.toString());
+// // print(index);
+// return Card(
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: <Widget>[
+// Text("Activty Description: " + lists[index]["Description"]),
+// ],
+// ),
+//
+// );
+// }else{
+// print("I guess its not a match");
+// }
+// });
+// }
