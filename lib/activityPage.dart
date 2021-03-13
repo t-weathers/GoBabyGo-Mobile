@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
@@ -21,9 +22,16 @@ import 'package:testing_app/activitiesData.dart';
 // class _activityPage extends State<activityPage> {
 
 class activityPage extends StatelessWidget{
-
   final String activityName;
-  activityPage(this.activityName);
+  activityPage({this.activityName});
+  final actArray = ["One", "Two"];
+  List<Map<dynamic, dynamic>> lists = [];
+  final dbRef = FirebaseDatabase.instance.reference().child("Activities");
+      // .orderByChild("ActivityName")
+      // .equalTo(activityName);
+
+  // final dbRef = FirebaseDatabase.instance.reference().child("Activities");
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +40,48 @@ class activityPage extends StatelessWidget{
         title: Text(activityName),
     backgroundColor: Colors.orange[900]
     ),
-    body: new Container(
-      child: new Text("We did it!"),
-    ),
+      body: FutureBuilder(
+      future: dbRef.orderByChild("ActivityName").equalTo(activityName).once(),
+      builder: (context, AsyncSnapshot<DataSnapshot> snapshot){
+        if (snapshot.hasData){
+          lists.clear();
+          Map<dynamic, dynamic> values = snapshot.data.value;
+          values.forEach((key, values){
+            lists.add(values);
+          });
+
+          return new ListView.builder(
+              shrinkWrap: true,
+              itemCount: lists.length,
+              itemBuilder: (BuildContext context, int index){
+                if (lists[index]["ActivityName"] == activityName){
+                  print("This is what the activityPage().activityName has: " + activityPage().activityName.toString());
+                  // print("The name of the activty in list: " + lists[index]["ActivityName"]);
+                  // print("the stored activity name: " + activityName);
+                  // print("This is the length of the list: " + lists.length.toString());
+                  // print(index);
+                    return Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Activty Description: " + lists[index]["Description"]),
+                ],
+              ),
+
+            );
+    }else{
+                  print("I guess its not a match");
+                }
+              });
+        }
+        return CircularProgressIndicator();
+      }
+    )
     );
   }
 }
+
+
+// return new Container(
+//   child: new Text(lists[1]["Description"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+// );

@@ -25,7 +25,7 @@ class activitiesResults extends StatelessWidget{
         child: new Column(
           children: [
             new Container(
-              child: new Text("Activities", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+              child: new Text("Showing results for: " + '${data.categoryName}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             ),
             ListView.builder(
               padding: const EdgeInsets.all(8),
@@ -40,7 +40,7 @@ class activitiesResults extends StatelessWidget{
                     onTap: (){
                       Text("This is the activity that got tapped on: " + '${data.activityNames[index]}');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
-                          this.data.activityNames[index],
+                          activityName: this.data.activityNames[index],
                       )));
                     },
                     child: ListTile(

@@ -74,6 +74,9 @@ class _activitiesState extends State<activities> {
 
                      },
                    child: Card(
+                       shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(5.0),
+                           side: BorderSide(width: 3, color: Colors.orange[900])),
                      child: Center(
                       child: Text(lists[index][catArray[index]]["CategoryName"], style: TextStyle(fontSize:18, color:Colors.grey[600]))
                      )
