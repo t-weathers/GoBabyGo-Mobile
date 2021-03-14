@@ -28,7 +28,7 @@ class activitiesResults extends StatelessWidget{
             new Container(
               padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
               alignment: Alignment(-1.0, 1.0),
-              child: new Text("Select an activity", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              child: new Text("Select an activity", style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold, fontSize: 18)),
             ),
             ListView.builder(
               padding: const EdgeInsets.all(8),
@@ -47,7 +47,7 @@ class activitiesResults extends StatelessWidget{
                       )));
                     },
                     child: ListTile(
-                      title: Text('${data.activityNames[index]}'),
+                      title: Text('${data.activityNames[index]}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 15)),
                     )
                 )
                 );
