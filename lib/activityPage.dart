@@ -51,17 +51,23 @@ class activityPage extends StatelessWidget{
             lists.add(values);
           });
 
-          return new Container(
+          return SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 10),
                   Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                       child: Text("Activty Description: " + lists[0]["Description"])
                   ),
-                  for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++) Text("Activty Steps: " + lists[0]["Steps"][stepsArray[stepsIndex]])
+                  for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++)
+                    Text("Step: " + (stepsIndex + 1).toString() + " " + lists[0]["Steps"][stepsArray[stepsIndex]] + '\n',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                  Container(
+                    child: Text("Images", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
+                  ),
+                  for (var imageIndex = 0; imageIndex < 2 ; imageIndex++)
+                    Image.network(lists[0]["Images"][stepsArray[imageIndex]])
                 ],
               ),
           );
