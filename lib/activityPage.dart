@@ -24,7 +24,7 @@ import 'package:testing_app/activitiesData.dart';
 class activityPage extends StatelessWidget{
   final String activityName;
   activityPage({this.activityName});
-  final stepsArray = ["One", "Two", "Three"];
+  final stepsArray = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
   List<Map<dynamic, dynamic>> lists = [];
   final dbRef = FirebaseDatabase.instance.reference().child("Activities");
   int stepsIndex;
@@ -60,13 +60,13 @@ class activityPage extends StatelessWidget{
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                       child: Text("Activty Description: " + lists[0]["Description"])
                   ),
-                  for (var stepsIndex = 0; stepsIndex < stepsArray.length ; stepsIndex++)
+                  for (var stepsIndex = 0; stepsIndex < lists[0]["Steps"].length ; stepsIndex++)
                     Text("Step: " + (stepsIndex + 1).toString() + " " + lists[0]["Steps"][stepsArray[stepsIndex]] + '\n',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                   Container(
                     child: Text("Images", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
                   ),
-                  for (var imageIndex = 0; imageIndex < 2 ; imageIndex++)
+                  for (var imageIndex = 0; imageIndex < lists[0]["Images"].length; imageIndex++)
                     Image.network(lists[0]["Images"][stepsArray[imageIndex]])
                 ],
               ),
@@ -83,7 +83,8 @@ class activityPage extends StatelessWidget{
 
 
 
-
+// for (var imageIndex = 0; imageIndex < 2 ; imageIndex++)
+// Image.network(lists[0]["Images"][stepsArray[imageIndex]])
 // return new Container(
 //   child: new Text(lists[1]["Description"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
 // );
