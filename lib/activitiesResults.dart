@@ -17,15 +17,18 @@ class activitiesResults extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${data.categoryName}'),
-          backgroundColor: Colors.orange[900]
+        title: Text('${data.categoryName}', style: TextStyle(color: Colors.white, fontSize:24)),
+          backgroundColor: Colors.orange[900],
+          centerTitle: true,
       ),
       //body: Text('${data.activityNames[0]} ${data.activityNames[1]}, ')
         body: new Container(
         child: new Column(
           children: [
             new Container(
-              child: new Text("Showing results for: " + '${data.categoryName}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+              alignment: Alignment(-1.0, 1.0),
+              child: new Text("Select an activity", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             ),
             ListView.builder(
               padding: const EdgeInsets.all(8),

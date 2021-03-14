@@ -10,8 +10,8 @@ class _timelogState extends State<timelog>{
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Time Log'),
-        backgroundColor: Colors.grey,
+        title: Text('Time Log', style: TextStyle(color: Colors.white, fontSize:24)),
+        backgroundColor: Colors.orange[900],
         centerTitle: true,
       ),
       body: Container(

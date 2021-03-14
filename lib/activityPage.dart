@@ -38,8 +38,9 @@ class activityPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text(activityName),
-    backgroundColor: Colors.orange[900]
+        title: Text(activityName, style: TextStyle(color: Colors.white, fontSize:24)),
+          backgroundColor: Colors.orange[900],
+          centerTitle: true,
     ),
       body: FutureBuilder(
       future: dbRef.orderByChild("ActivityName").equalTo(activityName).once(),
@@ -58,13 +59,16 @@ class activityPage extends StatelessWidget{
                   SizedBox(height: 10),
                   Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                      child: Text("Activty Description: " + lists[0]["Description"])
+                      child: Text("Activty Description: " + lists[0]["Description"],
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic))
+                  ), Divider(
+                      color: Colors.black
                   ),
-                  for (var stepsIndex = 0; stepsIndex < lists[0]["Steps"].length ; stepsIndex++)
+                   for (var stepsIndex = 0; stepsIndex < lists[0]["Steps"].length ; stepsIndex++)
                     Text("Step: " + (stepsIndex + 1).toString() + " " + lists[0]["Steps"][stepsArray[stepsIndex]] + '\n',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                   Container(
-                    child: Text("Images", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
+                    child: Text("Images", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900)),
                   ),
                   for (var imageIndex = 0; imageIndex < lists[0]["Images"].length; imageIndex++)
                     Image.network(lists[0]["Images"][stepsArray[imageIndex]])
