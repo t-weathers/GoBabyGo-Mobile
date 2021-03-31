@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class profile extends StatefulWidget{
+  profile({Key key, this.gsi}) : super(key: key);
+  //final String gsi;
+  final GoogleSignInAccount gsi;
   @override
   _profileState createState() => _profileState();
 }
