@@ -7,6 +7,12 @@ import 'package:testing_app/home.dart';
 import 'package:testing_app/loginGoogle.dart';
 
 import 'loginApple.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
+
 
 //From get data from internet
 
@@ -63,6 +69,7 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Montserrat'
       ),
       home: LoginPage(title: 'Go Baby Go'),
       routes: <String, WidgetBuilder> {
@@ -91,6 +98,67 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoggedIn = false;
+
+  //await Firebase.intializeApp();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  GoogleSignInAccount _googleSignInAccount;
+
+
+  Future<String> login() async {
+    try {
+      print("here");
+      _googleSignInAccount = await _googleSignIn
+          .signIn();
+      print("here!");
+      if (_googleSignInAccount == null){
+        print('Google Signin ERROR! user: null');
+        return null;
+      }
+
+      final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
+          .authentication;
+      print("here!!");
+      final AuthCredential credential = GoogleAuthProvider.getCredential
+        (idToken: _googleSignInAuthentication.idToken,
+          accessToken: _googleSignInAuthentication.accessToken);
+      print("here!!!");
+      final AuthResult authResult = await _auth.signInWithCredential(
+          credential);
+      print("here!!!!");
+      final FirebaseUser _user = authResult.user;
+      print("here!!!!!");
+
+    //  print('here!!');
+      assert(!_user.isAnonymous);
+      assert(await _user.getIdToken() != null);
+      print("here!!!!!!");
+      //print('here!!!');
+      final FirebaseUser currentUser = await _auth.currentUser();
+      assert(_user.uid == currentUser.uid);
+      print("here!!!!!!!");
+      //print("Signing in with google: $_user");
+      return 'signInWithGoogle succeeded: $_user';
+
+
+      //print("Here");
+
+
+      setState(() {
+        _isLoggedIn = true;
+      });
+
+  }
+
+  catch  (err){
+  print(err);
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,12 +193,30 @@ class _LoginPageState extends State<LoginPage> {
     return RaisedButton(
       splashColor: Colors.grey,
       color: Colors.white,
-      onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginGoogle()),
-          );
+      onPressed: () async {
+         await login();
+        // print("Here");
+         //print("CurrentUsersEmail: $_user");
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+        // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount),
+         ),
+         );
+
+        // Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+         //Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+       // Navigator.push(
+        //  context,
+         // MaterialPageRoute(builder: (context) => home()),
+        //);
       },
+      //onPressed: () {
+ //         Navigator.push(
+   //         context,
+     //       MaterialPageRoute(builder: (context) => LoginGoogle()),
+       //   );
+      //},
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       
