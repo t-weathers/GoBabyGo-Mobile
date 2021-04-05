@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:testing_app/home.dart';
 
 class profile extends StatefulWidget{
-  profile({Key key, this.gsi}) : super(key: key);
+  profile({Key key, this.gsi, this.signIn}) : super(key: key);
+ // profile({Key key, this.signIn}) : super (key:key);
   //final String gsi;
   final GoogleSignInAccount gsi;
+  final GoogleSignIn signIn;
   @override
   _profileState createState() => _profileState();
 }
@@ -16,15 +20,28 @@ class _profileState extends State<profile>{
   TextEditingController _controllerEmail;
 
   Widget build(BuildContext context){
+
+    Future <void> _signOut() async {
+      Navigator.of(context).pop();
+      await FirebaseAuth.instance.signOut();
+      widget.signIn.disconnect();
+      //_googleSignIn.disconnect();
+      print("logging out");
+     // _googleSignIn.signOut();
+
+      return new MyHomePage();
+    }
+
     final _controllerParentName = TextEditingController();
-    _controllerParentName.text = "ParentName";
+    _controllerParentName.text = widget.gsi.displayName;
     final _controllerChildName = TextEditingController();
     _controllerChildName.text = "ChildName";
     final _controllerEmail = TextEditingController();
-    _controllerEmail.text = "email";
+    _controllerEmail.text = widget.gsi.email;
 
     return new Scaffold(
         appBar: AppBar(
+
           title: Text('Profile', style: TextStyle(color: Colors.white, fontSize:24)),
           backgroundColor: Colors.orange[900],
           centerTitle: true,
@@ -35,7 +52,7 @@ class _profileState extends State<profile>{
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height:10),
+                    SizedBox(height:1),
                     Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                       child: TextField(
@@ -145,10 +162,10 @@ class _profileState extends State<profile>{
                       splashColor: Colors.grey,
                       color: Colors.grey,
                       onPressed: () {
+                        _signOut();
                         //TODO: //add validation
-                        //add validation,
-                        //submit form,
-                        //push to next create acct page
+                        //log user out
+                        //return to main page.
                       },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                       highlightElevation: 0,
@@ -161,7 +178,7 @@ class _profileState extends State<profile>{
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Text(
-                                'Cancel',
+                                'Sign Out',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,

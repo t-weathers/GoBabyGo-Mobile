@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+//import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
 import 'package:testing_app/loginGoogle.dart';
+import 'package:flutter/foundation.dart';
+
 
 import 'loginApple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -92,6 +95,9 @@ class LoginPage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  bool isIOS;
+
+
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -102,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //await Firebase.intializeApp();
 
+
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
@@ -110,10 +117,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<String> login() async {
     try {
-      print("here");
+    //  print("here");
+
       _googleSignInAccount = await _googleSignIn
           .signIn();
-      print("here!");
+     // print("here!");
       if (_googleSignInAccount == null){
         print('Google Signin ERROR! user: null');
         return null;
@@ -121,25 +129,25 @@ class _LoginPageState extends State<LoginPage> {
 
       final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
           .authentication;
-      print("here!!");
+      //print("here!!");
       final AuthCredential credential = GoogleAuthProvider.getCredential
         (idToken: _googleSignInAuthentication.idToken,
           accessToken: _googleSignInAuthentication.accessToken);
-      print("here!!!");
+      //print("here!!!");
       final AuthResult authResult = await _auth.signInWithCredential(
           credential);
-      print("here!!!!");
+      //print("here!!!!");
       final FirebaseUser _user = authResult.user;
-      print("here!!!!!");
+      //print("here!!!!!");
 
     //  print('here!!');
       assert(!_user.isAnonymous);
       assert(await _user.getIdToken() != null);
-      print("here!!!!!!");
+      //print("here!!!!!!");
       //print('here!!!');
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(_user.uid == currentUser.uid);
-      print("here!!!!!!!");
+      //print("here!!!!!!!");
       //print("Signing in with google: $_user");
       return 'signInWithGoogle succeeded: $_user';
 
@@ -159,8 +167,20 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 
+  Widget _buildAppleButton(){
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    if (isIOS){
+      return _signInAppleButton();
+    }
+    else{
+      return SizedBox(height:30);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         color: Colors.orange[900],
@@ -176,12 +196,14 @@ class _LoginPageState extends State<LoginPage> {
                     height: 150,
                   
                   ),
-              SizedBox(height: 100),
+              SizedBox(height: 150),
               _signInGoogleButton(),
+
               SizedBox(height:30),
-              _signInAppleButton(),
-              SizedBox(height:30),
-              _createAccountButton(),
+              _buildAppleButton(),
+             // _signInAppleButton(),
+             // SizedBox(height:30),
+             // _createAccountButton(),
             ],
           ),
         ),
@@ -199,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
          //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn),
          ),
          );
 
