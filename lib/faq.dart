@@ -36,7 +36,6 @@ class _faqState extends State<faq>{
       appBar: AppBar(
         title: Text('FAQ', style: TextStyle(color: Colors.white, fontSize:24)),
         backgroundColor: Colors.orange[900],
-
         centerTitle: true,
       ),
       body: FutureBuilder(
