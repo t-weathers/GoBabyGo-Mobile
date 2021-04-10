@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:testing_app/timelog_manual_entry.dart';
 
 String formatTime(int milliseconds){
   var secs = milliseconds ~/ 1000;
@@ -72,7 +73,15 @@ class _timelogState extends State<timelog>{
                 SizedBox(height: 50),
                 ElevatedButton(onPressed: handleStartStop,
                     child: Text(_stopwatch.isRunning ? 'Stop Time' : 'Start Time')),
-                Text("Manual Entry", style: TextStyle(decoration: TextDecoration.underline,),),
+                FlatButton(onPressed: () {
+                    //navigate to new page here
+                    print("manual entry prressed");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => timelogManualEntry()),
+                    );
+                  },
+                    child: Text("Manual Entry", style: TextStyle(decoration: TextDecoration.underline))),
                 SizedBox(height: 100),
                 _goalButtons()
               ]
