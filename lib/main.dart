@@ -113,6 +113,9 @@ class _LoginPageState extends State<LoginPage> {
   //await Firebase.intializeApp();
 
 
+  String parentName, childName;
+  String entryKey;
+  List<Map<dynamic, dynamic>> lists = [];
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
@@ -171,6 +174,37 @@ class _LoginPageState extends State<LoginPage> {
       else{
         print("this entry exists in database");
       }
+
+      //start here
+      DataSnapshot data1 = await dbRef.orderByChild('Email').equalTo(
+          _googleSignInAccount.email).once();
+
+      Map<dynamic, dynamic> values = data1.value;
+
+      lists.clear();
+      values.forEach((key, value){
+        lists.add(values);
+        // print(key);
+        entryKey = key;
+        //print(value);
+
+        //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
+        //  parentName = dbRef.child(key).child("FirstName").toString();
+
+      });
+      //print(data.value.toString().);
+      // print("printing lists!");
+      // print(lists);
+
+
+
+
+      childName = lists[0][entryKey]['ChildFirstName'];
+      parentName = lists[0][entryKey]['FirstName'];
+
+
+
+      //end here
      /* DataSnapshot data = await dbRef.child("1").once();
       if (data.value == null){
         print("does not exist, create!");
@@ -265,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
          //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
          ),
          );
 

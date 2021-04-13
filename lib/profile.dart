@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +7,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:testing_app/home.dart';
 
 class profile extends StatefulWidget{
-  profile({Key key, this.gsi, this.signIn}) : super(key: key);
+  profile({Key key, this.gsi, this.signIn, this.parent, this.child}) : super(key: key);
  // profile({Key key, this.signIn}) : super (key:key);
   //final String gsi;
   final GoogleSignInAccount gsi;
   final GoogleSignIn signIn;
+  final child;
+  final parent;
   @override
   _profileState createState() => _profileState();
 }
@@ -27,7 +31,7 @@ class _profileState extends State<profile>{
   TextEditingController _controllerChildName;
   TextEditingController _controllerEmail;
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
 
     Future <void> _signOut() async {
       Navigator.of(context).pop();
@@ -80,6 +84,9 @@ class _profileState extends State<profile>{
     }
     populateInfo();
 
+    Timer(Duration(seconds:3), () {
+      print('timer over');
+    });
    // childName = lists[0][entryKey]['ChildFirstName'];
    // parentName = lists[0][entryKey]['FirstName'];
     print("here!");
@@ -87,9 +94,9 @@ class _profileState extends State<profile>{
     print(childName);
     print("here!!");
     final _controllerParentName = TextEditingController();
-    _controllerParentName.text = "test";
+    _controllerParentName.text = widget.parent;
     final _controllerChildName = TextEditingController();
-    _controllerChildName.text = "testing";
+    _controllerChildName.text = widget.child;
     final _controllerEmail = TextEditingController();
     _controllerEmail.text = widget.gsi.email;
 
