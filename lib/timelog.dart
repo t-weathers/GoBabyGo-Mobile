@@ -18,8 +18,7 @@ class timelog extends StatefulWidget{
   timelog({Key key, this.gsi}) : super(key: key);
   //final String gsi;
   final GoogleSignInAccount gsi;
-
-
+  //widget.gsi.email
   @override
   _timelogState createState() => _timelogState();
 }
