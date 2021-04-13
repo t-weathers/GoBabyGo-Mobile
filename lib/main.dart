@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 //import 'dart:js';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/create_account1.dart';
@@ -104,6 +105,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
+
+
   bool _isLoggedIn = false;
 
   //await Firebase.intializeApp();
@@ -149,6 +153,46 @@ class _LoginPageState extends State<LoginPage> {
       assert(_user.uid == currentUser.uid);
       //print("here!!!!!!!");
       //print("Signing in with google: $_user");
+
+      //right here I want to push to the realtime database with Default Child as default, Default Parent Name, Email Address
+      DataSnapshot data = await dbRef.orderByChild('Email').equalTo(_googleSignInAccount.email).once();
+      if (data.value == null){
+       // String newKey = data.value.keys[0];
+        print("this is a new entry!");
+        dbRef.push().set({
+          'ChildFirstName': 'default:none',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }
+      else{
+        print("this entry exists in database");
+      }
+     /* DataSnapshot data = await dbRef.child("1").once();
+      if (data.value == null){
+        print("does not exist, create!");
+        dbRef.child(_googleSignInAccount.email).set({
+          'ChildFirstName': 'default:none_test',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }*/
+
+
+     /* dbRef.push().set({
+        'ChildFirstName': 'default:none',
+        'Email': _googleSignInAccount.email,
+        'FirstName': _googleSignInAccount.displayName,
+        'LastName': 'default: none',
+        'RecentActivity': 'default: none so far',
+        'WeeklyGoal': 150
+      });*/
       return 'signInWithGoogle succeeded: $_user';
 
 
