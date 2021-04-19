@@ -20,10 +20,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 //first home page on login
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.gsi, this.signIn}) : super(key: key);
+  MyHomePage({Key key, this.gsi, this.signIn, this.parentsName, this.childsName}) : super(key: key);
   //final String gsi;
   final GoogleSignInAccount gsi;
   final GoogleSignIn signIn;
+  final String parentsName;
+  final String childsName;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -55,9 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
   //String googleSignIn;
   GoogleSignInAccount googleSignIn;
   GoogleSignIn sign;
+  String childsName;
+  String parentsName;
   void initState(){
     googleSignIn = widget.gsi;
     sign = widget.signIn;
+    childsName = widget.childsName;
+    parentsName = widget.parentsName;
+
     super.initState();
   }
 
@@ -81,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget getPage(int ind){
     switch (ind){
       case 0:
-        return profile(gsi: googleSignIn, signIn: sign);
+        return profile(gsi: googleSignIn, signIn: sign, parent: parentsName, child: childsName);
         break;
       case 1:
         return timelog(gsi: googleSignIn);
