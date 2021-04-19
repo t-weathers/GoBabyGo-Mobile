@@ -1,17 +1,53 @@
 import 'dart:async';
 import 'dart:convert';
+//import 'dart:js';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:testing_app/create_account1.dart';
+import 'package:testing_app/home.dart';
+import 'package:testing_app/loginGoogle.dart';
+import 'package:flutter/foundation.dart';
+
+
+import 'loginApple.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
 
 
 //From get data from internet
 
+Future<Album> fetchAlbum() async {
+  final response = await http.get('http://127.0.0.1:5000/');
 
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Album.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
 
+class Album {
+  final String data;
 
+  Album({this.data});
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      data: json['data'],
+    );
+  }
+}
 
 //// END /////
+
 void main() {
   runApp(MyApp());
 }
@@ -37,16 +73,18 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Montserrat'
       ),
-      home: MyHomePage(title: 'Go Baby Go'),
+      home: LoginPage(title: 'Go Baby Go'),
+      routes: <String, WidgetBuilder> {
+        '/MyHomePage': (BuildContext context) => MyHomePage(),
+        
+    },
     );
   }
 }
-
-//first home page on login
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -58,367 +96,327 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  bool isIOS;
+
+
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-//first page on login
+class _LoginPageState extends State<LoginPage> {
+  final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
 
-class _MyHomePageState extends State<MyHomePage> {
-  TextStyle style =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
-  TextStyle style1 =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 36.0);
-  TextStyle connectStyle =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 16);
+
+  bool _isLoggedIn = false;
+
+  //await Firebase.intializeApp();
+
+
+  String parentName, childName;
+  String entryKey;
+  List<Map<dynamic, dynamic>> lists = [];
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  GoogleSignInAccount _googleSignInAccount;
+
+
+  Future<String> login() async {
+    try {
+    //  print("here");
+
+      _googleSignInAccount = await _googleSignIn
+          .signIn();
+     // print("here!");
+      if (_googleSignInAccount == null){
+        print('Google Signin ERROR! user: null');
+        return null;
+      }
+
+      final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
+          .authentication;
+      //print("here!!");
+      final AuthCredential credential = GoogleAuthProvider.getCredential
+        (idToken: _googleSignInAuthentication.idToken,
+          accessToken: _googleSignInAuthentication.accessToken);
+      //print("here!!!");
+      final AuthResult authResult = await _auth.signInWithCredential(
+          credential);
+      //print("here!!!!");
+      final FirebaseUser _user = authResult.user;
+      //print("here!!!!!");
+
+    //  print('here!!');
+      assert(!_user.isAnonymous);
+      assert(await _user.getIdToken() != null);
+      //print("here!!!!!!");
+      //print('here!!!');
+      final FirebaseUser currentUser = await _auth.currentUser();
+      assert(_user.uid == currentUser.uid);
+      //print("here!!!!!!!");
+      //print("Signing in with google: $_user");
+
+      //right here I want to push to the realtime database with Default Child as default, Default Parent Name, Email Address
+      DataSnapshot data = await dbRef.orderByChild('Email').equalTo(_googleSignInAccount.email).once();
+      if (data.value == null){
+       // String newKey = data.value.keys[0];
+        print("this is a new entry!");
+        dbRef.push().set({
+          'ChildFirstName': 'default:none',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }
+      else{
+        print("this entry exists in database");
+      }
+
+      //start here
+      DataSnapshot data1 = await dbRef.orderByChild('Email').equalTo(
+          _googleSignInAccount.email).once();
+
+      Map<dynamic, dynamic> values = data1.value;
+
+      lists.clear();
+      values.forEach((key, value){
+        lists.add(values);
+        // print(key);
+        entryKey = key;
+        //print(value);
+
+        //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
+        //  parentName = dbRef.child(key).child("FirstName").toString();
+
+      });
+      //print(data.value.toString().);
+      // print("printing lists!");
+      // print(lists);
+
+
+
+
+      childName = lists[0][entryKey]['ChildFirstName'];
+      parentName = lists[0][entryKey]['FirstName'];
+
+
+
+      //end here
+     /* DataSnapshot data = await dbRef.child("1").once();
+      if (data.value == null){
+        print("does not exist, create!");
+        dbRef.child(_googleSignInAccount.email).set({
+          'ChildFirstName': 'default:none_test',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }*/
+
+
+     /* dbRef.push().set({
+        'ChildFirstName': 'default:none',
+        'Email': _googleSignInAccount.email,
+        'FirstName': _googleSignInAccount.displayName,
+        'LastName': 'default: none',
+        'RecentActivity': 'default: none so far',
+        'WeeklyGoal': 150
+      });*/
+      return 'signInWithGoogle succeeded: $_user';
+
+
+      //print("Here");
+
+
+      setState(() {
+        _isLoggedIn = true;
+      });
+
+  }
+
+  catch  (err){
+  print(err);
+  }
+}
+
+
+  Widget _buildAppleButton(){
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    if (isIOS){
+      return _signInAppleButton();
+    }
+    else{
+      return SizedBox(height:30);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
-        obscureText: false,
-        style: style,
-        cursorColor: Colors.white,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          hintStyle: TextStyle(color: Colors.white),
-          filled: true,
-          fillColor: Color.fromRGBO(235, 152, 78, 1.0),
-          //border before being clicked
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-          //border after click
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(32.0),
-          ),
-        ));
-    final loginButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.grey[200],
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        //THIS IS WHERE THE BUTTON CLICK GOES
-
-        child: Text("The mission of GoBabyGo! is to provide innovative, accessible, and practical options to improve the lives of children with limited mobility.",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-    );
-    final connect = Material(
-      elevation: 5.0,
-      //widthFactor:0.5,
-      borderRadius: BorderRadius.circular(15.0),
-      color: Colors.grey[350],
-      //width: MediaQuery.of(context).size.width/2,
-      //child: MaterialButton(
-      child: Container(
-
-        width:MediaQuery.of(context).size.width/2,
-        //width: MediaQuery.of(context).size.width/2,
-        padding:EdgeInsets.fromLTRB(10.0, 7.5, 10.0, 7.5),
-        //children:[ Text("Facebook\n Link1234",
-        //textAlign: TextAlign.center,
-       // style: connectStyle),
-     child: Column(
-       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-       children: [
-        // Text("Facebook", textAlign: TextAlign.center, style: connectStyle),
-         SizedBox(
-           height: 40.0,
-           child: Image.asset(
-             "assets/facebook.png",
-             fit: BoxFit.contain,
-           ),
-         ), //Image.asset("assets/facebook.png", fit:BoxFit.contain),
-         InkWell(child: new Text('@GoBabyGoOregon'),
-             onTap: () => launch('https://www.facebook.com/GoBabyGoOregon/')
-         ),
-         //Text("Link1234", textAlign: TextAlign.center, style: connectStyle),
-       ]
-     )
-
-
-
-
-      ),
-
-    );
-    final connect1 = Material(
-      elevation: 5.0,
-      //widthFactor:0.5,
-      borderRadius: BorderRadius.circular(15.0),
-      color: Colors.grey[350],
-      //width: MediaQuery.of(context).size.width/2,
-      //child: MaterialButton(
-      child: Container(
-
-          width:MediaQuery.of(context).size.width/2,
-          //width: MediaQuery.of(context).size.width/2,
-          padding:EdgeInsets.fromLTRB(10.0, 7.5, 10.0, 7.5),
-          //children:[ Text("Facebook\n Link1234",
-          //textAlign: TextAlign.center,
-          // style: connectStyle),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-             //   Text("Instagram", textAlign: TextAlign.center, style: connectStyle),
-                SizedBox(
-                  height: 40.0,
-                  child: Image.asset(
-                    "assets/IG.png",
-                    fit: BoxFit.contain,
-                  ),
-                ), //Image.asset("assets/facebook.png", fit:BoxFit.contain),
-                InkWell(child: new Text('@gobabygo.oregon'),
-                  onTap: () => launch('https://instagram.com/gobabygo.oregon?igshid=ka0wakbm5q3a')
-                ),
-               // Text("Link1234", textAlign: TextAlign.center, style: connectStyle),
-              ]
-          )
-
-
-
-
-      ),
-
-    );
-    final connect2 = Material(
-      elevation: 5.0,
-      //widthFactor:0.5,
-      borderRadius: BorderRadius.circular(15.0),
-      color: Colors.grey[350],
-      //width: MediaQuery.of(context).size.width/2,
-      //child: MaterialButton(
-      child: Container(
-
-          width:MediaQuery.of(context).size.width/2,
-          //width: MediaQuery.of(context).size.width/2,
-          padding:EdgeInsets.fromLTRB(10.0, 7.5, 10.0, 7.5),
-          //children:[ Text("Facebook\n Link1234",
-          //textAlign: TextAlign.center,
-          // style: connectStyle),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //Text("Youtube", textAlign: TextAlign.center, style: connectStyle),
-                SizedBox(
-                  height: 40.0,
-                  child: Image.asset(
-                    "assets/youtube.png",
-                    fit: BoxFit.contain,
-                  ),
-                ), //Image.asset("assets/facebook.png", fit:BoxFit.contain),
-                InkWell(child: new Text('GoBabyGo Youtube'),
-                    onTap: () => launch('https://www.youtube.com/user/GoBabyGoPL')
-                ),
-                //Text("Link1234", textAlign: TextAlign.center, style: connectStyle),
-              ]
-          )
-
-
-
-
-      ),
-
-    );
-    final connect3 = Material(
-      elevation: 5.0,
-      //widthFactor:0.5,
-      borderRadius: BorderRadius.circular(15.0),
-      color: Colors.grey[350],
-      //width: MediaQuery.of(context).size.width/2,
-      //child: MaterialButton(
-      child: Container(
-
-          width:MediaQuery.of(context).size.width/2,
-          //width: MediaQuery.of(context).size.width/2,
-          padding:EdgeInsets.fromLTRB(10.0, 7.5, 10.0, 7.5),
-          //children:[ Text("Facebook\n Link1234",
-          //textAlign: TextAlign.center,
-          // style: connectStyle),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-               // Text("Email", textAlign: TextAlign.center, style: connectStyle),
-                SizedBox(
-                  height: 40.0,
-                  child: Image.asset(
-                    "assets/question.png",
-                    fit: BoxFit.contain,
-                  ),
-                ), //Image.asset("assets/facebook.png", fit:BoxFit.contain),
-                InkWell(child: new Text('Placeholder'),
-                    onTap: () => launch('gobabygo.oregon@gmail.com')
-                ),
-               // Text("Link1234", textAlign: TextAlign.center, style: connectStyle),
-              ]
-          )
-
-
-
-
-      ),
-
-    );
-    final signupButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.grey[200],
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        //THIS IS WHERE THE BUTTON CLICK GOES
-
-        // GBGHome: https://gobabygooregon.org/
-
-        child: Column (
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-            children: [
-              InkWell(child: new Text('GBG Home',
-                style: style.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold, fontSize:18),),
-
-                  onTap: () => launch('https://gobabygooregon.org/')
-              ),
-              InkWell(child: new Text('GBG Connect',
-                style: style.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold, fontSize:18),),
-                  onTap: () => launch('https://www.gbgconnect.com/')
-              ),
-              InkWell(child: new Text('gobabygo.oregon@gmail.com',
-                style: style.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold, fontSize:18),),
-
-                  onTap: () => launch('gobabygo.oregon@gmail.com')
-              ),
-              InkWell(child: new Text('DummyLink2',
-                style: style.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold, fontSize:18),),
-                  onTap: () => launch('https://gobabygooregon.org/')
-              ),
-              ]
-
-        ),
-
-        /*Text("GBGConnect: https://www.gbgconnect.com/\n"
-            "GBGWebsite:\n"
-            "Link3 Title:\n"
-            "Link4 Title:",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize:18)),*/
-      ),
-    );
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.orange[800], Colors.white])),
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+      body: Container(
+        color: Colors.orange[900],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                    "assets/GoBabyGo_WEBLOGO.png",
+                    fit: BoxFit.contain,
+                    alignment: FractionalOffset.center,
+                    height: 150,
+                  
+                  ),
+              SizedBox(height: 150),
+              _signInGoogleButton(),
 
-                        Text("GoBabyGo",
-                            style: style1,
-                            textAlign: TextAlign.center),
-                           // style: style.copyWith(
-                            //color:Csolors.black, fontWeight:FontWeight.bold)),
-                        SizedBox(
-                          height:20.0,
-                        ),
-                       // emailField,
-                    Text("About",
-                        textAlign: TextAlign.center,
-                        style: style.copyWith(
-                            color:Colors.black, fontWeight:FontWeight.bold)),
-
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        loginButon,
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                      Text("Resource Links",
-                        textAlign: TextAlign.center,
-                        style: style.copyWith(
-                            color:Colors.black, fontWeight:FontWeight.bold)),
-
-                        SizedBox(
-                          height:10.0,
-                        ),
-                        signupButton,
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text("Connect with Us!",
-                          textAlign: TextAlign.center,
-                          style: style.copyWith(
-                              color:Colors.black, fontWeight:FontWeight.bold)),
-
-
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            new Flexible(child: connect), //connect,
-                            SizedBox(width: 5),
-                            new Flexible(child: connect1), //connect1,
-                            //new Flexible(child: connect1),
-                          ],
-                        ),
-                        /*FractionallySizedBox(
-                          alignment: Alignment.topCenter,
-                          widthFactor: 0.5,
-                          child: Container(
-                            connect,
-                          ),
-                        ),*/
-                      //  connect,
-                        SizedBox(
-                          height:10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            new Flexible(child: connect2), //connect,
-                            SizedBox(width: 5),
-                            new Flexible(child: connect3), //connect1,
-                            //new Flexible(child: connect1),
-                          ],
-                        ),
-                      // connect1,
-                        /*SizedBox(
-                          height: 25.0,
-                          child: Image.asset("assets/IG.png",
-                          fit:BoxFit.contain,
-                        ),
-                        ),*/
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                      ],
-            ),
+              SizedBox(height:30),
+              _buildAppleButton(),
+             // _signInAppleButton(),
+             // SizedBox(height:30),
+             // _createAccountButton(),
+            ],
           ),
         ),
       ),
     );
   }
+
+  Widget _signInGoogleButton() {
+    return RaisedButton(
+      splashColor: Colors.grey,
+      color: Colors.white,
+      onPressed: () async {
+         await login();
+        // print("Here");
+         //print("CurrentUsersEmail: $_user");
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+        // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
+         ),
+         );
+
+        // Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
+         //Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
+       // Navigator.push(
+        //  context,
+         // MaterialPageRoute(builder: (context) => home()),
+        //);
+      },
+      //onPressed: () {
+ //         Navigator.push(
+   //         context,
+     //       MaterialPageRoute(builder: (context) => LoginGoogle()),
+       //   );
+      //},
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _signInAppleButton(){
+    return RaisedButton(
+      splashColor: Colors.grey,
+      color: Colors.white,
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginApple()),
+          );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //change to apple logo
+            Image(image: AssetImage("assets/apple_logo.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Apple',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _createAccountButton(){
+    return RaisedButton(
+      splashColor: Colors.grey,
+      color: Colors.white,
+      onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateAccount1()),
+          );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      
+      
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                'Create Account',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[600],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
 }
