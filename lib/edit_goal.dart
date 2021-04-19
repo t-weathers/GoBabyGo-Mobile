@@ -28,8 +28,8 @@ class _editGoalState extends State<editGoal>{
   }
 
   void handleIncreaseMin(){
-    if(minute==60){
-      minute=0;
+    if(minute==59){
+      minute=00;
     }
     else{
       minute++;
@@ -39,12 +39,17 @@ class _editGoalState extends State<editGoal>{
 
   void handleDecreaseMin(){
     if(minute==0){
-      minute=60;
+      minute=59;
     }
     else{
       minute--;
     }
     setState(() { });
+  }
+
+  // Set the users weekly goal here
+  void setGoal(){
+    print("user wants to set goal as: " + hour.toString() + ":" + minute.toString());
   }
 
   @override
@@ -67,14 +72,15 @@ class _editGoalState extends State<editGoal>{
                     child: _goalSetter(hour, minute),
                   ),
                   SizedBox(height: 50),
+                  SizedBox(width: 200, height: 50, child:
                   RaisedButton(onPressed: () {
-                    print("set goal button pressed");
+                    setGoal();
                   },
                       color: Colors.orange[900],
                       textColor: Colors.black,
                       padding: EdgeInsets.fromLTRB(40, 12, 40, 12),
                       splashColor: Colors.orange[900],
-                    child: Text("SET GOAL"))
+                    child: Text("SET GOAL", style: TextStyle(fontSize: 20))))
                 ],
               )
           ),
@@ -89,7 +95,9 @@ class _editGoalState extends State<editGoal>{
         child: Row(
           children: <Widget>[
             Expanded(
+                flex: 5,
                 child: Center(
+
                           child: Column(
                           children: <Widget>[
                             Text('Hours', style: TextStyle(fontSize: 25.0)),
@@ -98,19 +106,21 @@ class _editGoalState extends State<editGoal>{
                               child: IconButton(
                                 icon: const Icon(Icons.arrow_back_ios, size: 50),
                                 tooltip: 'Increase Hours',
+                                alignment: Alignment.center,
                                 onPressed: () {
                                   print("button pressed");
                                   handleIncreaseHour();
                                 },
                               ),
                             ),
-                            _timeBox(hour),
+                            _timeBox(hour, false),
                             Transform.rotate(angle: 270 * math.pi / 180,
                               child: IconButton(
                                 icon: const Icon(Icons.arrow_back_ios, size: 50),
                                 tooltip: 'Decrease Hours',
+                                alignment: Alignment.center,
                                 onPressed: () {
-                                  print("button pressed");
+                                  //print("button pressed");
                                   handleDecreaseHour();
                                 },
                               ),
@@ -118,6 +128,7 @@ class _editGoalState extends State<editGoal>{
 
             ]))),
             Expanded(
+                flex: 5,
                 child: Center(
                     child: Column(
                         children: <Widget>[
@@ -127,17 +138,19 @@ class _editGoalState extends State<editGoal>{
                             child: IconButton(
                               icon: const Icon(Icons.arrow_back_ios, size: 50),
                               tooltip: 'Increase minutes',
+                              alignment: Alignment.center,
                               onPressed: () {
                                 print("button pressed");
                                 handleIncreaseMin();
                               },
                             ),
                           ),
-                          _timeBox(minute),
+                          _timeBox(minute, true),
                           Transform.rotate(angle: 270 * math.pi / 180,
                             child: IconButton(
                               icon: const Icon(Icons.arrow_back_ios, size: 50),
                               tooltip: 'Decrease Minutes',
+                              alignment: Alignment.center,
                               onPressed: () {
                                 print("button pressed");
                                 handleDecreaseMin();
@@ -152,15 +165,24 @@ class _editGoalState extends State<editGoal>{
     );
   }
 
-  Widget _timeBox(time){
+  Widget _timeBox(time, isMinutes){
+    String stringTime;
+    if(isMinutes && time < 10){
+      stringTime = "0" + time.toString();
+    }
+    else{
+      stringTime = time.toString();
+    }
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(12)
       ),
       padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
-      child: Text(time.toString(), style: TextStyle(fontSize: 60.0))
+      //margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+      //width: 140,
+      height: 100,
+      child: Text(stringTime, style: TextStyle(fontSize: 40.0))
     );
   }
 
