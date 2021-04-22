@@ -1,19 +1,40 @@
 import 'dart:async';
+//import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:testing_app/userData.dart';
 import 'dart:math' as math;
+
+import 'package:testing_app/weekly_progress.dart';
 
 
 class editGoal extends StatefulWidget{
+  final userData user;
+
+  editGoal({Key key, @required this.user}) : super(key: key);
+
   @override
   _editGoalState createState() => _editGoalState();
 }
 
 class _editGoalState extends State<editGoal>{
 
-  int hour = 0; //this will eventuall need to be calculated from the user's goal
+  int hour = 0;
   int minute = 0;
+
+  @override
+  void initState() {
+    hour = (widget.user.userInfo[0][widget.user.userId]['WeeklyGoal']/60).floor(); //this will eventually need to be calculated from the user's goal
+    minute = widget.user.userInfo[0][widget.user.userId]['WeeklyGoal'] % 60;
+    print("userID: " + widget.user.userId);
+    print("user weekly goal: " + widget.user.userInfo[0][widget.user.userId]['WeeklyGoal'].toString());
+    super.initState();
+  }
+
 
   void handleIncreaseHour(){
     hour++;
@@ -47,9 +68,46 @@ class _editGoalState extends State<editGoal>{
     setState(() { });
   }
 
+  Future _notifyGoalSet() async {
+    await showDialog(
+        context: context,
+        /*it shows a popup with few options which you can select, for option we
+        created enums which we can use with switch statement, in this first switch
+        will wait for the user to select the option which it can use with switch cases*/
+        child: new SimpleDialog(
+          title: ListTile(
+            title: const Text("WEEKLY GOAL SET", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20)),
+            trailing: Icon(
+                Icons.check,
+                color: Colors.orange[900],
+                size: 33.0),
+          ),
+          titlePadding: EdgeInsets.fromLTRB(27.0, 30.0, 27.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(70.0, 10.0, 60.0, 0.0),
+          children: <Widget>[
+            //SizedBox(height: 30),
+            SizedBox(
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Continue', style: TextStyle(fontSize: 20.0)),),
+            ),
+            SizedBox(height: 30),
+          ],
+        ));
+  }
+
   // Set the users weekly goal here
   void setGoal(){
-    print("user wants to set goal as: " + hour.toString() + ":" + minute.toString());
+    int totalMin = (hour * 60) + minute;
+    print("user wants to set goal as: " + totalMin.toString());
+    final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers").child(widget.user.userId);
+
+    var goalData = {
+      'WeeklyGoal': totalMin
+    };
+    dbRef.update(goalData);
+    _notifyGoalSet();
   }
 
   @override
@@ -62,29 +120,29 @@ class _editGoalState extends State<editGoal>{
           centerTitle: true,
         ),
         body: Container(
-          child: Center(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 50),
-                  Text("Set your weekly goal", style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 80, 10, 10),
-                    child: _goalSetter(hour, minute),
-                  ),
-                  SizedBox(height: 50),
-                  SizedBox(width: 200, height: 50, child:
-                  RaisedButton(onPressed: () {
-                    setGoal();
-                  },
-                      color: Colors.orange[900],
-                      textColor: Colors.black,
-                      padding: EdgeInsets.fromLTRB(40, 12, 40, 12),
-                      splashColor: Colors.orange[900],
-                    child: Text("SET GOAL", style: TextStyle(fontSize: 20))))
-                ],
-              )
-          ),
-        )
+              child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 50),
+                      Text("Set your weekly goal", style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 80, 10, 10),
+                        child: _goalSetter(hour, minute),
+                      ),
+                      SizedBox(height: 50),
+                      SizedBox(width: 200, height: 50, child:
+                      RaisedButton(onPressed: () {
+                        setGoal();
+                      },
+                          color: Colors.orange[900],
+                          textColor: Colors.black,
+                          padding: EdgeInsets.fromLTRB(40, 12, 40, 12),
+                          splashColor: Colors.orange[900],
+                          child: Text("SET GOAL", style: TextStyle(fontSize: 20))))
+                    ],
+                  )
+              ),
+            )
     );
   }
 
@@ -187,3 +245,44 @@ class _editGoalState extends State<editGoal>{
   }
 
 }
+
+
+//OLD JUST IN CASE I FUCK UP
+// return new Scaffold(
+// appBar: AppBar(
+// title: Text('Edit Goal', style: TextStyle(color: Colors.white, fontSize:24)),
+// backgroundColor: Colors.orange[900],
+// //automaticallyImplyLeading: false,
+// centerTitle: true,
+// ),
+// body: StreamBuilder(
+// stream: Firestore.instance.collection('ParentUsers').snapshots(),
+// builder: (context, snapshot) {
+// if(!snapshot.hasData) return const Text("Loading...");
+// return Container(
+// child: Center(
+// child: Column(
+// children: <Widget>[
+// SizedBox(height: 50),
+// Text("Set your weekly goal", style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
+// Padding(
+// padding: EdgeInsets.fromLTRB(10, 80, 10, 10),
+// child: _goalSetter(hour, minute),
+// ),
+// SizedBox(height: 50),
+// SizedBox(width: 200, height: 50, child:
+// RaisedButton(onPressed: () {
+// setGoal();
+// },
+// color: Colors.orange[900],
+// textColor: Colors.black,
+// padding: EdgeInsets.fromLTRB(40, 12, 40, 12),
+// splashColor: Colors.orange[900],
+// child: Text("SET GOAL", style: TextStyle(fontSize: 20))))
+// ],
+// )
+// ),
+// );
+// }
+// )
+// );
