@@ -30,6 +30,7 @@ class _activitiesState extends State<activities> {
         title: Text('Activities', style: TextStyle(color: Colors.white, fontSize:24)),
           backgroundColor: Colors.orange[900],
           centerTitle: true,
+
       ),
       body: FutureBuilder(
           future: dbRef.once(),

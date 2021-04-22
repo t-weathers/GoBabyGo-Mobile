@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+//import 'dart:js';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
 import 'package:testing_app/loginGoogle.dart';
+import 'package:flutter/foundation.dart';
+
 
 import 'loginApple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -92,16 +96,26 @@ class LoginPage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  bool isIOS;
+
+
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
+
+
   bool _isLoggedIn = false;
 
   //await Firebase.intializeApp();
 
+
+  String parentName, childName;
+  String entryKey;
+  List<Map<dynamic, dynamic>> lists = [];
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
@@ -110,10 +124,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<String> login() async {
     try {
-      print("here");
+    //  print("here");
+
       _googleSignInAccount = await _googleSignIn
           .signIn();
-      print("here!");
+     // print("here!");
       if (_googleSignInAccount == null){
         print('Google Signin ERROR! user: null');
         return null;
@@ -121,26 +136,97 @@ class _LoginPageState extends State<LoginPage> {
 
       final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
           .authentication;
-      print("here!!");
+      //print("here!!");
       final AuthCredential credential = GoogleAuthProvider.getCredential
         (idToken: _googleSignInAuthentication.idToken,
           accessToken: _googleSignInAuthentication.accessToken);
-      print("here!!!");
+      //print("here!!!");
       final AuthResult authResult = await _auth.signInWithCredential(
           credential);
-      print("here!!!!");
+      //print("here!!!!");
       final FirebaseUser _user = authResult.user;
-      print("here!!!!!");
+      //print("here!!!!!");
 
     //  print('here!!');
       assert(!_user.isAnonymous);
       assert(await _user.getIdToken() != null);
-      print("here!!!!!!");
+      //print("here!!!!!!");
       //print('here!!!');
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(_user.uid == currentUser.uid);
-      print("here!!!!!!!");
+      //print("here!!!!!!!");
       //print("Signing in with google: $_user");
+
+      //right here I want to push to the realtime database with Default Child as default, Default Parent Name, Email Address
+      DataSnapshot data = await dbRef.orderByChild('Email').equalTo(_googleSignInAccount.email).once();
+      if (data.value == null){
+       // String newKey = data.value.keys[0];
+        print("this is a new entry!");
+        dbRef.push().set({
+          'ChildFirstName': 'default:none',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }
+      else{
+        print("this entry exists in database");
+      }
+
+      //start here
+      DataSnapshot data1 = await dbRef.orderByChild('Email').equalTo(
+          _googleSignInAccount.email).once();
+
+      Map<dynamic, dynamic> values = data1.value;
+
+      lists.clear();
+      values.forEach((key, value){
+        lists.add(values);
+        // print(key);
+        entryKey = key;
+        //print(value);
+
+        //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
+        //  parentName = dbRef.child(key).child("FirstName").toString();
+
+      });
+      //print(data.value.toString().);
+      // print("printing lists!");
+      // print(lists);
+
+
+
+
+      childName = lists[0][entryKey]['ChildFirstName'];
+      parentName = lists[0][entryKey]['FirstName'];
+
+
+
+      //end here
+     /* DataSnapshot data = await dbRef.child("1").once();
+      if (data.value == null){
+        print("does not exist, create!");
+        dbRef.child(_googleSignInAccount.email).set({
+          'ChildFirstName': 'default:none_test',
+          'Email': _googleSignInAccount.email,
+          'FirstName': _googleSignInAccount.displayName,
+          'LastName': 'default: none',
+          'RecentActivity': 'default: none so far',
+          'WeeklyGoal': 150
+        });
+      }*/
+
+
+     /* dbRef.push().set({
+        'ChildFirstName': 'default:none',
+        'Email': _googleSignInAccount.email,
+        'FirstName': _googleSignInAccount.displayName,
+        'LastName': 'default: none',
+        'RecentActivity': 'default: none so far',
+        'WeeklyGoal': 150
+      });*/
       return 'signInWithGoogle succeeded: $_user';
 
 
@@ -159,8 +245,20 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 
+  Widget _buildAppleButton(){
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    if (isIOS){
+      return _signInAppleButton();
+    }
+    else{
+      return SizedBox(height:30);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         color: Colors.orange[900],
@@ -176,12 +274,14 @@ class _LoginPageState extends State<LoginPage> {
                     height: 150,
                   
                   ),
-              SizedBox(height: 100),
+              SizedBox(height: 150),
               _signInGoogleButton(),
+
               SizedBox(height:30),
-              _signInAppleButton(),
-              SizedBox(height:30),
-              _createAccountButton(),
+              _buildAppleButton(),
+             // _signInAppleButton(),
+             // SizedBox(height:30),
+             // _createAccountButton(),
             ],
           ),
         ),
@@ -199,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
          //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount),
+         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
          ),
          );
 
