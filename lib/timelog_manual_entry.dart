@@ -74,6 +74,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           date = d;
                           dateString = date.month.toString() + "/" +
                               date.day.toString() + "/" + date.year.toString();
+                          setState(() { });
                         }
 
 
@@ -109,6 +110,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           startTime = st;
                           startString = startTime.hour.toString() + ":" + startTime.minute.toString();
                           print(startString);
+                          setState(() { });
                         }
                         print(startTime);
 
@@ -127,6 +129,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
                           endTime = et;
                           endString = endTime.hour.toString() + ":" + endTime.minute.toString();
+                          setState(() { });
                         }
                         print(endTime);
 
@@ -143,12 +146,12 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           final dbRef = FirebaseDatabase.instance.reference().child("TimeLogs");
                           String logdate = date.month.toString()+date.day.toString() + date.year.toString();
                           int totTimeMinute = 0;
-                          if (startTime.minute >= endTime.minute)
-                            totTimeMinute = startTime.minute - endTime.minute;
+                          if (endTime.minute>= startTime.minute)
+                            totTimeMinute = endTime.minute - startTime.minute;
                           else
-                            totTimeMinute = 60 + startTime.minute - endTime.minute;
+                            totTimeMinute = 60 + endTime.minute - startTime.minute; //startTime.minute - endTime.minute;
 
-                          String totTime = (startTime.hour - endTime.hour).toString() + ":" + totTimeMinute.toString() + ":" + "00";
+                          String totTime = (endTime.hour - endTime.minute).toString() + ":" + totTimeMinute.toString() + ":" + "00";
                           String k = widget.userId;
 
                           String endT = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
