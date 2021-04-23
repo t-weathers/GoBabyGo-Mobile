@@ -22,6 +22,8 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
   String dateString = "";
   String startString = "";
   String endString = "";
+  String totalTimeDisplay = "";
+  String note = null;
 
 
  /* Widget build(BuildContext context) => RaisedButton(
@@ -50,7 +52,10 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
   }
   @override
+  TextEditingController _notes;
   Widget build(BuildContext context) {
+    final _notes = TextEditingController();
+    _notes.text = null;
     return new Scaffold(
       appBar: AppBar(
         title: Text('Time Log', style: TextStyle(color: Colors.white, fontSize:24)),
@@ -64,8 +69,8 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
             mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  width: 250.0,
-                  height: 50.0,
+                  width: 230.0,
+                  height: 40.0,
                   child: ElevatedButton(
                       onPressed: () async{
 
@@ -74,6 +79,8 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           date = d;
                           dateString = date.month.toString() + "/" +
                               date.day.toString() + "/" + date.year.toString();
+
+
                           setState(() { });
                         }
 
@@ -84,23 +91,29 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
 
                       },
+
                     child: Text("Date", style: TextStyle(fontSize: 20.0))),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 Visibility(
                   child: SizedBox(
+
                     width: 250.0,
-                    height: 25.0,
-                    child: Text(dateString, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),)
+                    height: 30.0,
+
+                    child: Text(dateString, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 30),)
                   ),
                   maintainSize: true,
                   maintainAnimation: true,
                   maintainState: true,
                   visible: (date != null) ? true : false,
                 ),
-                SizedBox(height: 75),
+                SizedBox(height: 28),
                 SizedBox(
-                  width: 250.0,
-                  height: 50.0,
+                  width: 230.0,
+                  height: 40.0,
                   child: ElevatedButton(
                       onPressed: () async{
 
@@ -110,6 +123,30 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           startTime = st;
                           startString = startTime.hour.toString() + ":" + startTime.minute.toString();
                           print(startString);
+
+                          if (date != null && startTime != null && endTime != null){
+                            int totTimeMinute = 0;
+                            int subtractHour = 0;
+                            if (endTime.minute>= startTime.minute)
+                              totTimeMinute = endTime.minute - startTime.minute;
+                            else {
+                              totTimeMinute = 60 + endTime.minute - startTime
+                                  .minute; //startTime.minute - endTime.minute;
+                              subtractHour = 1;
+                            }
+
+                            String hour = (endTime.hour - startTime.hour - subtractHour).toString();
+                            if (hour.length == 1)
+                              hour = "0" + hour;
+                            String min = totTimeMinute.toString();
+
+                            if (min.length == 1)
+                              min = "0" + min;
+
+
+                            totalTimeDisplay = hour + ":" + min;
+                          }
+
                           setState(() { });
                         }
                         print(startTime);
@@ -117,10 +154,26 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                       },
                       child: Text("Start Time", style: TextStyle(fontSize: 20.0))),
                 ),
-                SizedBox(height: 75),
                 SizedBox(
-                  width: 250.0,
-                  height: 50.0,
+                  height: 15,
+                ),
+                Visibility(
+                  child: SizedBox(
+
+                      width: 250.0,
+                      height: 30.0,
+
+                      child: Text(startString, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 30),)
+                  ),
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: (startTime != null) ? true : false,
+                ),
+                SizedBox(height: 28),
+                SizedBox(
+                  width: 230.0,
+                  height: 40.0,
                   child: ElevatedButton(
                       onPressed: () async{
 
@@ -129,6 +182,30 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
                           endTime = et;
                           endString = endTime.hour.toString() + ":" + endTime.minute.toString();
+
+                          if (date != null && startTime != null && endTime != null){
+                            int totTimeMinute = 0;
+                            int subtractHour = 0;
+                            if (endTime.minute>= startTime.minute)
+                              totTimeMinute = endTime.minute - startTime.minute;
+                            else {
+                              totTimeMinute = 60 + endTime.minute - startTime
+                                  .minute; //startTime.minute - endTime.minute;
+                              subtractHour = 1;
+                            }
+
+                            String hour = (endTime.hour - startTime.hour - subtractHour).toString();
+                            if (hour.length == 1)
+                              hour = "0" + hour;
+                            String min = totTimeMinute.toString();
+
+                            if (min.length == 1)
+                              min = "0" + min;
+
+
+                            totalTimeDisplay = hour + ":" + min;
+                          }
+
                           setState(() { });
                         }
                         print(endTime);
@@ -136,7 +213,64 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                       },
                       child: Text("End Time", style: TextStyle(fontSize: 20.0))),
                 ),
-                SizedBox(height: 75),
+                SizedBox(
+                  height: 15,
+                ),
+                Visibility(
+                  child: SizedBox(
+
+                      width: 250.0,
+                      height: 30,
+
+                      child: Text(endString, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 30),)
+                  ),
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: (endTime != null) ? true : false,
+                ),
+               // SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                  child: TextField(
+                    onChanged: (text){
+                      //on change of value
+                      note = _notes.text;
+                      print("ParentName Text: ${_notes.text}");
+                    },
+                    controller: _notes,
+                    textAlign: TextAlign.left,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(40.0),
+                        ),
+                      ),
+                      //contentPadding: EdgeInsets.all(20.0),
+                      labelText: "Enter notes about your activity!",
+                      alignLabelWithHint: true,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                     // hintText: _notes.text,
+                      hintStyle: TextStyle(color: Colors.orange[900]),
+                    ),
+                  ),
+                ),
+                //SizedBox(height:20),
+
+                Visibility(
+                  child: SizedBox(
+
+                      width: 250.0,
+                      height: 30,
+
+                      child: Text("Total Time: " + totalTimeDisplay, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black, fontSize: 24),)
+                  ),
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: (endTime != null && startTime != null && date != null) ? true : false,
+                ),
+                SizedBox(height: 10),
                 SizedBox(
                   width: 250.0,
                   height: 50.0,
@@ -146,30 +280,46 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           final dbRef = FirebaseDatabase.instance.reference().child("TimeLogs");
                           String logdate = date.month.toString()+date.day.toString() + date.year.toString();
                           int totTimeMinute = 0;
+                          int subHour = 0;
                           if (endTime.minute>= startTime.minute)
                             totTimeMinute = endTime.minute - startTime.minute;
-                          else
-                            totTimeMinute = 60 + endTime.minute - startTime.minute; //startTime.minute - endTime.minute;
+                          else {
+                            totTimeMinute = 60 + endTime.minute - startTime
+                                .minute; //startTime.minute - endTime.minute;
+                            subHour = 1;
+                          }
 
-                          String totTime = (endTime.hour - endTime.minute).toString() + ":" + totTimeMinute.toString() + ":" + "00";
+                          String hour = (endTime.hour - startTime.hour - subHour).toString();
+                          if (hour.length == 1)
+                            hour = "0" + hour;
+                          String min = totTimeMinute.toString();
+
+                          if (min.length == 1)
+                            min = "0" + min;
+
+                          String totTime = hour + ":" + min + ":" + "00";
                           String k = widget.userId;
 
                           String endT = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
                           String startT = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + " " + startTime.hour.toString() + ":" + startTime.minute.toString() + ":" + "00";
-                          print("We can push to database");
+                          if (endTime.hour - startTime.hour - subHour >= 0) {
+                            print("We can push to database");
 
-                          dbRef.push().set({
-                            'ActivityID': null,
-                            'EndTime': endT,
-                            'LogDate': logdate,
-                            'Notes': null,
-                            'StartTime': startT,
-                            'TotalTime': totTime,
-                            'UserID': k
-                          } );
+                            dbRef.push().set({
+                              'ActivityID': null,
+                              'EndTime': endT,
+                              'LogDate': logdate,
+                              'Notes': note,
+                              'StartTime': startT,
+                              'TotalTime': totTime,
+                              'UserID': k
+                            });
 
-                          //do back navigation
-                          Navigator.pop(context);
+                            //await showDialog(context: context, builder: )
+                            //do back navigation
+                            Navigator.pop(context);
+                          }
+
                         }
                       },
                       shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
