@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activityPage.dart';
+import 'package:testing_app/activities.dart';
 
 class activitiesResults extends StatelessWidget{
 
@@ -28,7 +29,7 @@ class activitiesResults extends StatelessWidget{
             new Container(
               padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
               alignment: Alignment(-1.0, 1.0),
-              child: new Text("Select an activity", style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold, fontSize: 18)),
+              child: new Text("Select an activity", style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold, fontSize: 20)),
             ),
             ListView.builder(
               padding: const EdgeInsets.all(8),
@@ -45,9 +46,12 @@ class activitiesResults extends StatelessWidget{
                       Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
                           activityName: this.data.activityNames[index],
                       )));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => activities(
+                      //     activityName: this.data.activityNames[index],
+                      // )));
                     },
                     child: ListTile(
-                      title: Text('${data.activityNames[index]}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 15)),
+                      title: Text('${data.activityNames[index]}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w600)),
                     )
                 )
                 );

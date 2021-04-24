@@ -136,7 +136,7 @@ class _profileState extends State<profile>{
                         ),
                       ),
                     ),
-                    SizedBox(height:10.0),
+                    SizedBox(height:8.0, width: 10.0),
                     RaisedButton(
                       splashColor: Colors.grey,
                       color: Colors.grey,
