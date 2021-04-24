@@ -299,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
          //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
          ),
          );
 
