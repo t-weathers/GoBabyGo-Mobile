@@ -46,9 +46,14 @@ class _weeklyProgressState extends State<weeklyProgress>{
                           if (snapshot.hasData) {
                             lists.clear();
                             Map<dynamic, dynamic> values = snapshot.data.value;
-                            values.forEach((key, values) {
-                              lists.add(values);
-                            });
+                            if (values == null){
+                              return Text("No entries in your Time Log");
+                            }
+                            else {
+                              values.forEach((key, values) {
+                                lists.add(values);
+                              });
+                            }
                             return new ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: lists.length,
@@ -59,11 +64,14 @@ class _weeklyProgressState extends State<weeklyProgress>{
                                       children: <Widget>[
                                         Text("Time Length: " + lists[index]["TotalTime"]),
                                         Text("Date: " + lists[index]["LogDate"]),
-                                        Text("Notes: " + lists[index]["Notes"]),
+                                        //Text("Notes: " + lists[index]["Notes"]),
                                       ],
                                     ),
                                   );
                                 });
+                          }
+                          else{
+                            return Text("No entries in your Time Log");
                           }
                           return CircularProgressIndicator();
                         })
