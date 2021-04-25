@@ -367,7 +367,7 @@ Widget _goalButtons(BuildContext context, final user) {
         onPressed: () {
           //navigate to new page here
           //print("weekly progress pressed");
-          Navigator.push(context, MaterialPageRoute(builder: (context) => weeklyProgress()),
+          Navigator.push(context, MaterialPageRoute(builder: (context) => weeklyProgress(user:user)),
           );
         },
         color: Colors.white,
