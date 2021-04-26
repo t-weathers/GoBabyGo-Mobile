@@ -205,7 +205,7 @@ class _timelogState extends State<timelog>{
       'ActivityID': null,
       'EndTime': stopTime.toString(),
       'LogDate': todaysDate,
-      'Notes': null,
+      'Notes': "none",
       'StartTime': startTime.toString(),
       'TotalTime': formatTime(_stopwatch.elapsedMilliseconds).toString(),
       'UserID': entryKey.toString()

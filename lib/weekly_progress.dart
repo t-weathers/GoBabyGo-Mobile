@@ -20,10 +20,60 @@ class weeklyProgress extends StatefulWidget{
 class _weeklyProgressState extends State<weeklyProgress>{
   final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
   final timelogRef = FirebaseDatabase.instance.reference().child("TimeLogs");
+  TextEditingController _c;
   List<Map<dynamic, dynamic>> lists = [];
   @override
   void initState() {
     super.initState();
+    _c = new TextEditingController();
+  }
+
+  Future _editNote(index) async{
+
+    await showDialog(
+      context: context,
+        child: new SimpleDialog(
+          title: ListTile(
+            title: const Text("EDIT NOTE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15)),
+          ),
+          titlePadding: EdgeInsets.fromLTRB(5.0, 5.0, 45.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(70.0, 0.0, 60.0, 0.0),
+          children: <Widget>[
+            SizedBox(
+                height: 100,
+
+                child: new TextField(
+                  controller: _c,
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                    hintText: lists[index]["Notes"],
+                  ),
+                )
+            ),
+            SizedBox(
+              height: 10,
+              child: ElevatedButton(
+                onPressed: () {
+                  print(_c.text);
+                  // TODO push new saved note to database
+                  Navigator.pop(context, true);
+                  // TODO create confirmation note
+                },
+                child: Text('Save', style: TextStyle(fontSize: 10.0)),),
+            ),
+            SizedBox(
+              height: 10,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Cancel', style: TextStyle(fontSize: 10.0)),),
+            ),
+            SizedBox(height: 20),
+          ],
+        )
+    );
+
+    //update data with _c.text
+
   }
 
 
@@ -38,7 +88,8 @@ class _weeklyProgressState extends State<weeklyProgress>{
         ),
           body: Center(
             child: SingleChildScrollView(child: Column(
-               mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+
                   children: <Widget>[
                     FutureBuilder(
                         future: timelogRef.orderByChild("UserID").equalTo(widget.user.userId).once(),
@@ -56,17 +107,32 @@ class _weeklyProgressState extends State<weeklyProgress>{
                             }
                             return new ListView.builder(
                                 shrinkWrap: true,
+                                padding: const EdgeInsets.fromLTRB(10,10,10,10),
                                 itemCount: lists.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Card(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text("Time Length: " + lists[index]["TotalTime"]),
-                                        Text("Date: " + lists[index]["LogDate"]),
-                                        //Text("Notes: " + lists[index]["Notes"]),
-                                      ],
-                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text("Time Length: " + lists[index]["TotalTime"]),
+                                          Text("Date: " + lists[index]["LogDate"]),
+                                          IconButton(
+                                            icon: const Icon(Icons.note_add),
+                                            tooltip: 'Edit Note',
+                                            color: Colors.orange[900],
+                                            iconSize: 34.0,
+                                            onPressed: (){
+                                              //when the icon is pressed
+                                              print("pressed edit note " + index.toString());
+                                              _editNote(index);
+                                            },
+                                          ),
+                                          Text("Notes: " + lists[index]["Notes"]),
+                                          //Text("Notes: " + lists[index]["Notes"]),
+                                        ],
+                                      ),
+                                    )
                                   );
                                 });
                           }
