@@ -41,7 +41,8 @@ class activitiesResults extends StatelessWidget{
                         side: BorderSide(width: 3, color: Colors.orange[900])),
                   child: InkWell(
                     onTap: (){
-                      Text("This is the activity that got tapped on: " + '${data.activityNames[index]}');
+                      print("This is the activity that got tapped on: " + '${data.activityNames[index]}');
+                      //Text("This is the activity that got tapped on: " + '${data.activityNames[index]}');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
                           activityName: this.data.activityNames[index],
                       )));
