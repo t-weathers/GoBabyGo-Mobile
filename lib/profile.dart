@@ -164,30 +164,6 @@ class _profileState extends State<profile>{
                         ),
                       ),
                     ),
-                    Container(                    //Email
-                      padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                      child: TextField(
-                        onChanged: (text){
-                          //on change of value
-                          print("Email Text: ${_controllerEmail.text}");
-                        },
-                        controller: _controllerEmail,
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(40.0),
-                            ),
-                          ),
-                          //contentPadding: EdgeInsets.all(20.0),
-                          labelText: "Email",
-                          alignLabelWithHint: true,
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintStyle: TextStyle(color: Colors.orange[900]),
-                          hintText: _controllerEmail.text.toString(),
-                        ),
-                      ),
-                    ),
                     RaisedButton(
                       splashColor: Colors.grey,
                       color: Colors.orange[900],

@@ -227,15 +227,14 @@ class _LoginPageState extends State<LoginPage> {
         'RecentActivity': 'default: none so far',
         'WeeklyGoal': 150
       });*/
+      setState(() {
+        _isLoggedIn = true;
+      });
       return 'signInWithGoogle succeeded: $_user';
 
 
       //print("Here");
 
-
-      setState(() {
-        _isLoggedIn = true;
-      });
 
   }
 
@@ -295,13 +294,16 @@ class _LoginPageState extends State<LoginPage> {
       color: Colors.white,
       onPressed: () async {
          await login();
+         if (_isLoggedIn == true){
+           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),),);
+         }
+         else{
+           print("invalid login attempt");
+         }
         // print("Here");
          //print("CurrentUsersEmail: $_user");
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),
-         ),
-         );
 
         // Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
