@@ -6,6 +6,7 @@ import 'package:testing_app/faq.dart';
 import 'package:testing_app/profile.dart';
 import 'package:testing_app/timelog.dart';
 import 'package:testing_app/forum.dart';
+import 'package:testing_app/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'my_flutter_app_icons.dart';
@@ -56,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //_MyHomePageState({Key key, @required this.googleSI}) : super(key: key);
   //String googleSignIn;
   GoogleSignInAccount googleSignIn;
+  user currUser;
   GoogleSignIn sign;
   String childsName;
   String parentsName;
@@ -64,6 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
     sign = widget.signIn;
     childsName = widget.childsName;
     parentsName = widget.parentsName;
+    currUser = new user(googleSignIn.email);
+
+    currUser.populateInfo(googleSignIn.email);
+
+
 
     super.initState();
   }
@@ -91,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return profile(gsi: googleSignIn, signIn: sign, parent: parentsName, child: childsName);
         break;
       case 1:
-        return timelog(gsi: googleSignIn);
+        return timelog(gsi: googleSignIn, userInfo: currUser);
         break;
       case 2:
         return activities();
