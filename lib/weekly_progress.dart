@@ -70,6 +70,14 @@ class _weeklyProgressState extends State<weeklyProgress>{
     _onTimeLogChangedSubscription = _timelogRef.onChildChanged.listen(_onEntryChanged);
   }
 
+  @override
+  void dispose() {
+    _onTimeLogAddedSubscription.cancel();
+    _onTimeLogChangedSubscription.cancel();
+    super.dispose();
+  }
+
+
   _updateTimeLogEntry(TimeLogEntry entry) {
     //Toggle completed
     if (entry != null) {
@@ -108,7 +116,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
                   TimeLogEntry newT = new TimeLogEntry(timelogEntries[index].EndTime, timelogEntries[index].StartTime, timelogEntries[index].date, _c.text.toString(), timelogEntries[index].UserId, timelogEntries[index].totalTime);
                   newT.key = timelogEntries[index].key;
                   _updateTimeLogEntry(newT);
-                  return _c.text;
+                  Navigator.pop(context, true);
                 },
                 child: Text('Save', style: TextStyle(fontSize: 10.0)),),
             ),
@@ -118,7 +126,6 @@ class _weeklyProgressState extends State<weeklyProgress>{
                 onPressed: ()
                 {
                   Navigator.pop(context, true);
-                  return hint;
                 },
                 child: Text('Cancel', style: TextStyle(fontSize: 10.0)),),
 
