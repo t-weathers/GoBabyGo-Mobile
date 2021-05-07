@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 import 'dart:math' as math;
 
@@ -13,9 +14,10 @@ import 'package:testing_app/weekly_progress.dart';
 
 
 class editGoal extends StatefulWidget{
-  final userData user;
+  //final userData user;
+  user userInfo;
 
-  editGoal({Key key, @required this.user}) : super(key: key);
+  editGoal({Key key, @required this.userInfo}) : super(key: key);
 
   @override
   _editGoalState createState() => _editGoalState();
@@ -28,10 +30,10 @@ class _editGoalState extends State<editGoal>{
 
   @override
   void initState() {
-    hour = (widget.user.userInfo[0][widget.user.userId]['WeeklyGoal']/60).floor(); //this will eventually need to be calculated from the user's goal
-    minute = widget.user.userInfo[0][widget.user.userId]['WeeklyGoal'] % 60;
-    print("userID: " + widget.user.userId);
-    print("user weekly goal: " + widget.user.userInfo[0][widget.user.userId]['WeeklyGoal'].toString());
+    hour = (widget.userInfo.weeklyGoal/60).floor(); //this will eventually need to be calculated from the user's goal
+    minute = widget.userInfo.weeklyGoal % 60;
+    print("userID: " + widget.userInfo.userId);
+    print("user weekly goal: " + widget.userInfo.weeklyGoal.toString());
     super.initState();
   }
 
@@ -101,7 +103,7 @@ class _editGoalState extends State<editGoal>{
   void setGoal(){
     int totalMin = (hour * 60) + minute;
     print("user wants to set goal as: " + totalMin.toString());
-    final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers").child(widget.user.userId);
+    final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers").child(widget.userInfo.userId);
 
     var goalData = {
       'WeeklyGoal': totalMin

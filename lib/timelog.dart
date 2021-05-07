@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:testing_app/dialog.dart';
 import 'package:testing_app/edit_goal.dart';
 import 'package:testing_app/timelog_manual_entry.dart';
+import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 import 'package:testing_app/weekly_progress.dart';
 
@@ -47,12 +48,11 @@ int calculateTimeThisWeek(List weeklyRecordedTime){
 }
 
 class timelog extends StatefulWidget{
-  timelog({Key key, this.gsi, this.signIn, this.parent, this.child}) : super(key: key);
-  //final String gsi;
+  user userInfo;
   final GoogleSignInAccount gsi;
-  final GoogleSignIn signIn;
-  final child;
-  final parent;
+
+  timelog({Key key, this.gsi, this.userInfo}) : super(key: key);
+
 
   //widget.gsi.email
   @override
@@ -83,7 +83,7 @@ class _timelogState extends State<timelog>{
   void initState() {
     super.initState();
 
-    populateInfo();
+    //populateInfo();
     _stopwatch = Stopwatch();
     //re render every 30ms
     _timer = new Timer.periodic(new Duration(milliseconds: 30), (timer) {
@@ -167,6 +167,13 @@ class _timelogState extends State<timelog>{
     //DateTime now = new DateTime.now();
     //DateTime date = new DateTime(now.year, now.month, now.day);
 
+    print("Testing stuff: ");
+    print("name: " + widget.userInfo.name);
+    print("email: " + widget.userInfo.email);
+    print("recent act: " + widget.userInfo.recentActivity);
+    print("child: " + widget.userInfo.childName);
+    print("goal: " + widget.userInfo.weeklyGoal.toString());
+
     DateTime dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     String todaysDate = dateToday.month.toString()+dateToday.day.toString()+dateToday.year.toString();
 
@@ -244,7 +251,8 @@ class _timelogState extends State<timelog>{
                   height: 50.0,
                   child: ElevatedButton(
                     onPressed: handleStartStop,
-                    child: Text(_stopwatch.isRunning ? 'PAUSE TIME' : 'START TIME', style: TextStyle(fontSize: 20.0)),),
+                    child: Text(_stopwatch.isRunning ? 'PAUSE TIME' : 'START TIME',
+                        style: TextStyle(fontSize: 20.0)),),
                 ),
                 SizedBox(height: 10),
                 Visibility(
@@ -272,9 +280,9 @@ class _timelogState extends State<timelog>{
                   },
                     child: Text("Manual Entry", style: TextStyle(decoration: TextDecoration.underline))),
                 SizedBox(height: 50),
-                _progressText(weeklyGoal, totalRecordedTime),
-                _progresssBar(weeklyGoal, totalRecordedTime),
-                _goalButtons(context, user)
+                _progressText(widget.userInfo.weeklyGoal, totalRecordedTime),
+                _progresssBar(widget.userInfo.weeklyGoal, totalRecordedTime),
+                _goalButtons(context, widget.userInfo)
               ]
           ),
         )
@@ -339,7 +347,7 @@ Widget _progresssBar(int weeklyGoal, int totalRecordedTime){
   );
 }
 
-Widget _goalButtons(BuildContext context, final user) {
+Widget _goalButtons(BuildContext context, user userInfo) {
   return ButtonBar(
     mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -356,7 +364,7 @@ Widget _goalButtons(BuildContext context, final user) {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => editGoal(user: user)
+                builder: (context) => editGoal(userInfo: userInfo)
             ),
           );
         },
@@ -367,8 +375,7 @@ Widget _goalButtons(BuildContext context, final user) {
         onPressed: () {
           //navigate to new page here
           //print("weekly progress pressed");
-          Navigator.push(context, MaterialPageRoute(builder: (context) => weeklyProgress(user:user)),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => weeklyProgress(userInfo:userInfo)),);
         },
         color: Colors.white,
         textColor: Colors.black,

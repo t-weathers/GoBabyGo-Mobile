@@ -4,15 +4,16 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:testing_app/timelog.dart';
+import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 
 
 
 class weeklyProgress extends StatefulWidget{
-  weeklyProgress({Key key, this.user}) : super(key: key);
+  weeklyProgress({Key key, this.userInfo}) : super(key: key);
   //final String gsi;
 
-  final userData user;
+  final user userInfo;
   @override
   _weeklyProgressState createState() => _weeklyProgressState();
 }
@@ -92,7 +93,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
                   children: <Widget>[
                     FutureBuilder(
-                        future: timelogRef.orderByChild("UserID").equalTo(widget.user.userId).once(),
+                        future: timelogRef.orderByChild("UserID").equalTo(widget.userInfo.userId).once(),
                         builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                           if (snapshot.hasData) {
                             lists.clear();

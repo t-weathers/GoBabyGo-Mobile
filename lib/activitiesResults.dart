@@ -21,8 +21,7 @@ class activitiesResults extends StatelessWidget{
           backgroundColor: Colors.orange[900],
           centerTitle: true,
       ),
-      //body: Text('${data.activityNames[0]} ${data.activityNames[1]}, ')
-        body: new Container(
+        body: new SingleChildScrollView(
         child: new Column(
           children: [
             new Container(
@@ -56,7 +55,7 @@ class activitiesResults extends StatelessWidget{
             )
           ],
         )
-        )
+        ),
         );
   }
 }
