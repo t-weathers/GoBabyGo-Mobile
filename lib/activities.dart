@@ -39,6 +39,7 @@ class _activitiesState extends State<activities> {
 
   get activityName => this.activityName;
 
+
   @override
   void initState(){
     getAllActivities();
@@ -94,6 +95,7 @@ class _activitiesState extends State<activities> {
     _filter.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
