@@ -6,12 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activityPage.dart';
+import 'package:testing_app/user.dart';
 
 class activitiesResults extends StatelessWidget{
 
   final activitiesData data;
+  user userInfo;
 
-  activitiesResults({this.data});
+  activitiesResults({this.data, this.userInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,7 @@ class activitiesResults extends StatelessWidget{
           backgroundColor: Colors.orange[900],
           centerTitle: true,
       ),
-      //body: Text('${data.activityNames[0]} ${data.activityNames[1]}, ')
-        body: new Container(
+        body: new SingleChildScrollView(
         child: new Column(
           children: [
             new Container(
@@ -41,10 +42,13 @@ class activitiesResults extends StatelessWidget{
                         side: BorderSide(width: 3, color: Colors.orange[900])),
                   child: InkWell(
                     onTap: (){
+                      print("This is the activity that got tapped on: " + '${data.activityNames[index]}');
                       Text("This is the activity that got tapped on: " + '${data.activityNames[index]}');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
                           activityName: this.data.activityNames[index],
-                      )));
+                          userInfo: userInfo
+                      )
+                      ));
                     },
                     child: ListTile(
                       title: Text('${data.activityNames[index]}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 15)),
@@ -55,7 +59,7 @@ class activitiesResults extends StatelessWidget{
             )
           ],
         )
-        )
+        ),
         );
   }
 }
