@@ -103,12 +103,13 @@ class _editGoalState extends State<editGoal>{
   void setGoal(){
     int totalMin = (hour * 60) + minute;
     print("user wants to set goal as: " + totalMin.toString());
-    final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers").child(widget.userInfo.userId);
+    /*final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers").child(widget.userInfo.userId);
 
     var goalData = {
       'WeeklyGoal': totalMin
     };
-    dbRef.update(goalData);
+    dbRef.update(goalData);*/
+    widget.userInfo.setWeeklyGoal(totalMin);
     _notifyGoalSet();
   }
 
