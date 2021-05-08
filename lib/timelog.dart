@@ -259,7 +259,7 @@ class _timelogState extends State<timelog>{
                     //print("manual entry pressed");
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => timelogManualEntry(userId: entryKey,)),
+                      MaterialPageRoute(builder: (context) => timelogManualEntry(userId: widget.userInfo.userId,)),
                     );
                   },
                     child: Text("Manual Entry", style: TextStyle(decoration: TextDecoration.underline))),
