@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart' as cf;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,7 +10,37 @@ import 'package:testing_app/timelog.dart';
 import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 
+class TimeLogEntry{
+  String key;
+  String EndTime;
+  String StartTime;
+  String date;
+  String notes;
+  String UserId;
+  String totalTime;
 
+  TimeLogEntry(this.EndTime,this.StartTime,this.date,this.notes,this.UserId,this.totalTime);
+
+  TimeLogEntry.fromSnapshot(DataSnapshot snapshot)  :
+    key = snapshot.key,
+    EndTime = snapshot.value["EndTime"],
+    StartTime = snapshot.value["StartTime"],
+    date = snapshot.value["LogDate"],
+    notes = snapshot.value["Notes"],
+    UserId = snapshot.value["UserID"],
+    totalTime = snapshot.value["TotalTime"];
+
+  toJson() {
+    return {
+      "EndTime": EndTime,
+      "LogDate": date,
+      "Notes": notes,
+      "StartTime": StartTime,
+      "TotalTime": totalTime,
+      "UserID": UserId,
+    };
+  }
+}
 
 class weeklyProgress extends StatefulWidget{
   weeklyProgress({Key key, this.userInfo}) : super(key: key);
@@ -20,16 +53,40 @@ class weeklyProgress extends StatefulWidget{
 
 class _weeklyProgressState extends State<weeklyProgress>{
   final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
-  final timelogRef = FirebaseDatabase.instance.reference().child("TimeLogs");
+  final timelogRef = FirebaseDatabase.instance;
   TextEditingController _c;
-  List<Map<dynamic, dynamic>> lists = [];
+  List<TimeLogEntry> timelogEntries = [];
+  StreamSubscription<Event> _onTimeLogChangedSubscription;
+  StreamSubscription<Event> _onTimeLogAddedSubscription;
+  Query _timelogRef;
+
   @override
   void initState() {
     super.initState();
     _c = new TextEditingController();
+    _timelogRef = timelogRef.reference().child("TimeLogs").orderByChild("UserID").equalTo(widget.userInfo.userId);
+
+    _onTimeLogAddedSubscription = _timelogRef.onChildAdded.listen(_onTimeLogEntryAdded);
+    _onTimeLogChangedSubscription = _timelogRef.onChildChanged.listen(_onEntryChanged);
   }
 
-  Future _editNote(index) async{
+  @override
+  void dispose() {
+    _onTimeLogAddedSubscription.cancel();
+    _onTimeLogChangedSubscription.cancel();
+    super.dispose();
+  }
+
+
+  _updateTimeLogEntry(TimeLogEntry entry) {
+    //Toggle completed
+    if (entry != null) {
+      _timelogRef.reference().child(entry.key).set(entry.toJson());
+    }
+  }
+
+
+  Future _editNote(hint,index) async{
 
     await showDialog(
       context: context,
@@ -47,7 +104,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
                   controller: _c,
                   autofocus: true,
                   decoration: new InputDecoration(
-                    hintText: lists[index]["Notes"],
+                    hintText: hint,
                   ),
                 )
             ),
@@ -56,17 +113,22 @@ class _weeklyProgressState extends State<weeklyProgress>{
               child: ElevatedButton(
                 onPressed: () {
                   print(_c.text);
-                  // TODO push new saved note to database
+                  TimeLogEntry newT = new TimeLogEntry(timelogEntries[index].EndTime, timelogEntries[index].StartTime, timelogEntries[index].date, _c.text.toString(), timelogEntries[index].UserId, timelogEntries[index].totalTime);
+                  newT.key = timelogEntries[index].key;
+                  _updateTimeLogEntry(newT);
                   Navigator.pop(context, true);
-                  // TODO create confirmation note
                 },
                 child: Text('Save', style: TextStyle(fontSize: 10.0)),),
             ),
             SizedBox(
               height: 10,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: ()
+                {
+                  Navigator.pop(context, true);
+                },
                 child: Text('Cancel', style: TextStyle(fontSize: 10.0)),),
+
             ),
             SizedBox(height: 20),
           ],
@@ -75,6 +137,70 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
     //update data with _c.text
 
+  }
+
+  _onEntryChanged(Event event) {
+    var oldEntry = timelogEntries.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+
+    setState(() {
+      timelogEntries[timelogEntries.indexOf(oldEntry)] = TimeLogEntry.fromSnapshot(event.snapshot);
+    });
+  }
+
+  _onTimeLogEntryAdded(Event event) {
+    setState(() {
+      timelogEntries.add(TimeLogEntry.fromSnapshot(event.snapshot));
+    });
+  }
+
+  Widget _showEntries() {
+    if (timelogEntries.length > 0){
+      return ListView.builder(
+        shrinkWrap: true,
+        itemCount: timelogEntries.length,
+        itemBuilder: (BuildContext context, int index){
+          String id = timelogEntries[index].key;
+          String EndTime = timelogEntries[index].EndTime;
+          String StartTime = timelogEntries[index].StartTime;
+          String date = timelogEntries[index].date;
+          String notes = timelogEntries[index].notes;
+          String userid = timelogEntries[index].UserId;
+          String totalTime = timelogEntries[index].totalTime;
+          return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  children: <Widget>[
+                    Text("Time Length: " + totalTime),
+                    Text("Date: " + date),
+                    IconButton(
+                      icon: const Icon(Icons.note_add),
+                      tooltip: 'Edit Note',
+                      color: Colors.orange[900],
+                      iconSize: 34.0,
+                      onPressed: (){
+                        //when the icon is pressed
+                        print("pressed edit note " + index.toString());
+                        //update the timelog note
+                        _editNote(timelogEntries[index].notes,index);
+                        print("back to updateTimeLogEntry");
+                        _updateTimeLogEntry(timelogEntries[index]);
+                      },
+                    ),
+                    Text("Notes: " + notes),
+                    //Text("Notes: " + lists[index]["Notes"]),
+                  ],
+                ),
+              )
+          );
+        },
+      );
+    }
+    else{
+      return Text("Try Adding some timelog entries");
+    }
   }
 
 
@@ -88,62 +214,9 @@ class _weeklyProgressState extends State<weeklyProgress>{
           centerTitle: true,
         ),
           body: Center(
-            child: SingleChildScrollView(child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: <Widget>[
-                    FutureBuilder(
-                        future: timelogRef.orderByChild("UserID").equalTo(widget.userInfo.userId).once(),
-                        builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                          if (snapshot.hasData) {
-                            lists.clear();
-                            Map<dynamic, dynamic> values = snapshot.data.value;
-                            if (values == null){
-                              return Text("No entries in your Time Log");
-                            }
-                            else {
-                              values.forEach((key, values) {
-                                lists.add(values);
-                              });
-                            }
-                            return new ListView.builder(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.fromLTRB(10,10,10,10),
-                                itemCount: lists.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text("Time Length: " + lists[index]["TotalTime"]),
-                                          Text("Date: " + lists[index]["LogDate"]),
-                                          IconButton(
-                                            icon: const Icon(Icons.note_add),
-                                            tooltip: 'Edit Note',
-                                            color: Colors.orange[900],
-                                            iconSize: 34.0,
-                                            onPressed: (){
-                                              //when the icon is pressed
-                                              print("pressed edit note " + index.toString());
-                                              _editNote(index);
-                                            },
-                                          ),
-                                          Text("Notes: " + lists[index]["Notes"]),
-                                          //Text("Notes: " + lists[index]["Notes"]),
-                                        ],
-                                      ),
-                                    )
-                                  );
-                                });
-                          }
-                          else{
-                            return Text("No entries in your Time Log");
-                          }
-                          return CircularProgressIndicator();
-                        })
-                  ]
-            ))
+            child: SingleChildScrollView(
+                child: _showEntries()
+            )
           )
     );
   }
