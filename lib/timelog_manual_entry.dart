@@ -336,16 +336,27 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                           String totTime = hour + ":" + min + ":" + "00";
                           String k = widget.userId;
 
-                          String endT = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
-                          String startT = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + " " + startTime.hour.toString() + ":" + startTime.minute.toString() + ":" + "00";
+                          String endD = "";
+                          String endM = "";
+
+
+                          if (date.month.toString().length == 1)
+                            endM = "0" + date.month.toString();
+                          if (date.day.toString().length == 1)
+                            endD = "0" + date.day.toString();
+
+                          String endT = date.year.toString() + "-" + endM + "-" + endD + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
+                          String startT = date.year.toString() + "-" + endM + "-" + endD + " " + startTime.hour.toString() + ":" + startTime.minute.toString() + ":" + "00";
                           if (endTime.hour - startTime.hour - subHour >= 0) {
                             print("We can push to database");
 
                             dbRef.push().set({
                               'ActivityID': null,
+                              //need to be YYYY-MM-DD
                               'EndTime': endT,
                               'LogDate': logdate,
                               'Notes': note,
+                              //need to be YYYY-MM-DD
                               'StartTime': startT,
                               'TotalTime': totTime,
                               'UserID': k
