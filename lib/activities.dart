@@ -7,11 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activitiesResults.dart';
 import 'package:testing_app/activityPage.dart';
+import 'package:testing_app/user.dart';
 import 'dialog.dart';
 
+
+/// ACTIVITIES CLASS
+/// * Description: this class displays the activity categories, recent activity and lets users search for activities
+/// * Functions: handleCategoryClicked
+/// **/
 class activities extends StatefulWidget {
   final String activityName;
-  activities({this.activityName});
+  user userInfo;
+
+  activities({this.activityName, this.userInfo});
   @override
   _activitiesState createState() => _activitiesState();
 }
@@ -19,38 +27,30 @@ class activities extends StatefulWidget {
 class _activitiesState extends State<activities> {
   final dbRef = FirebaseDatabase.instance.reference().child("Categories");
   var dbRefUser = FirebaseDatabase.instance.reference().child("ParentUsers");
-  // var dbRefUser = firebase.database().ref("ParentUsers");
-  // var user1 = dbRefUser.child("1");
   List<Map<dynamic, dynamic>> lists = [];
   final catArray = ["One", "Two", "Three", "Four"];
-
-  //Adding:
-  //final activitiesData data = activitiesData(categoryName: 'test', activityNames: ["test1", "test2"]);
   List<String> activitesArray = [];
 
   get activityName => this.activityName;
+
+  /// Function: handleCategoryClicked
+  /// Description: creates an activities data object with all the activities related to that category
+  /// Params: index of the category selected **/
+  activitiesData handleCategoryClicked(index){
+    if (activitesArray != null) {
+      activitesArray.clear();
+    }
+    for(var i = 0; i < lists[index].length-1; i++){
+      activitesArray.add(lists[index]["Activity" + i.toString()]);
+    }
+    return activitiesData(categoryName: lists[index]["CategoryName"],  activityNames: activitesArray);
+  }
 
 
   @override
   Widget build(BuildContext context) {
     final _controllerSearchActivity = TextEditingController();
     _controllerSearchActivity.text = "Search for an activity...";
-    // if (this.activityName == null){
-    //   print("activity name is null");
-    // }
-    // else{
-    //   print("this is the activity name: " + activityName);
-    // }
-
-    // List<Map<dynamic, dynamic>> lists2 = [];
-    // print("this is the info from dbRef: " + dbRefUser.child("ActivityName").toString());
-    // dbRefUser.once().then((DataSnapshot snapshot){
-    //   Map<dynamic, dynamic> values = snapshot.value;
-    //   values.forEach((key,values) {
-    //     lists2.add(values);
-    //   });
-    // });
-    // print("THIS IS THE VALUE OF ACTIVITYNAME FOR USER: " + lists2[][].toString());
 
     return Scaffold(
         appBar: AppBar(
@@ -59,7 +59,6 @@ class _activitiesState extends State<activities> {
           backgroundColor: Colors.orange[900],
           centerTitle: true,
         ),
-        //body: Text("activites")
         body: FutureBuilder(
             future: dbRef.once(),
             builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
@@ -69,11 +68,6 @@ class _activitiesState extends State<activities> {
                 values.forEach((key, value) {
                   lists.add(value);
                 });
-                lists.forEach((activity) {
-                  print("activity: " + activity.toString());
-                  print("CategoryName: " + activity['CategoryName'].toString());
-                });
-                print("lists: " + lists.toString());
 
                 return SingleChildScrollView(
                     child: new Column(
@@ -81,10 +75,6 @@ class _activitiesState extends State<activities> {
                         new Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                           child: TextField(
-                            // onChanged: (text){
-                            //   //on change of value
-                            //   // print("Search Text: ${_controllerSearchActivity.text}");
-                            // },
                             controller: _controllerSearchActivity,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
@@ -97,20 +87,6 @@ class _activitiesState extends State<activities> {
                                 onPressed: _controllerSearchActivity.clear,
                                 icon: Icon(Icons.search_rounded),
                               ),
-                              // suffixIcon: IconButton(
-                              //   // onPressed: _controllerSearchActivity.clear,
-                              //   onPressed: (){
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //                 activitiesResults(
-                              //                   data: _controllerSearchActivity,
-                              //                 )));
-                              //   },
-                              //   icon: Icon(Icons.search_outlined),
-                              // ),
-                              //contentPadding: EdgeInsets.all(20.0),
                               hintText: _controllerSearchActivity.text,
                               hintStyle: TextStyle(color: Colors.orange[900]),
                             ),
@@ -126,21 +102,37 @@ class _activitiesState extends State<activities> {
                                   fontSize: 20)),
                         ),
                         Padding(
-                            padding: EdgeInsets.all(15),
-                            child: new Container(
-                              height: 100,
-                              width: 400,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.orange[900],
-                                  width: 4,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Center(
-                                child: Text("No Recent Activity", style: TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w600)),
-                              ),
-                            ),
+                          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                          child: new Container(
+                              child: Material(
+                                  child: InkWell(
+                                      onTap: () {
+                                        if(widget.userInfo.recentActivity!="default: none so far") {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      activityPage(
+                                                          activityName: widget
+                                                              .userInfo
+                                                              .recentActivity,
+                                                          userInfo: widget
+                                                              .userInfo
+                                                      )
+                                              ));
+                                        }
+                                      },
+                                      child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5.0),
+                                              side: BorderSide(
+                                                  width: 3,
+                                                  color: Colors.orange[900])),
+                                          child: Center(
+                                              child: Padding(padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 30.0),
+                                                      child: Text(widget.userInfo.recentActivity=="default: none so far" ? "No Recent Activity" : widget.userInfo.recentActivity,
+                                                          style: TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w600))),
+                                          ))))
+                          )
                         ),
                         new Container(
                           padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -165,23 +157,14 @@ class _activitiesState extends State<activities> {
                                   child: Material(
                                     child: InkWell(
                                         onTap: () {
-                                            print(lists[index]["CategoryName"] + "tapped!!");
-                                            if (activitesArray != null) {
-                                              activitesArray.clear();
-                                              print("This is the activities array cleared:");
-                                              print(activitesArray);
-                                            }
-                                            for(var i = 0; i < lists[index].length-1; i++){
-                                              print("== activity:" + lists[index]["Activity" + i.toString()]);
-                                              activitesArray.add(lists[index]["Activity" + i.toString()]);
-                                            }
-                                            final activitiesData data = activitiesData(categoryName: lists[index]["CategoryName"],  activityNames: activitesArray);
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        activitiesResults(
-                                                          data: data,
-                                                        )));
+                                            final activitiesData data = handleCategoryClicked(index);
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                              builder:
+                                                  (context) => activitiesResults(data: data, userInfo: widget.userInfo),
+                                            ),
+                                            ).then((_) {
+                                              setState(() { });
+                                            });
                                     },
                                     child: Card(
                                       shape: RoundedRectangleBorder(

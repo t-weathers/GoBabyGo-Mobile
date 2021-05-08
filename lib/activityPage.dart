@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
+import 'package:testing_app/user.dart';
 import 'timelog.dart';
 
 String formatTime(int milliseconds){
@@ -18,7 +19,8 @@ String formatTime(int milliseconds){
 class activityPage extends StatefulWidget{
 
   final String activityName;
-  activityPage( { this.activityName } );
+  user userInfo;
+  activityPage( { this.activityName, this.userInfo } );
 
   @override
   _activityPage createState() => _activityPage();
@@ -39,11 +41,15 @@ class _activityPage extends State<activityPage> {
 
   @override
   void initState() {
+
+    print("activity to push: " + widget.activityName);
+    widget.userInfo.setRecentActivity(widget.activityName);
+
     super.initState();
   }
 
   void pushRecentActivity(){
-    print("activity to push: " + widget.activityName);
+    print("this will eventual start the timer");
   }
 
 

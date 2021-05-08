@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return timelog(gsi: googleSignIn, userInfo: currUser);
         break;
       case 2:
-        return activities();
+        return activities(userInfo: currUser);
         break;
       case 3:
         return faq();
