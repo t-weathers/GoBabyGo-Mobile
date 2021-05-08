@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activitiesResults.dart';
+import 'package:testing_app/activitiesSearchResults.dart';
 import 'package:testing_app/activityPage.dart';
 import 'package:testing_app/user.dart';
 import 'dialog.dart';
@@ -13,7 +14,7 @@ import 'dialog.dart';
 
 /// ACTIVITIES CLASS
 /// * Description: this class displays the activity categories, recent activity and lets users search for activities
-/// * Functions: handleCategoryClicked
+/// * Functions: handleCategoryClicked, getAllActivities, filterSearchTerms
 /// **/
 class activities extends StatefulWidget {
   final String activityName;
@@ -25,13 +26,54 @@ class activities extends StatefulWidget {
 }
 
 class _activitiesState extends State<activities> {
+
   final dbRef = FirebaseDatabase.instance.reference().child("Categories");
   var dbRefUser = FirebaseDatabase.instance.reference().child("ParentUsers");
+  final dbRefAct = FirebaseDatabase.instance.reference().child("Activities");
   List<Map<dynamic, dynamic>> lists = [];
   final catArray = ["One", "Two", "Three", "Four"];
   List<String> activitesArray = [];
 
+  TextEditingController _filter = TextEditingController(); // controls the text label we use as a search bar
+  List activities = new List(); //activities we get from database as a result
+
   get activityName => this.activityName;
+
+
+  @override
+  void initState(){
+    getAllActivities();
+    super.initState();
+  }
+
+  /// Function: getAllActivities
+  /// Description: calls firebase for all activity names to be searched. Called in initialize state
+  /// Params: none **/
+  Future <void> getAllActivities() async {
+    // Get all the time log associated with that user
+    DataSnapshot allActivitiesData = await dbRefAct.once();
+    Map<dynamic, dynamic> activityValues = allActivitiesData.value;
+    List tempList = new List();
+
+    //add each activity name to the list
+    activityValues.forEach((key, value) {
+      tempList.add(value["ActivityName"]);
+    });
+
+    setState(() {
+      activities = tempList; // set activities equal to the list of names
+    });
+  }
+
+  /// Function: filterSearchTerms
+  /// Description: returns a list of activities that contain the string the user entered
+  /// Params: String filter **/
+  List filterSearchTerms(filter){
+    if(filter != null && filter.isNotEmpty){
+      return activities.where((term) => term.toLowerCase().contains(filter.toLowerCase())).toList();
+    }
+    return [];
+  }
 
   /// Function: handleCategoryClicked
   /// Description: creates an activities data object with all the activities related to that category
@@ -46,11 +88,17 @@ class _activitiesState extends State<activities> {
     return activitiesData(categoryName: lists[index]["CategoryName"],  activityNames: activitesArray);
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _filter.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final _controllerSearchActivity = TextEditingController();
-    _controllerSearchActivity.text = "Search for an activity...";
 
     return Scaffold(
         appBar: AppBar(
@@ -75,7 +123,7 @@ class _activitiesState extends State<activities> {
                         new Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
                           child: TextField(
-                            controller: _controllerSearchActivity,
+                            controller: _filter,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
                               border: new OutlineInputBorder(
@@ -84,10 +132,21 @@ class _activitiesState extends State<activities> {
                                 ),
                               ),
                               suffixIcon: IconButton(
-                                onPressed: _controllerSearchActivity.clear,
+                                onPressed: () {
+                                  if(_filter.text.isNotEmpty){
+                                  List searchResults = filterSearchTerms(_filter.text);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder:
+                                        (context) => activitiesSearchResults(activities: searchResults, userInfo: widget.userInfo),
+                                  ),
+                                  ).then((_) {
+                                    setState(() { });
+                                  });}
+                                  },
                                 icon: Icon(Icons.search_rounded),
+                                padding: EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
                               ),
-                              hintText: _controllerSearchActivity.text,
+                              hintText: "Search Activities...",
                               hintStyle: TextStyle(color: Colors.orange[900]),
                             ),
                           ),
