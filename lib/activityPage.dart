@@ -29,27 +29,56 @@ class activityPage extends StatefulWidget{
 
 class _activityPage extends State<activityPage> {
 
-  final stepsArray = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
-  List<Map<dynamic, dynamic>> lists = [];
+  List stepsArray = []; // will eventually contain Strings of keys for every step
+  List imagesArray = []; // will eventually contain Strings of keys for every image
+  List<Map<dynamic, dynamic>> activityContentList = [];
+  List<Map<dynamic, dynamic>> activityInfoList = [];
   final dbRef = FirebaseDatabase.instance.reference().child("Activities");
   int stepsIndex;
   int stepLen = 0;
-  int imageNum = 0;
+  int imageNum = 0; //contains the number of images
+  String disclaimerMsg, description;
   Future myFuture;
-      // .orderByChild("ActivityName")
-      // .equalTo(activityName);
 
   @override
   void initState() {
-
-    print("activity to push: " + widget.activityName);
     widget.userInfo.setRecentActivity(widget.activityName);
-
     super.initState();
-  }
 
-  void pushRecentActivity(){
-    print("this will eventual start the timer");
+    /// Gets disclaimer message and pops up disclaimer message
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      DataSnapshot data = await dbRef.orderByChild("ActivityName").equalTo(widget.activityName).once();
+
+      activityInfoList.clear();
+      Map<dynamic, dynamic> values = data.value;
+      values.forEach((key, value){
+        activityInfoList.add(value);
+      });
+      description = activityInfoList[0]["Description"];
+      if(activityInfoList[0]["Disclaimer"] != null && activityInfoList[0]["Disclaimer"] != ""){
+        disclaimerMsg = activityInfoList[0]["Disclaimer"];
+      }
+      else{
+        disclaimerMsg = "No disclaimer message for this activity.";
+      }
+
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => new AlertDialog(
+          title: new Text("Disclaimer"),
+          content: new Text(disclaimerMsg),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    });
+
   }
 
 
@@ -61,57 +90,36 @@ class _activityPage extends State<activityPage> {
           backgroundColor: Colors.orange[900],
           centerTitle: true,
         ),
-        bottomNavigationBar: Container(
-          height: 150,
-          color: Colors.grey[300],
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 5, 0),
-                  child: Text("00:00:00", style: TextStyle(fontSize: 35.0)),)
-              ),
-              Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 30, 0),
-                    child: SizedBox(
-                      width: 100.0,
-                      height: 50.0,
-                      child: ElevatedButton(
-                          onPressed: () { pushRecentActivity(); },
-                          child: Text('START TIME', style: TextStyle(fontSize: 15.0))),
-                    ),
-              )
-              )
-            ],
-          )
-        ),
         body: FutureBuilder(
             future: dbRef.orderByChild("ActivityName").equalTo(widget.activityName).once(),
             builder: (context, AsyncSnapshot<DataSnapshot> snapshot){
+
             if (snapshot.hasData){
-              lists.clear();
+              activityContentList.clear();
               Map<dynamic, dynamic> values = snapshot.data.value;
               values.forEach((key, values){
-                lists.add(values);
+                activityContentList.add(values);
               });
-              //print("== snapshot " + snapshot.toString());
-              //print("== lists " + lists.toString());
 
-              if(lists[0]["Steps"] != null){
-                //print("entered steps if statement");
-                stepLen = lists[0]["Steps"].length;
+              //populate stepsArray and figure out how many steps there are
+              if(activityContentList[0]["Steps"] != null){
+                stepLen = activityContentList[0]["Steps"].length;
+                activityContentList[0]["Steps"].forEach((key, value){
+                  stepsArray.add(key);
+                });
               }
-              if(lists[0]["Images"] != null){
-                print("entered images if statement");
 
-                if(lists[0]["Images"]["One"] == "Nothing to show here"){
-                  imageNum=0;
-                }
-                else{
-                  imageNum = lists[0]["Images"].length;
-                }
-
+              //figure out if there are any images to display and if so, how many
+              if(activityContentList[0]["Images"] != null){
+                activityContentList[0]["Images"].forEach((key, value) {
+                  imagesArray.add(key);
+                  if(value.toLowerCase() == "nothing to show here" || value.toLowerCase() == "nothing to see here"){
+                    imageNum = 0;
+                  }
+                  else{
+                    imageNum++;
+                  }
+                });
               }
               return
                 SingleChildScrollView(
@@ -121,7 +129,7 @@ class _activityPage extends State<activityPage> {
                       SizedBox(height: 10),
                       Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                          child: Text(lists[0]["Description"],
+                          child: Text(activityContentList[0]["Description"],
                               style: TextStyle(fontFamily: 'Montserrat', fontSize: 15, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic))
                       ),
                       Divider(
@@ -137,7 +145,7 @@ class _activityPage extends State<activityPage> {
                                     child: Text("Step " + (stepsIndex + 1).toString(), style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, fontWeight: FontWeight.w700))
                                 ),
                                 SizedBox(height: 10),
-                                Text(lists[0]["Steps"][stepsArray[stepsIndex]])
+                                Text(activityContentList[0]["Steps"][stepsArray[stepsIndex]])
                               ],
                             )
                         ),
@@ -146,7 +154,7 @@ class _activityPage extends State<activityPage> {
                         Container(
                           child: Padding(
                               padding: EdgeInsets.all(30),
-                              child: Image.network(lists[0]["Images"][stepsArray[imageIndex]].toString(),fit: BoxFit.cover,
+                              child: Image.network(activityContentList[0]["Images"][imagesArray[imageIndex]].toString(),fit: BoxFit.cover,
                             loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Center(
