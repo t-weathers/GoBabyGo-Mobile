@@ -20,30 +20,13 @@ class MyHomePage extends StatefulWidget {
   final GoogleSignIn signIn;
   final String parentsName;
   final String childsName;
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  //final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-  //_MyTimeLogPageState.createState() => _MyyTimeLogPageState();
 }
 
-//first page on login
-//class _MyTimeLogPageState extends State<MyHomePage> {
 class _MyHomePageState extends State<MyHomePage> {
-  //final GoogleSignIn googleSI;
 
-  //@override
-  //_MyHomePageState({Key key, @required this.googleSI}) : super(key: key);
-  //String googleSignIn;
   GoogleSignInAccount googleSignIn;
   user currUser;
   GoogleSignIn sign;
@@ -67,28 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
   TextStyle connectStyle =
   TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 16);
 
-  // int _currentIndex = 0;
-  // void onTappedBar(int index){
-  //   setState((){
-  //     _currentIndex = index;
-  //   });
-  // }
-  // Widget getPage(int ind){
-  //   switch (ind){
-  //     case 0:
-  //       return profile(gsi: googleSignIn, signIn: sign, parent: parentsName, child: childsName);
-  //       break;
-  //     case 1:
-  //       return timelog(gsi: googleSignIn, userInfo: currUser);
-  //       break;
-  //     case 2:
-  //       return activities(userInfo: currUser);
-  //       break;
-  //     case 3:
-  //       return faq();
-  //       break;
-  //   }
-  // }
   List<Widget> _buildScreens() {
     return [
       profile(gsi: googleSignIn, signIn: sign, parent: parentsName, child: childsName),
@@ -104,25 +65,25 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: new Icon(MyFlutterApp.user),
         title: "Profile",
         activeColorPrimary: Colors.orange[900],
-        inactiveColorPrimary: Colors.grey[350],
+        inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.future),
         title: ("Time Log"),
         activeColorPrimary: Colors.orange[900],
-        inactiveColorPrimary: Colors.grey[350],
+        inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.steering_wheel),
         title: ("Activities"),
         activeColorPrimary: Colors.orange[900],
-        inactiveColorPrimary: Colors.grey[350],
+        inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.information),
         title: ("FAQ"),
         activeColorPrimary: Colors.orange[900],
-        inactiveColorPrimary: Colors.grey[350],
+        inactiveColorPrimary: Colors.grey[600],
       ),
     ];
   }
@@ -159,70 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
     );
   }
-
-  //   return Scaffold(
-  //    // appBar: AppBar(
-  //      // title: Text('Profile'),
-  //       //backgroundColor: Colors.grey,
-  //       //centerTitle: true,
-  //     //),
-  //
-  //     body: getPage(_currentIndex),
-  //     bottomNavigationBar: BottomNavigationBar(
-  //       //backgroundColor: Colors.grey,
-  //       onTap: onTappedBar,
-  //       currentIndex: _currentIndex,
-  //       items: [
-  //         BottomNavigationBarItem(
-  //           icon: new Icon(MyFlutterApp.user),
-  //           label: "Profile",
-  //          // backgroundColor: Colors.orange[900],
-  //           backgroundColor: Colors.grey[350],
-  //           // backgroundColor: Colors.grey[600],
-  //           //label: 'Profile',
-  //          /// icon: Icon(MyFlutterApp.user),
-  //         //  icon: IconButton({
-  //          //   icon: Icon(MyFlutterApp.user),
-  //            // onPressed: NULL,
-  //           //}),
-  //   ),
-  // //  BottomNavigationBarItem(
-  // //  label:'Forum',
-  // //  icon: Icon(MyFlutterApp.chat),
-  //
-  //  // ),
-  //   BottomNavigationBarItem(
-  //   label:'Time Log',
-  //   icon: Icon(MyFlutterApp.future),
-  //     //backgroundColor: Colors.orange[900],
-  //     backgroundColor: Colors.grey[350],
-  //     // backgroundColor: Colors.grey[600],
-  //   ),
-  //   BottomNavigationBarItem(
-  //   label: 'Activities',
-  //   icon: Icon(MyFlutterApp.steering_wheel),
-  //    // backgroundColor: Colors.orange[900],
-  //     backgroundColor: Colors.grey[350],
-  //     // backgroundColor: Colors.grey[600],
-  //   ),
-  //   BottomNavigationBarItem(
-  //   label: 'FAQ',
-  //   icon: Icon(MyFlutterApp.information),
-  //    // backgroundColor: Colors.orange[900],
-  //     backgroundColor: Colors.grey[350],
-  //    // backgroundColor: Colors.grey[600],
-  //   ),
-  //
-  //
-  //
-  //   ],
-  //   selectedItemColor: Colors.orange[900],
-  //
-  //
-  //
-  //   ),
-  //   );
   }
