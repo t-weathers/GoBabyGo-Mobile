@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:testing_app/home.dart';
+import 'package:testing_app/main.dart';
 
 class profile extends StatefulWidget{
   profile({Key key, this.gsi, this.signIn, this.parent, this.child}) : super(key: key);
@@ -16,6 +17,7 @@ class profile extends StatefulWidget{
   final parent;
   @override
   _profileState createState() => _profileState();
+
 }
 
 class _profileState extends State<profile>{
@@ -23,6 +25,8 @@ class _profileState extends State<profile>{
   String entryKey;
   String childName, parentName;
   List<Map<dynamic, dynamic>> lists = [];
+
+
 
 
 
@@ -40,8 +44,14 @@ class _profileState extends State<profile>{
       //_googleSignIn.disconnect();
       print("logging out");
      // _googleSignIn.signOut();
+     // return new LoginPage();
+      Future.delayed(Duration.zero, () {
+        print("trying to go back to login page");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),),);
+      });
 
-      return new MyHomePage();
+     // Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext) => MyHomePage()));
+     // return new MyHomePage();
     }
     Future <void> populateInfo() async {
       DataSnapshot data = await dbRef.orderByChild('Email').equalTo(
