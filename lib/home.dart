@@ -5,6 +5,7 @@ import 'package:testing_app/activities.dart';
 import 'package:testing_app/faq.dart';
 import 'package:testing_app/profile.dart';
 import 'package:testing_app/timelog.dart';
+import 'package:testing_app/main.dart';
 import 'package:testing_app/forum.dart';
 import 'package:testing_app/user.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     currUser.populateInfo(googleSignIn.email);
     super.initState();
+    ContextKeeper().init(context);
   }
 
   TextStyle style =
