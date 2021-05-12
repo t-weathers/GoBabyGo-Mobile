@@ -87,54 +87,64 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
 
   Future _editNote(hint,index) async{
-
+    BuildContext dialogContext;
     await showDialog(
       context: context,
-        child: new SimpleDialog(
-          title: ListTile(
-            title: const Text("EDIT NOTE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15)),
+        builder: (BuildContext context)
+    {
+      dialogContext = context;
+      return SimpleDialog(
+        title: ListTile(
+          title: const Text("EDIT NOTE", style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15)),
+        ),
+        titlePadding: EdgeInsets.fromLTRB(5.0, 5.0, 45.0, 0.0),
+        contentPadding: EdgeInsets.fromLTRB(70.0, 0.0, 60.0, 0.0),
+        children: <Widget>[
+          SizedBox(
+              height: 60,
+
+              child: new TextField(
+                controller: _c,
+                autofocus: true,
+                decoration: new InputDecoration(
+                  hintText: hint,
+                ),
+              )
           ),
-          titlePadding: EdgeInsets.fromLTRB(5.0, 5.0, 45.0, 0.0),
-          contentPadding: EdgeInsets.fromLTRB(70.0, 0.0, 60.0, 0.0),
-          children: <Widget>[
-            SizedBox(
-                height: 100,
+          SizedBox(
+            height: 25,
+            child: ElevatedButton(
+              onPressed: () {
+                print(_c.text);
+                TimeLogEntry newT = new TimeLogEntry(
+                    timelogEntries[index].EndTime,
+                    timelogEntries[index].StartTime, timelogEntries[index].date,
+                    _c.text.toString(), timelogEntries[index].UserId,
+                    timelogEntries[index].totalTime);
+                newT.key = timelogEntries[index].key;
+                _updateTimeLogEntry(newT);
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Save', style: TextStyle(fontSize: 20.0)),),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 25,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Cancel', style: TextStyle(fontSize: 20.0)),),
 
-                child: new TextField(
-                  controller: _c,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    hintText: hint,
-                  ),
-                )
-            ),
-            SizedBox(
-              height: 10,
-              child: ElevatedButton(
-                onPressed: () {
-                  print(_c.text);
-                  TimeLogEntry newT = new TimeLogEntry(timelogEntries[index].EndTime, timelogEntries[index].StartTime, timelogEntries[index].date, _c.text.toString(), timelogEntries[index].UserId, timelogEntries[index].totalTime);
-                  newT.key = timelogEntries[index].key;
-                  _updateTimeLogEntry(newT);
-                  Navigator.pop(context, true);
-                },
-                child: Text('Save', style: TextStyle(fontSize: 10.0)),),
-            ),
-            SizedBox(
-              height: 10,
-              child: ElevatedButton(
-                onPressed: ()
-                {
-                  Navigator.pop(context, true);
-                },
-                child: Text('Cancel', style: TextStyle(fontSize: 10.0)),),
-
-            ),
-            SizedBox(height: 20),
-          ],
-        )
+          ),
+          SizedBox(height: 20),
+        ],
+      );
+    },
     );
-
     //update data with _c.text
 
   }
@@ -168,13 +178,18 @@ class _weeklyProgressState extends State<weeklyProgress>{
           String notes = timelogEntries[index].notes;
           String userid = timelogEntries[index].UserId;
           String totalTime = timelogEntries[index].totalTime;
+          DateTime logDate = DateTime.parse(StartTime);
+          String logdateString = logDate.month.toString() + "/" + logDate.day.toString() + "/" + logDate.year.toString();
+
+
+          //DateTime datenew = DateTime.parse(EndTime);
           return Card(
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Column(
                   children: <Widget>[
+                    Text("Date: " + logdateString, style: TextStyle(fontWeight: FontWeight.bold),),
                     Text("Time Length: " + totalTime),
-                    Text("Date: " + date),
                     IconButton(
                       icon: const Icon(Icons.note_add),
                       tooltip: 'Edit Note',

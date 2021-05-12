@@ -127,9 +127,7 @@ class _LoginGoogle extends State<LoginGoogle>{
       splashColor: Colors.grey,
       color: Colors.orange[900],
       onPressed: () {
-        //TODO: //add validation
-        //add validation, 
-        //submit form,
+        //add validation,
         //push to next create acct page
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();

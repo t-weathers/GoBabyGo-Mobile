@@ -164,10 +164,12 @@ class _timelogState extends State<timelog>{
     String todaysDate = dateToday.month.toString()+dateToday.day.toString()+dateToday.year.toString();
 
     stopTime = new DateTime.now();
-
+    BuildContext dialogContext;
     await showDialog(
         context: context,
-        child: new SimpleDialog(
+        builder: (BuildContext context){
+          dialogContext = context;
+        return SimpleDialog(
           title: ListTile(
               title: const Text("TIME SAVED", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25)),
               trailing: Icon(
@@ -183,12 +185,13 @@ class _timelogState extends State<timelog>{
             SizedBox(
                 height: 40,
                 child: ElevatedButton(
-                        onPressed: () => Navigator.pop(context, true),
+                        onPressed: () => Navigator.pop(dialogContext, true),
                         child: Text('Continue', style: TextStyle(fontSize: 20.0)),),
             ),
             SizedBox(height: 30),
           ],
-        ));
+        );
+        });
 
 
     //add new timelog entry to the database
