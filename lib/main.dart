@@ -34,6 +34,14 @@ Future<Album> fetchAlbum() async {
   }
 }
 
+class ContextKeeper{
+  static BuildContext buildContext;
+  void init(BuildContext context){
+    buildContext = context;
+  }
+}
+
+
 class Album {
   final String data;
 
@@ -78,6 +86,7 @@ class MyApp extends StatelessWidget {
       home: LoginPage(title: 'Go Baby Go'),
       routes: <String, WidgetBuilder> {
         '/MyHomePage': (BuildContext context) => MyHomePage(),
+        '/login': (BuildContext context) => LoginPage(),
         
     },
     );

@@ -15,12 +15,15 @@ class profile extends StatefulWidget{
   final GoogleSignIn signIn;
   final child;
   final parent;
+
   @override
   _profileState createState() => _profileState();
+
 
 }
 
 class _profileState extends State<profile>{
+
   final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
   String entryKey;
   String childName, parentName;
@@ -37,6 +40,7 @@ class _profileState extends State<profile>{
 
   Widget build(BuildContext context) {
 
+
     Future <void> _signOut() async {
       Navigator.of(context).pop();
       await FirebaseAuth.instance.signOut();
@@ -45,10 +49,17 @@ class _profileState extends State<profile>{
       print("logging out");
      // _googleSignIn.signOut();
      // return new LoginPage();
+
       Future.delayed(Duration.zero, () {
-        print("trying to go back to login page");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),),);
+        Navigator.pushNamedAndRemoveUntil(ContextKeeper.buildContext, '/login', (_) => false);
+
+       // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),),);
       });
+       // print("trying to go back to login page");
+        //WidgetsBinding.instance.addPostFrameCallback((_) {Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())); });
+    //  new LoginPage();
+
+
 
      // Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext) => MyHomePage()));
      // return new MyHomePage();
