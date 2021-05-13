@@ -68,6 +68,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
     _onTimeLogAddedSubscription = _timelogRef.onChildAdded.listen(_onTimeLogEntryAdded);
     _onTimeLogChangedSubscription = _timelogRef.onChildChanged.listen(_onEntryChanged);
+    _sortTimeLogEntries();
   }
 
   @override
@@ -75,6 +76,13 @@ class _weeklyProgressState extends State<weeklyProgress>{
     _onTimeLogAddedSubscription.cancel();
     _onTimeLogChangedSubscription.cancel();
     super.dispose();
+  }
+
+  _sortTimeLogEntries(){
+    //so long as the list is not empty, sort it in reverse order
+    if (timelogEntries.isNotEmpty) {
+      timelogEntries.sort((a, b) => b.StartTime.compareTo(a.StartTime));
+    }
   }
 
 
@@ -87,54 +95,64 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
 
   Future _editNote(hint,index) async{
-
+    BuildContext dialogContext;
     await showDialog(
       context: context,
-        child: new SimpleDialog(
-          title: ListTile(
-            title: const Text("EDIT NOTE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15)),
+        builder: (BuildContext context)
+    {
+      dialogContext = context;
+      return SimpleDialog(
+        title: ListTile(
+          title: const Text("EDIT NOTE", style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15)),
+        ),
+        titlePadding: EdgeInsets.fromLTRB(5.0, 5.0, 45.0, 0.0),
+        contentPadding: EdgeInsets.fromLTRB(70.0, 0.0, 60.0, 0.0),
+        children: <Widget>[
+          SizedBox(
+              height: 60,
+
+              child: new TextField(
+                controller: _c,
+                autofocus: true,
+                decoration: new InputDecoration(
+                  hintText: hint,
+                ),
+              )
           ),
-          titlePadding: EdgeInsets.fromLTRB(5.0, 5.0, 45.0, 0.0),
-          contentPadding: EdgeInsets.fromLTRB(70.0, 0.0, 60.0, 0.0),
-          children: <Widget>[
-            SizedBox(
-                height: 100,
+          SizedBox(
+            height: 25,
+            child: ElevatedButton(
+              onPressed: () {
+                print(_c.text);
+                TimeLogEntry newT = new TimeLogEntry(
+                    timelogEntries[index].EndTime,
+                    timelogEntries[index].StartTime, timelogEntries[index].date,
+                    _c.text.toString(), timelogEntries[index].UserId,
+                    timelogEntries[index].totalTime);
+                newT.key = timelogEntries[index].key;
+                _updateTimeLogEntry(newT);
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Save', style: TextStyle(fontSize: 20.0)),),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 25,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: Text('Cancel', style: TextStyle(fontSize: 20.0)),),
 
-                child: new TextField(
-                  controller: _c,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    hintText: hint,
-                  ),
-                )
-            ),
-            SizedBox(
-              height: 10,
-              child: ElevatedButton(
-                onPressed: () {
-                  print(_c.text);
-                  TimeLogEntry newT = new TimeLogEntry(timelogEntries[index].EndTime, timelogEntries[index].StartTime, timelogEntries[index].date, _c.text.toString(), timelogEntries[index].UserId, timelogEntries[index].totalTime);
-                  newT.key = timelogEntries[index].key;
-                  _updateTimeLogEntry(newT);
-                  Navigator.pop(context, true);
-                },
-                child: Text('Save', style: TextStyle(fontSize: 10.0)),),
-            ),
-            SizedBox(
-              height: 10,
-              child: ElevatedButton(
-                onPressed: ()
-                {
-                  Navigator.pop(context, true);
-                },
-                child: Text('Cancel', style: TextStyle(fontSize: 10.0)),),
-
-            ),
-            SizedBox(height: 20),
-          ],
-        )
+          ),
+          SizedBox(height: 20),
+        ],
+      );
+    },
     );
-
     //update data with _c.text
 
   }
@@ -146,12 +164,14 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
     setState(() {
       timelogEntries[timelogEntries.indexOf(oldEntry)] = TimeLogEntry.fromSnapshot(event.snapshot);
+      _sortTimeLogEntries();
     });
   }
 
   _onTimeLogEntryAdded(Event event) {
     setState(() {
       timelogEntries.add(TimeLogEntry.fromSnapshot(event.snapshot));
+      _sortTimeLogEntries();
     });
   }
 
@@ -161,35 +181,67 @@ class _weeklyProgressState extends State<weeklyProgress>{
         shrinkWrap: true,
         itemCount: timelogEntries.length,
         itemBuilder: (BuildContext context, int index){
-          String id = timelogEntries[index].key;
-          String EndTime = timelogEntries[index].EndTime;
+          //String id = timelogEntries[index].key;
+          //String EndTime = timelogEntries[index].EndTime;
           String StartTime = timelogEntries[index].StartTime;
-          String date = timelogEntries[index].date;
+          //String date = timelogEntries[index].date;
           String notes = timelogEntries[index].notes;
-          String userid = timelogEntries[index].UserId;
+          //String userid = timelogEntries[index].UserId;
           String totalTime = timelogEntries[index].totalTime;
+          DateTime logDate = DateTime.parse(StartTime);
+          String logdateString = logDate.month.toString() + "/" + logDate.day.toString() + "/" + logDate.year.toString();
+
+
+          //DateTime datenew = DateTime.parse(EndTime);
           return Card(
               child: Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Time Length: " + totalTime),
-                    Text("Date: " + date),
-                    IconButton(
-                      icon: const Icon(Icons.note_add),
-                      tooltip: 'Edit Note',
-                      color: Colors.orange[900],
-                      iconSize: 34.0,
-                      onPressed: (){
-                        //when the icon is pressed
-                        print("pressed edit note " + index.toString());
-                        //update the timelog note
-                        _editNote(timelogEntries[index].notes,index);
-                        print("back to updateTimeLogEntry");
-                        _updateTimeLogEntry(timelogEntries[index]);
-                      },
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child:Text(
+                            logdateString,
+
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        Text(
+                              totalTime
+                        ),
+                      ],
                     ),
-                    Text("Notes: " + notes),
+
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child:Container(
+                            width: 250,
+                            child:Text("Notes: " + notes),
+                          ),
+                        ),
+
+                       IconButton(
+                        icon: const Icon(Icons.note_add),
+                        tooltip: 'Edit Note',
+                        color: Colors.orange[900],
+                        iconSize: 34.0,
+                        onPressed: (){
+                          //when the icon is pressed
+                          print("pressed edit note " + index.toString());
+                          //update the timelog note
+                          _editNote(timelogEntries[index].notes,index);
+                          print("back to updateTimeLogEntry");
+                          _updateTimeLogEntry(timelogEntries[index]);
+                          },
+                        ),
+                      ]
+                    ),
                     //Text("Notes: " + lists[index]["Notes"]),
                   ],
                 ),
