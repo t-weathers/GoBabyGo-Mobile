@@ -291,7 +291,7 @@ class _timelogState extends State<timelog>{
                       ),
                       new RaisedButton(
                           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black, width: 1.5),),
-                          child: new Text("WEEKLY PROGRESS"),
+                          child: new Text(" TIMELOGS "),
                           onPressed: () {
                             //navigate to new page here
                             //print("weekly progress pressed");
