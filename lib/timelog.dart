@@ -87,7 +87,7 @@ class _timelogState extends State<timelog>{
   DateTime startTime;
   DateTime stopTime;
 
-
+  /// called when page is created
   @override
   void initState() {
     getUsersTimelogs();
@@ -127,6 +127,7 @@ class _timelogState extends State<timelog>{
     totalRecordedTime = calculateTimeThisWeek(weeklyRecordedTime);
   }
 
+  /// clean up
   @override
   void dispose(){
     _timer.cancel();

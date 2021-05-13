@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(-5.0),
+        borderRadius: BorderRadius.circular(-1.0),
         colorBehindNavBar: Colors.grey[200],
       ),
       popAllScreensOnTapOfSelectedTab: true,
