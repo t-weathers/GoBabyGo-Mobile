@@ -18,8 +18,6 @@ class profile extends StatefulWidget{
 
   @override
   _profileState createState() => _profileState();
-
-
 }
 
 class _profileState extends State<profile>{
@@ -29,18 +27,12 @@ class _profileState extends State<profile>{
   String childName, parentName;
   List<Map<dynamic, dynamic>> lists = [];
 
-
-
-
-
   @override
   TextEditingController _controllerParentName;
   TextEditingController _controllerChildName;
   TextEditingController _controllerEmail;
 
   Widget build(BuildContext context) {
-
-
     Future <void> _signOut() async {
       Navigator.of(context).pop();
       await FirebaseAuth.instance.signOut();
@@ -58,8 +50,6 @@ class _profileState extends State<profile>{
        // print("trying to go back to login page");
         //WidgetsBinding.instance.addPostFrameCallback((_) {Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())); });
     //  new LoginPage();
-
-
 
      // Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext) => MyHomePage()));
      // return new MyHomePage();
@@ -100,8 +90,6 @@ class _profileState extends State<profile>{
       parentName = lists[0][entryKey]['FirstName'];
       print(parentName);
       print(childName);
-
-
     }
     populateInfo();
 
@@ -185,7 +173,13 @@ class _profileState extends State<profile>{
                         ),
                       ),
                     ),
-                    RaisedButton(
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 30.0,
+                      // children: <Widget>[
+                      //   Padding(
+                      //     padding: const EdgeInsets.all(10),
+                        child: RaisedButton(
                       splashColor: Colors.grey,
                       color: Colors.orange[900],
                       onPressed: () {
@@ -207,7 +201,7 @@ class _profileState extends State<profile>{
                               child: Text(
                                 'Save',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   color: Colors.white,
                                 ),
                               ),
@@ -216,8 +210,12 @@ class _profileState extends State<profile>{
                         ),
                       ),
                     ),
-                    SizedBox(height:10.0),
-                    RaisedButton(
+                    ),
+                    SizedBox(height:30.0),
+                      ButtonTheme(
+                        minWidth: 150.0,
+                        height: 30.0,
+                        child: RaisedButton(
                       splashColor: Colors.grey,
                       color: Colors.grey,
                       onPressed: () {
@@ -239,7 +237,7 @@ class _profileState extends State<profile>{
                               child: Text(
                                 'Sign Out',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   color: Colors.white,
                                 ),
                               ),
@@ -248,6 +246,7 @@ class _profileState extends State<profile>{
                         ),
                       ),
                     ),
+        ),
                   ],
                 )
             )

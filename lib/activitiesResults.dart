@@ -8,6 +8,11 @@ import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/activityPage.dart';
 import 'package:testing_app/user.dart';
 
+/// ACTIVITIES RESULTS CLASS
+/// * Description: this class displays the activities returned from a category selection on activities.dart
+/// * Functions: none
+/// **/
+
 class activitiesResults extends StatelessWidget{
 
   final activitiesData data;
@@ -23,6 +28,7 @@ class activitiesResults extends StatelessWidget{
           backgroundColor: Colors.orange[900],
           centerTitle: true,
       ),
+        //allows the page to be scrolled
         body: new SingleChildScrollView(
         child: new Column(
           children: [
@@ -31,6 +37,7 @@ class activitiesResults extends StatelessWidget{
               alignment: Alignment(-1.0, 1.0),
               child: new Text("Select an activity", style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold, fontSize: 18)),
             ),
+            //displays all of the activities in a listview
             ListView.builder(
               padding: const EdgeInsets.all(8),
               shrinkWrap: true,
@@ -42,14 +49,14 @@ class activitiesResults extends StatelessWidget{
                         side: BorderSide(width: 3, color: Colors.orange[900])),
                   child: InkWell(
                     onTap: (){
-                      print("This is the activity that got tapped on: " + '${data.activityNames[index]}');
-                      Text("This is the activity that got tapped on: " + '${data.activityNames[index]}');
+                      //after an activity has been selected, push the activity to the activityPage along with the user's information
                       Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
                           activityName: this.data.activityNames[index],
                           userInfo: userInfo
                       )
                       ));
                     },
+                      //a single activity
                     child: ListTile(
                       title: Text('${data.activityNames[index]}', style: TextStyle(fontFamily: 'Montserrat', fontSize: 15)),
                     )

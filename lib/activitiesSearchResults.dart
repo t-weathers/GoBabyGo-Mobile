@@ -42,8 +42,6 @@ class activitiesSearchResults extends StatelessWidget {
                           side: BorderSide(width: 3, color: Colors.orange[900])),
                       child: InkWell(
                           onTap: (){
-                            print("This is the activity that got tapped on: " + '${activities[index]}');
-                            Text("This is the activity that got tapped on: " + '${activities[index]}');
                             Navigator.push(context, MaterialPageRoute(builder: (context) => activityPage(
                                 activityName: activities[index],
                                 userInfo: userInfo

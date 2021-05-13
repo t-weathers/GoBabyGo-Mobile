@@ -1,18 +1,18 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:testing_app/activities.dart';
 import 'package:testing_app/faq.dart';
 import 'package:testing_app/profile.dart';
 import 'package:testing_app/timelog.dart';
 import 'package:testing_app/main.dart';
-import 'package:testing_app/forum.dart';
 import 'package:testing_app/user.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 import 'my_flutter_app_icons.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+/// MYHOMEPAGE CLASS
+/// * Description: this class displays the navigation bar and controls navigation to screens
+/// * Functions: N/A
+/// **/
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.gsi, this.signIn, this.parentsName, this.childsName}) : super(key: key);
@@ -45,13 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ContextKeeper().init(context);
   }
 
-  TextStyle style =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.white, fontSize: 20.0);
-  TextStyle style1 =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 36.0);
-  TextStyle connectStyle =
-  TextStyle(fontFamily: 'Montserrat', color: Colors.black, fontSize: 16);
-
+  //List of screens passed in with screen pertinent information -- Profile, Time Log, Activities, FAQ
   List<Widget> _buildScreens() {
     return [
       profile(gsi: googleSignIn, signIn: sign, parent: parentsName, child: childsName),
@@ -61,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
+  //list of navbar items and their styling -- Profile, Time Log, Activities, FAQ
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
@@ -90,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
+  //code taken from https://pub.dev/packages/persistent_bottom_nav_bar -- no changes made
   @override
   Widget build(BuildContext context) {
     PersistentTabController _controller;
@@ -108,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
+        borderRadius: BorderRadius.circular(-5.0),
+        colorBehindNavBar: Colors.grey[200],
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
