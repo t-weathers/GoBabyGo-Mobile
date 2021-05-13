@@ -68,6 +68,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
     _onTimeLogAddedSubscription = _timelogRef.onChildAdded.listen(_onTimeLogEntryAdded);
     _onTimeLogChangedSubscription = _timelogRef.onChildChanged.listen(_onEntryChanged);
+    _sortTimeLogEntries();
   }
 
   @override
@@ -75,6 +76,13 @@ class _weeklyProgressState extends State<weeklyProgress>{
     _onTimeLogAddedSubscription.cancel();
     _onTimeLogChangedSubscription.cancel();
     super.dispose();
+  }
+
+  _sortTimeLogEntries(){
+    //so long as the list is not empty, sort it in reverse order
+    if (timelogEntries.isNotEmpty) {
+      timelogEntries.sort((a, b) => b.StartTime.compareTo(a.StartTime));
+    }
   }
 
 
@@ -156,12 +164,14 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
     setState(() {
       timelogEntries[timelogEntries.indexOf(oldEntry)] = TimeLogEntry.fromSnapshot(event.snapshot);
+      _sortTimeLogEntries();
     });
   }
 
   _onTimeLogEntryAdded(Event event) {
     setState(() {
       timelogEntries.add(TimeLogEntry.fromSnapshot(event.snapshot));
+      _sortTimeLogEntries();
     });
   }
 
