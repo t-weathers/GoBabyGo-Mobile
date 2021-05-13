@@ -171,12 +171,12 @@ class _weeklyProgressState extends State<weeklyProgress>{
         shrinkWrap: true,
         itemCount: timelogEntries.length,
         itemBuilder: (BuildContext context, int index){
-          String id = timelogEntries[index].key;
-          String EndTime = timelogEntries[index].EndTime;
+          //String id = timelogEntries[index].key;
+          //String EndTime = timelogEntries[index].EndTime;
           String StartTime = timelogEntries[index].StartTime;
-          String date = timelogEntries[index].date;
+          //String date = timelogEntries[index].date;
           String notes = timelogEntries[index].notes;
-          String userid = timelogEntries[index].UserId;
+          //String userid = timelogEntries[index].UserId;
           String totalTime = timelogEntries[index].totalTime;
           DateTime logDate = DateTime.parse(StartTime);
           String logdateString = logDate.month.toString() + "/" + logDate.day.toString() + "/" + logDate.year.toString();
@@ -185,26 +185,53 @@ class _weeklyProgressState extends State<weeklyProgress>{
           //DateTime datenew = DateTime.parse(EndTime);
           return Card(
               child: Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Date: " + logdateString, style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text("Time Length: " + totalTime),
-                    IconButton(
-                      icon: const Icon(Icons.note_add),
-                      tooltip: 'Edit Note',
-                      color: Colors.orange[900],
-                      iconSize: 34.0,
-                      onPressed: (){
-                        //when the icon is pressed
-                        print("pressed edit note " + index.toString());
-                        //update the timelog note
-                        _editNote(timelogEntries[index].notes,index);
-                        print("back to updateTimeLogEntry");
-                        _updateTimeLogEntry(timelogEntries[index]);
-                      },
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child:Text(
+                            logdateString,
+
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        Text(
+                              totalTime
+                        ),
+                      ],
                     ),
-                    Text("Notes: " + notes),
+
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child:Container(
+                            width: 250,
+                            child:Text("Notes: " + notes),
+                          ),
+                        ),
+
+                       IconButton(
+                        icon: const Icon(Icons.note_add),
+                        tooltip: 'Edit Note',
+                        color: Colors.orange[900],
+                        iconSize: 34.0,
+                        onPressed: (){
+                          //when the icon is pressed
+                          print("pressed edit note " + index.toString());
+                          //update the timelog note
+                          _editNote(timelogEntries[index].notes,index);
+                          print("back to updateTimeLogEntry");
+                          _updateTimeLogEntry(timelogEntries[index]);
+                          },
+                        ),
+                      ]
+                    ),
                     //Text("Notes: " + lists[index]["Notes"]),
                   ],
                 ),

@@ -256,7 +256,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildAppleButton(){
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if (isIOS){
-      return _signInAppleButton();
+      //return _signInAppleButton();
+      //TODO implement sign in with Apple Button
+      return SizedBox(height:30);
     }
     else{
       return SizedBox(height:30);
