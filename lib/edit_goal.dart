@@ -71,32 +71,39 @@ class _editGoalState extends State<editGoal>{
   }
 
   Future _notifyGoalSet() async {
+    BuildContext dialogContext;
     await showDialog(
         context: context,
         /*it shows a popup with few options which you can select, for option we
         created enums which we can use with switch statement, in this first switch
         will wait for the user to select the option which it can use with switch cases*/
-        child: new SimpleDialog(
-          title: ListTile(
-            title: const Text("WEEKLY GOAL SET", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20)),
-            trailing: Icon(
-                Icons.check,
-                color: Colors.orange[900],
-                size: 33.0),
-          ),
-          titlePadding: EdgeInsets.fromLTRB(27.0, 30.0, 27.0, 0.0),
-          contentPadding: EdgeInsets.fromLTRB(70.0, 10.0, 60.0, 0.0),
-          children: <Widget>[
-            //SizedBox(height: 30),
-            SizedBox(
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text('Continue', style: TextStyle(fontSize: 20.0)),),
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return SimpleDialog(
+            title: ListTile(
+              title: const Text("WEEKLY GOAL SET", style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 20)),
+              trailing: Icon(
+                  Icons.check,
+                  color: Colors.orange[900],
+                  size: 33.0),
             ),
-            SizedBox(height: 30),
-          ],
-        ));
+            titlePadding: EdgeInsets.fromLTRB(27.0, 30.0, 27.0, 0.0),
+            contentPadding: EdgeInsets.fromLTRB(70.0, 10.0, 60.0, 0.0),
+            children: <Widget>[
+              //SizedBox(height: 30),
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(dialogContext, true),
+                  child: Text('Continue', style: TextStyle(fontSize: 20.0)),),
+              ),
+              SizedBox(height: 30),
+            ],
+          );
+        });
   }
 
   // Set the users weekly goal here

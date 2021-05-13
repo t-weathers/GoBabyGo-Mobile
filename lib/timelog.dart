@@ -271,7 +271,9 @@ class _timelogState extends State<timelog>{
                 _progresssBar(widget.userInfo.weeklyGoal, totalRecordedTime),
                 ButtonBar(
                     mainAxisSize: MainAxisSize.min,
+
                     children: <Widget>[
+
                       new RaisedButton(
                         color: Colors.white,
                         textColor: Colors.black,
