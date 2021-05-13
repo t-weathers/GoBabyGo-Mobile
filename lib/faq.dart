@@ -18,10 +18,8 @@ class faq extends StatefulWidget{
 /// Functions: **/
 class _faqState extends State<faq>{
 
-  //final dbRef = FirebaseDatabase.instance.reference().child("faqCategories");
   List<Map<dynamic, dynamic>> faqInfoList = [];
   dialog myDialog = new dialog();
-  //final catArray = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen"];
   List keyArray = [];
 
   @override

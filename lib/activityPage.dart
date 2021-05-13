@@ -7,15 +7,18 @@ import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/user.dart';
 import 'timelog.dart';
 
-String formatTime(int milliseconds){
+/*String formatTime(int milliseconds){
   var secs = milliseconds ~/ 1000;
   var hours = (secs ~/ 3600).toString().padLeft(2, '0');
   var minutes = ((secs % 3600) ~/ 60).toString().padLeft(2, '0');
   var seconds = (secs % 60).toString().padLeft(2, '0');
   return "$hours:$minutes:$seconds";
-}
+}*/
 
-
+/// ACTIVITIES PAGE CLASS
+/// * Description: Displays a specific activity. Displays it's description, disclaimer, steps, photos, and name
+/// * Functions: none
+/// **/
 class activityPage extends StatefulWidget{
 
   final String activityName;
@@ -40,6 +43,7 @@ class _activityPage extends State<activityPage> {
   String disclaimerMsg, description;
   Future myFuture;
 
+  /// when page is created - show disclaimer message.
   @override
   void initState() {
     widget.userInfo.setRecentActivity(widget.activityName);

@@ -39,7 +39,7 @@ class _activitiesState extends State<activities> {
 
   get activityName => this.activityName;
 
-
+  /// initialize state
   @override
   void initState(){
     getAllActivities();
@@ -88,6 +88,7 @@ class _activitiesState extends State<activities> {
     return activitiesData(categoryName: lists[index]["CategoryName"],  activityNames: activitesArray);
   }
 
+  /// clean up
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
