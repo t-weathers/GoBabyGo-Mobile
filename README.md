@@ -9,6 +9,11 @@ The rest of the code can be compiled and ran in android studio or xcode once API
 
 ## Organization ##
 Different screens of the app are found in the lib/ directory as ".dart" files. These files are all developed in flutter and make up the structure of the application. 
+* lib/ : the main screens of the app, as ".dart" files
+* assets/ : images, fonts, and assets for the application
+* android/ : android configuration files
+* IOS/ : IOS configuration files
+* Build/ : general app configuration and build files
 
 ## Background ##
 GoBabyGo is a nonprofit who helps provide alternative powered mobility devices (in the form of modified toy ride-on-cars) to children with disabilities. This app aims to We aim to improve the communication and socialization between members and families involved with GoBabyGo and provide a central organized location of information for GoBabyGo with the development of an IOS mobile application. An IOS mobile application will allow clinicians, administrators, therapists, families, and prospective researchers to access the larger GoBabyGo community for improved use of the modified ride-on-cars, improved interaction among families and clinicians, and easily accessible information and research. This could include ideas from clinicians and other families to improve consistent use of the vehicles, ideas to improve use of the modified ride-on-cars in difficult environments, and many more.
