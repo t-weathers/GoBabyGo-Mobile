@@ -22,6 +22,7 @@ class profile extends StatefulWidget{
 
 class _profileState extends State<profile>{
 
+  //grab a reference to the database under the target ParentUsers
   final dbRef = FirebaseDatabase.instance.reference().child("ParentUsers");
   String entryKey;
   String childName, parentName;
@@ -102,6 +103,7 @@ class _profileState extends State<profile>{
     print(parentName);
     print(childName);
     print("here!!");
+    //grab all the info associated with a user through widget.
     final _controllerParentName = TextEditingController();
     _controllerParentName.text = widget.parent;
     final _controllerChildName = TextEditingController();
@@ -110,6 +112,11 @@ class _profileState extends State<profile>{
     _controllerEmail.text = widget.gsi.email;
 
 
+    /*
+    build the UI for the profile page. This page consists of a field with the users name and child name
+    in addition to the option to save. The user can edit and change these fields and have them pushed
+    to the database.
+     */
     return new Scaffold(
         appBar: AppBar(
 

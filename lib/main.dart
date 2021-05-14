@@ -131,6 +131,11 @@ class _LoginPageState extends State<LoginPage> {
   GoogleSignInAccount _googleSignInAccount;
 
 
+  /*login using google and firebase authentication
+  wrapped in try block.
+  push to database IF the user has not yet authenticated with go baby gor
+  return the authenticated google authenticated user
+   */
   Future<String> login() async {
     try {
     //  print("here");
@@ -170,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
       DataSnapshot data = await dbRef.orderByChild('Email').equalTo(_googleSignInAccount.email).once();
       if (data.value == null){
        // String newKey = data.value.keys[0];
-        print("this is a new entry!");
+       // print("this is a new entry!");
         dbRef.push().set({
           'ChildFirstName': 'default:none',
           'Email': _googleSignInAccount.email,
@@ -266,6 +271,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
+  /*build the display.
+  the login is simple, only consisting of a sing in with google option
+  AND a sign in with apple button only if the target device is iOS.
+  Signing in with google is available on iOS and android.
+   */
   @override
   Widget build(BuildContext context) {
 
@@ -383,42 +393,6 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'Sign in with Apple',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey[600],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _createAccountButton(){
-    return RaisedButton(
-      splashColor: Colors.grey,
-      color: Colors.white,
-      onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateAccount1()),
-          );
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      
-      
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                'Create Account',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey[600],

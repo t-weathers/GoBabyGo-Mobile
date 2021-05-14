@@ -14,7 +14,10 @@ class faq extends StatefulWidget{
 }
 
 /// FAQ CLASS
-/// Description:
+/// Description:The FAQ page uses future builder to dynamically pull all FAQs from firebase.
+/// By dynamically grabbing these, we populated the UI with text boxes that are generated from
+/// firebase. When the text box is clicked, an alert dialog shows up, indicating the answer to the FAQ.
+/// Then, the user must click OK to return from dialog box.
 /// Functions: **/
 class _faqState extends State<faq>{
 

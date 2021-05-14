@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
+/*constructor, the only thing that must be passed in is the userID. THis way, we can ensure we push the correct
+user id to the database when they click a manual save entry.
+ */
 class timelogManualEntry extends StatefulWidget{
   timelogManualEntry({Key key, this.userId}) : super(key: key);
   final String userId;
@@ -12,13 +15,24 @@ class timelogManualEntry extends StatefulWidget{
   _timeLogManualEntryState createState() => _timeLogManualEntryState();
 }
 
+/*
+Description: Using built in flutter objects showDatePicker and showTimePicker, display to the user
+the option to pick a date, start time, and end time for a manual entry. If any of these fields are populated,
+a small diagram pops up below the buttons using the visibility tag. From here, the user can elect to save the
+manual time entry, pushing it to the database. There are a few checks in this code: firstly, the start time, end time, and date
+MUST be populated in order to be pushed to the database. Secondly, the total time must not be negative. If these conditions
+hold true, the entry is pushed to the database and a confirmation message appears.
+Functions:handleSaved(), pickDate(), pickTime()
+ */
 class _timeLogManualEntryState extends State<timelogManualEntry>{
 
 
+  //variables to store the return of showDatePicker and showTimePicker
   TimeOfDay startTime = null;
   TimeOfDay endTime = null;
   DateTime date = null;
 
+  //variables to store string representations of dates and times
   String dateString = "";
   String startString = "";
   String endString = "";
@@ -26,25 +40,14 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
   String note = null;
 
 
-  /* Widget build(BuildContext context) => RaisedButton(
-      child: Text(widget.userId),
-      onPressed: () async{
-        final selectedDate = await pickDate(context);
-        if (selectedDate == null) return;
 
-
-        print(selectedDate);
-
-        final selectedStart = await pickTime(context);
-        print(selectedStart);
-
-      });
-*/
+  //generate pop up for choosing a date
   Future <DateTime> pickDate(BuildContext context) => showDatePicker(
     context: context, initialDate: DateTime.now().add(Duration(seconds: 1)), firstDate: DateTime(2021), lastDate: DateTime.now(),
 
   );
 
+  //generate pop up for choosing a time
   Future <TimeOfDay> pickTime(BuildContext context){
     final now = DateTime.now();
     return showTimePicker(context: context, initialTime: TimeOfDay(hour: now.hour, minute: now.minute),
@@ -52,6 +55,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
   }
 
+  //push to the database IF conditions hold true
   Future handleSaved() async{
     BuildContext dialogContext;
     await showDialog(
@@ -93,8 +97,12 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
   @override
   TextEditingController _notes;
   Widget build(BuildContext context) {
+    //variable to store what the user inputs into the notes field
     final _notes = TextEditingController();
     _notes.text = note;
+    //generates the UI for the page. There are four main buttons, 3 of which are used to populate
+    //1 button used to save. There are a few vbisiblity tags to only show the dates and times IF they have
+    //been selected by the user
     return new Scaffold(
         appBar: AppBar(
           title: Text('Time Log', style: TextStyle(color: Colors.white, fontSize:24)),
@@ -321,6 +329,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                               String logdate = date.month.toString()+date.day.toString() + date.year.toString();
                               int totTimeMinute = 0;
                               int subHour = 0;
+                              //generate number of total minutes
                               if (endTime.minute>= startTime.minute)
                                 totTimeMinute = endTime.minute - startTime.minute;
                               else {
@@ -329,6 +338,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                                 subHour = 1;
                               }
 
+                              //manually construct minutes string
                               String hour = (endTime.hour - startTime.hour - subHour).toString();
                               if (hour.length == 1)
                                 hour = "0" + hour;
@@ -343,7 +353,8 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                               String endD = "";
                               String endM = "";
 
-
+                              //add extra 0 to ensure that single months and days are still pushed
+                              //to the database with 2 digits
                               if (date.month.toString().length == 1)
                                 endM = "0" + date.month.toString();
                               if (date.day.toString().length == 1)
@@ -351,6 +362,8 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
                               String endT = date.year.toString() + "-" + endM + "-" + endD + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
                               String startT = date.year.toString() + "-" + endM + "-" + endD + " " + startTime.hour.toString() + ":" + startTime.minute.toString() + ":" + "00";
+                              //check that we can push to the database.
+                              //using our manually generated strings for each of the fields
                               if (endTime.hour - startTime.hour - subHour >= 0) {
                                 print("We can push to database");
 

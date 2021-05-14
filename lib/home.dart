@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GoogleSignIn sign;
   String childsName;
   String parentsName;
+  //grab all the information associated with an authenticated user. Store in variables accessible within home.dart
   void initState(){
     googleSignIn = widget.gsi;
     sign = widget.signIn;
