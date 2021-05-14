@@ -27,7 +27,6 @@ GoBabyGo is a nonprofit who helps provide alternative powered mobility devices (
 
 ## Technical Specifications ##
 * Flutter for Front-end
-* GCP for cloud hosting
 * Firebase for datastore
 
 ## TroubleShooting ##
