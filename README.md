@@ -1,5 +1,6 @@
 # GoBabyGo-Mobile #
 OSU Capstone Go Baby Go mobile app
+Evie May, Aishwarya Vellanki, Thomas Weathers, Christien Hotchkiss, Nicholas Van Domelen
 estimated completion: June 2021
 
 to start running the API run:
