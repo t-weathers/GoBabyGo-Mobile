@@ -33,5 +33,10 @@ Please add an [Issue](https://github.com/t-weathers/GoBabyGo-Mobile/issues) for 
 * Firebase for datastore
 
 ## TroubleShooting ##
-* "flutter clean"
-* "flutter pub get"
+* For issues where packages dont seem to be appearing when they have been already imported, run "flutter clean" then "flutter pub get"
+
+## Authors and Acknowledgements ##
+GoBabyGo Oregon is the founder of this project, under the developmental guidance of the Oregon State University 2020/2021 Computer Science Capstone course(s). Software Contributors include: Aishwarya Vellanki, Evie May, Christien Hotchkiss, Nicholas Van Domelen, and Thomas Weathers
+
+## Project Status ##
+This project is on temporary hold as the capstone course is being completed, before it is transferred to a new team for further development. Our next goal is to submit the application for use on the Apple Store and Google Play Store. 
