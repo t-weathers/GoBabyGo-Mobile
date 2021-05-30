@@ -26,7 +26,7 @@ Different screens of the app are found in the lib/ directory as ".dart" files. T
 * Build/ : general app configuration and build files
 
 ## Support ##
-Please add an [Issue](https://github.com/t-weathers/GoBabyGo-Mobile/issues) for bugs that you experience using the application. For further questions about the application, please contact us at [gobabygoapp@gmail.com](gobabygoapp@gmail.com). 
+Please add an [Issue](https://github.com/t-weathers/GoBabyGo-Mobile/issues) for bugs that you experience using the application. For further questions about the application, please contact us at [gobabygoapp@gmail.com](mailto:gobabygoapp@gmail.com). 
 
 ## Technical Specifications ##
 * Flutter for Front-end
