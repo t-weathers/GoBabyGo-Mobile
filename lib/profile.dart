@@ -39,7 +39,7 @@ class _profileState extends State<profile>{
       await FirebaseAuth.instance.signOut();
       widget.signIn.disconnect();
       //_googleSignIn.disconnect();
-      print("logging out");
+
      // _googleSignIn.signOut();
      // return new LoginPage();
 
@@ -48,7 +48,7 @@ class _profileState extends State<profile>{
 
        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),),);
       });
-       // print("trying to go back to login page");
+
         //WidgetsBinding.instance.addPostFrameCallback((_) {Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())); });
     //  new LoginPage();
 
@@ -64,45 +64,28 @@ class _profileState extends State<profile>{
       lists.clear();
       values.forEach((key, value){
         lists.add(values);
-       // print(key);
+
         entryKey = key;
-        //print(value);
+
 
       //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
       //  parentName = dbRef.child(key).child("FirstName").toString();
         
       });
-      //print(data.value.toString().);
-     // print("printing lists!");
-     // print(lists);
 
-      //print(childName);
-      //print(parentName);
 
-     // return childName;
-    //  print("lists!!");
-     // print(lists[0][entryKey]['ChildFirstName']);
-     // print(childName);
-     // print(parentName);
-      print("lists!");
-      print(lists);
+
 
       childName = lists[0][entryKey]['ChildFirstName'];
       parentName = lists[0][entryKey]['FirstName'];
-      print(parentName);
-      print(childName);
+
     }
     populateInfo();
 
-    Timer(Duration(seconds:3), () {
-      print('timer over');
-    });
+
    // childName = lists[0][entryKey]['ChildFirstName'];
    // parentName = lists[0][entryKey]['FirstName'];
-    print("here!");
-    print(parentName);
-    print(childName);
-    print("here!!");
+
     //grab all the info associated with a user through widget.
     final _controllerParentName = TextEditingController();
     _controllerParentName.text = widget.parent;
@@ -136,7 +119,7 @@ class _profileState extends State<profile>{
                       child: TextField(
                         onChanged: (text){
                           //on change of value
-                          print("ParentName Text: ${_controllerParentName.text}");
+
                         },
                         controller: _controllerParentName,
                         textAlign: TextAlign.left,
@@ -161,7 +144,7 @@ class _profileState extends State<profile>{
                       child: TextField(
                         onChanged: (text){
                           //on change of value
-                          print("ChildName Text: ${_controllerChildName.text}");
+
                         },
                         controller: _controllerChildName,
                         textAlign: TextAlign.left,

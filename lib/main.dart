@@ -138,44 +138,40 @@ class _LoginPageState extends State<LoginPage> {
    */
   Future<String> login() async {
     try {
-    //  print("here");
+
 
       _googleSignInAccount = await _googleSignIn
           .signIn();
-     // print("here!");
+
       if (_googleSignInAccount == null){
-        print('Google Signin ERROR! user: null');
+
         return null;
       }
 
       final GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount
           .authentication;
-      //print("here!!");
+
       final AuthCredential credential = GoogleAuthProvider.getCredential
         (idToken: _googleSignInAuthentication.idToken,
           accessToken: _googleSignInAuthentication.accessToken);
-      //print("here!!!");
+
       final AuthResult authResult = await _auth.signInWithCredential(
           credential);
-      //print("here!!!!");
-      final FirebaseUser _user = authResult.user;
-      //print("here!!!!!");
 
-    //  print('here!!');
+      final FirebaseUser _user = authResult.user;
+
       assert(!_user.isAnonymous);
       assert(await _user.getIdToken() != null);
-      //print("here!!!!!!");
-      //print('here!!!');
+
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(_user.uid == currentUser.uid);
-      //print("here!!!!!!!");
-      //print("Signing in with google: $_user");
+
 
       //right here I want to push to the realtime database with Default Child as default, Default Parent Name, Email Address
       DataSnapshot data = await dbRef.orderByChild('Email').equalTo(_googleSignInAccount.email).once();
       if (data.value == null){
        // String newKey = data.value.keys[0];
-       // print("this is a new entry!");
+
         dbRef.push().set({
           'ChildFirstName': 'default:none',
           'Email': _googleSignInAccount.email,
@@ -185,9 +181,7 @@ class _LoginPageState extends State<LoginPage> {
           'WeeklyGoal': 150
         });
       }
-      else{
-        print("this entry exists in database");
-      }
+
 
       //start here
       DataSnapshot data1 = await dbRef.orderByChild('Email').equalTo(
@@ -198,17 +192,15 @@ class _LoginPageState extends State<LoginPage> {
       lists.clear();
       values.forEach((key, value){
         lists.add(values);
-        // print(key);
+
         entryKey = key;
-        //print(value);
+
 
         //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
         //  parentName = dbRef.child(key).child("FirstName").toString();
 
       });
-      //print(data.value.toString().);
-      // print("printing lists!");
-      // print(lists);
+
 
 
 
@@ -217,37 +209,12 @@ class _LoginPageState extends State<LoginPage> {
       parentName = lists[0][entryKey]['FirstName'];
 
 
-
-      //end here
-     /* DataSnapshot data = await dbRef.child("1").once();
-      if (data.value == null){
-        print("does not exist, create!");
-        dbRef.child(_googleSignInAccount.email).set({
-          'ChildFirstName': 'default:none_test',
-          'Email': _googleSignInAccount.email,
-          'FirstName': _googleSignInAccount.displayName,
-          'LastName': 'default: none',
-          'RecentActivity': 'default: none so far',
-          'WeeklyGoal': 150
-        });
-      }*/
-
-
-     /* dbRef.push().set({
-        'ChildFirstName': 'default:none',
-        'Email': _googleSignInAccount.email,
-        'FirstName': _googleSignInAccount.displayName,
-        'LastName': 'default: none',
-        'RecentActivity': 'default: none so far',
-        'WeeklyGoal': 150
-      });*/
       setState(() {
         _isLoggedIn = true;
       });
       return 'signInWithGoogle succeeded: $_user';
 
 
-      //print("Here");
 
 
   }
@@ -318,11 +285,8 @@ class _LoginPageState extends State<LoginPage> {
          if (_isLoggedIn == true){
            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),),);
          }
-         else{
-           print("invalid login attempt");
-         }
-        // print("Here");
-         //print("CurrentUsersEmail: $_user");
+
+
         // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
         // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
 

@@ -133,8 +133,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                             }
 
 
-                            print(date);
-                            print(dateString);
+
 
 
 
@@ -170,7 +169,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                             if (st!=null){
                               startTime = st;
                               startString = startTime.hour.toString() + ":" + startTime.minute.toString();
-                              print(startString);
+
 
                               if (date != null && startTime != null && endTime != null){
                                 int totTimeMinute = 0;
@@ -197,7 +196,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
                               setState(() { });
                             }
-                            print(startTime);
+
 
                           },
                           child: Text("Start Time", style: TextStyle(fontSize: 20.0))),
@@ -256,7 +255,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
 
                               setState(() { });
                             }
-                            print(endTime);
+
 
                           },
                           child: Text("End Time", style: TextStyle(fontSize: 20.0))),
@@ -284,7 +283,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                         onChanged: (text){
                           //on change of value
                           note = _notes.text;
-                          print("ParentName Text: ${_notes.text}");
+
                         },
                         controller: _notes,
                         textAlign: TextAlign.left,
@@ -357,15 +356,20 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
                               //to the database with 2 digits
                               if (date.month.toString().length == 1)
                                 endM = "0" + date.month.toString();
+                              else
+                                endM = date.month.toString();
+
                               if (date.day.toString().length == 1)
                                 endD = "0" + date.day.toString();
+                              else
+                                endD = date.day.toString();
 
                               String endT = date.year.toString() + "-" + endM + "-" + endD + " " + endTime.hour.toString() + ":" + endTime.minute.toString() + ":" + "00";
                               String startT = date.year.toString() + "-" + endM + "-" + endD + " " + startTime.hour.toString() + ":" + startTime.minute.toString() + ":" + "00";
                               //check that we can push to the database.
                               //using our manually generated strings for each of the fields
                               if (endTime.hour - startTime.hour - subHour >= 0) {
-                                print("We can push to database");
+
 
                                 dbRef.push().set({
                                   'ActivityID': null,
