@@ -12,6 +12,11 @@ GoBabyGo is a nonprofit who helps provide alternative powered mobility devices (
 * Time tracking capability with a stopwatch or by logging time manually for consistent/improved use of modified ride-on-cars
 * Educational content for more productive and fun use of the modified ride-on-cars
 
+<p align="center">
+  <img src="videoPreview.gif" alt="animated" />
+</p>
+
+
 ## Installation ##
 This Application is currently only available to run on your local machine using a virtual simulator
 
