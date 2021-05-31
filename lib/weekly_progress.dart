@@ -10,6 +10,11 @@ import 'package:testing_app/timelog.dart';
 import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 
+
+/// TimeLogEntry CLASS
+/// * Description: stores info about each TimeLog Entry pulled from database
+/// * Functions: Constructor, .fromSnapshot, toJson
+/// **/
 class TimeLogEntry{
   String key;
   String EndTime;
@@ -21,6 +26,7 @@ class TimeLogEntry{
 
   TimeLogEntry(this.EndTime,this.StartTime,this.date,this.notes,this.UserId,this.totalTime);
 
+  //populate fields from snapshot
   TimeLogEntry.fromSnapshot(DataSnapshot snapshot)  :
     key = snapshot.key,
     EndTime = snapshot.value["EndTime"],
@@ -30,6 +36,7 @@ class TimeLogEntry{
     UserId = snapshot.value["UserID"],
     totalTime = snapshot.value["TotalTime"];
 
+  //convert to JSON
   toJson() {
     return {
       "EndTime": EndTime,
@@ -64,13 +71,16 @@ class _weeklyProgressState extends State<weeklyProgress>{
   void initState() {
     super.initState();
     _c = new TextEditingController();
+    //create a reference to the timelog of the specific user
     _timelogRef = timelogRef.reference().child("TimeLogs").orderByChild("UserID").equalTo(widget.userInfo.userId);
 
+    //create subscriptions to be called when added or change
     _onTimeLogAddedSubscription = _timelogRef.onChildAdded.listen(_onTimeLogEntryAdded);
     _onTimeLogChangedSubscription = _timelogRef.onChildChanged.listen(_onEntryChanged);
     _sortTimeLogEntries();
   }
 
+  //dispose function to cancel subscriptions on end of page
   @override
   void dispose() {
     _onTimeLogAddedSubscription.cancel();
@@ -78,6 +88,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
     super.dispose();
   }
 
+  //sort entries by date to appear in chronological order (newest to oldest)
   _sortTimeLogEntries(){
     //so long as the list is not empty, sort it in reverse order
     if (timelogEntries.isNotEmpty) {
@@ -86,6 +97,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
   }
 
 
+  //update the timelog entry with the newest entry
   _updateTimeLogEntry(TimeLogEntry entry) {
     //Toggle completed
     if (entry != null) {
@@ -94,6 +106,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
   }
 
 
+  //edit the note of each timelog entry
   Future _editNote(hint,index) async{
     BuildContext dialogContext;
     await showDialog(
@@ -111,7 +124,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
         children: <Widget>[
           SizedBox(
               height: 60,
-
+              //new Text with the current note
               child: new TextField(
                 controller: _c,
                 autofocus: true,
@@ -125,6 +138,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
             child: ElevatedButton(
               onPressed: () {
                 print(_c.text);
+                //create a new timelog entry with controller value
                 TimeLogEntry newT = new TimeLogEntry(
                     timelogEntries[index].EndTime,
                     timelogEntries[index].StartTime, timelogEntries[index].date,
@@ -141,6 +155,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
           ),
           SizedBox(
             height: 25,
+            //cancel button
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pop(dialogContext);
@@ -157,24 +172,28 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
   }
 
+  //when an entry is changed, update from subscription
   _onEntryChanged(Event event) {
     var oldEntry = timelogEntries.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
 
+    //update values in array of timelogs
     setState(() {
       timelogEntries[timelogEntries.indexOf(oldEntry)] = TimeLogEntry.fromSnapshot(event.snapshot);
       _sortTimeLogEntries();
     });
   }
 
+  //subscription called, add to array of timelogs from database
   _onTimeLogEntryAdded(Event event) {
     setState(() {
       timelogEntries.add(TimeLogEntry.fromSnapshot(event.snapshot));
       _sortTimeLogEntries();
     });
   }
-
+  
+//display the list of timelog entries from database
   Widget _showEntries() {
     if (timelogEntries.length > 0){
       return ListView.builder(
@@ -193,6 +212,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
 
 
           //DateTime datenew = DateTime.parse(EndTime);
+          
           return Card(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -251,7 +271,7 @@ class _weeklyProgressState extends State<weeklyProgress>{
       );
     }
     else{
-      return Text("Try Adding some timelog entries");
+      return Text("Try Adding some timelog entries"); //if there are no timelog entries, display this text
     }
   }
 
