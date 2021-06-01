@@ -10,6 +10,7 @@ import 'package:testing_app/activitiesSearchResults.dart';
 import 'package:testing_app/activityPage.dart';
 import 'package:testing_app/user.dart';
 import 'dialog.dart';
+import 'constants.dart';
 
 
 /// ACTIVITIES CLASS
@@ -31,7 +32,6 @@ class _activitiesState extends State<activities> {
   var dbRefUser = FirebaseDatabase.instance.reference().child("ParentUsers");
   final dbRefAct = FirebaseDatabase.instance.reference().child("Activities");
   List<Map<dynamic, dynamic>> lists = [];
-  final catArray = ["One", "Two", "Three", "Four"];
   List<String> activitesArray = [];
 
   TextEditingController _filter = TextEditingController(); // controls the text label we use as a search bar
@@ -103,7 +103,7 @@ class _activitiesState extends State<activities> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Activities',
+          title: Text(activitiesPageTitle,
               style: TextStyle(color: Colors.white, fontSize: 24)),
           backgroundColor: Colors.orange[900],
           centerTitle: true,

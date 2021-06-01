@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'constants.dart';
 
 
 /*constructor, the only thing that must be passed in is the userID. THis way, we can ensure we push the correct
@@ -105,7 +106,7 @@ class _timeLogManualEntryState extends State<timelogManualEntry>{
     //been selected by the user
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Time Log', style: TextStyle(color: Colors.white, fontSize:24)),
+          title: Text(manualEntryPageTitle, style: TextStyle(color: Colors.white, fontSize:24)),
           backgroundColor: Colors.orange[900],
           centerTitle: true,
         ),

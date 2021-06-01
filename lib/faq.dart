@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:math' as math;
+import 'constants.dart';
 
 
 
@@ -30,7 +31,7 @@ class _faqState extends State<faq>{
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text('FAQ', style: TextStyle(color: Colors.white, fontSize:24)),
+        title: Text(faqPageTitle, style: TextStyle(color: Colors.white, fontSize:24)),
         backgroundColor: Colors.orange[900],
         centerTitle: true,
       ),

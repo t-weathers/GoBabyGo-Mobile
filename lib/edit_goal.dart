@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 import 'dart:math' as math;
+import 'constants.dart';
 
 import 'package:testing_app/weekly_progress.dart';
 
@@ -18,7 +19,6 @@ import 'package:testing_app/weekly_progress.dart';
 /// * handleDecreaseMin, _notifyGoalSet, setGoal
 /// **/
 class editGoal extends StatefulWidget{
-  //final userData user;
   user userInfo;
 
   editGoal({Key key, @required this.userInfo}) : super(key: key);
@@ -36,8 +36,6 @@ class _editGoalState extends State<editGoal>{
   void initState() {
     hour = (widget.userInfo.weeklyGoal/60).floor(); //this will eventually need to be calculated from the user's goal
     minute = widget.userInfo.weeklyGoal % 60;
-    print("userID: " + widget.userInfo.userId);
-    print("user weekly goal: " + widget.userInfo.weeklyGoal.toString());
     super.initState();
   }
 
@@ -126,7 +124,6 @@ class _editGoalState extends State<editGoal>{
   /// Params: none **/
   void setGoal(){
     int totalMin = (hour * 60) + minute;
-    print("user wants to set goal as: " + totalMin.toString());
     widget.userInfo.setWeeklyGoal(totalMin);
     _notifyGoalSet();
   }
@@ -135,9 +132,8 @@ class _editGoalState extends State<editGoal>{
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Edit Goal', style: TextStyle(color: Colors.white, fontSize:24)),
+          title: Text(editGoalPageTitle, style: TextStyle(color: Colors.white, fontSize:24)),
           backgroundColor: Colors.orange[900],
-          //automaticallyImplyLeading: false,
           centerTitle: true,
         ),
         body: Container(
@@ -187,7 +183,7 @@ class _editGoalState extends State<editGoal>{
                                 tooltip: 'Increase Hours',
                                 alignment: Alignment.center,
                                 onPressed: () {
-                                  print("button pressed");
+                                  //print("button pressed");
                                   handleIncreaseHour();
                                 },
                               ),
@@ -219,7 +215,6 @@ class _editGoalState extends State<editGoal>{
                               tooltip: 'Increase minutes',
                               alignment: Alignment.center,
                               onPressed: () {
-                                print("button pressed");
                                 handleIncreaseMin();
                               },
                             ),
@@ -231,7 +226,6 @@ class _editGoalState extends State<editGoal>{
                               tooltip: 'Decrease Minutes',
                               alignment: Alignment.center,
                               onPressed: () {
-                                print("button pressed");
                                 handleDecreaseMin();
                               },
                             ),
@@ -259,7 +253,6 @@ class _editGoalState extends State<editGoal>{
         borderRadius: BorderRadius.circular(12)
       ),
       padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-      //margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
       //width: 140,
       height: 100,
       child: Text(stringTime, style: TextStyle(fontSize: 40.0))

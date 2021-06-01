@@ -8,6 +8,7 @@ import 'package:testing_app/user.dart';
 import 'my_flutter_app_icons.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'constants.dart';
 
 /// MYHOMEPAGE CLASS
 /// * Description: this class displays the navigation bar and controls navigation to screens
@@ -61,25 +62,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: new Icon(MyFlutterApp.user),
-        title: "Profile",
+        title: profilePageTitle,
         activeColorPrimary: Colors.orange[900],
         inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.future),
-        title: ("Time Log"),
+        title: timeLogPageTitle,
         activeColorPrimary: Colors.orange[900],
         inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.steering_wheel),
-        title: ("Activities"),
+        title: activitiesPageTitle,
         activeColorPrimary: Colors.orange[900],
         inactiveColorPrimary: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MyFlutterApp.information),
-        title: ("FAQ"),
+        title: faqPageTitle,
         activeColorPrimary: Colors.orange[900],
         inactiveColorPrimary: Colors.grey[600],
       ),

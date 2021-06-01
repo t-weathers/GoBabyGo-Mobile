@@ -6,14 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:testing_app/activitiesData.dart';
 import 'package:testing_app/user.dart';
 import 'timelog.dart';
+import 'constants.dart';
 
-/*String formatTime(int milliseconds){
-  var secs = milliseconds ~/ 1000;
-  var hours = (secs ~/ 3600).toString().padLeft(2, '0');
-  var minutes = ((secs % 3600) ~/ 60).toString().padLeft(2, '0');
-  var seconds = (secs % 60).toString().padLeft(2, '0');
-  return "$hours:$minutes:$seconds";
-}*/
 
 /// ACTIVITIES PAGE CLASS
 /// * Description: Displays a specific activity. Displays it's description, disclaimer, steps, photos, and name
@@ -58,9 +52,9 @@ class _activityPage extends State<activityPage> {
       values.forEach((key, value){
         activityInfoList.add(value);
       });
-      description = activityInfoList[0]["Description"];
-      if(activityInfoList[0]["Disclaimer"] != null && activityInfoList[0]["Disclaimer"] != ""){
-        disclaimerMsg = activityInfoList[0]["Disclaimer"];
+      description = activityInfoList[zeroIndex]["Description"];
+      if(activityInfoList[zeroIndex]["Disclaimer"] != null && activityInfoList[0]["Disclaimer"] != ""){
+        disclaimerMsg = activityInfoList[zeroIndex]["Disclaimer"];
       }
       else{
         disclaimerMsg = "No disclaimer message for this activity.";
@@ -106,16 +100,16 @@ class _activityPage extends State<activityPage> {
               });
 
               //populate stepsArray and figure out how many steps there are
-              if(activityContentList[0]["Steps"] != null){
-                stepLen = activityContentList[0]["Steps"].length;
-                activityContentList[0]["Steps"].forEach((key, value){
+              if(activityContentList[zeroIndex]["Steps"] != null){
+                stepLen = activityContentList[zeroIndex]["Steps"].length;
+                activityContentList[zeroIndex]["Steps"].forEach((key, value){
                   stepsArray.add(key);
                 });
               }
 
               //figure out if there are any images to display and if so, how many
-              if(activityContentList[0]["Images"] != null){
-                activityContentList[0]["Images"].forEach((key, value) {
+              if(activityContentList[zeroIndex]["Images"] != null){
+                activityContentList[zeroIndex]["Images"].forEach((key, value) {
                   imagesArray.add(key);
                   if(value.toLowerCase() == "nothing to show here" || value.toLowerCase() == "nothing to see here"){
                     imageNum = 0;
@@ -133,7 +127,7 @@ class _activityPage extends State<activityPage> {
                       SizedBox(height: 10),
                       Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                          child: Text(activityContentList[0]["Description"],
+                          child: Text(activityContentList[zeroIndex]["Description"],
                               style: TextStyle(fontFamily: 'Montserrat', fontSize: 15, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic))
                       ),
                       Divider(
@@ -149,7 +143,7 @@ class _activityPage extends State<activityPage> {
                                     child: Text("Step " + (stepsIndex + 1).toString(), style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, fontWeight: FontWeight.w700))
                                 ),
                                 SizedBox(height: 10),
-                                Text(activityContentList[0]["Steps"][stepsArray[stepsIndex]])
+                                Text(activityContentList[zeroIndex]["Steps"][stepsArray[stepsIndex]])
                               ],
                             )
                         ),
@@ -158,7 +152,7 @@ class _activityPage extends State<activityPage> {
                         Container(
                           child: Padding(
                               padding: EdgeInsets.all(30),
-                              child: Image.network(activityContentList[0]["Images"][imagesArray[imageIndex]].toString(),fit: BoxFit.cover,
+                              child: Image.network(activityContentList[zeroIndex]["Images"][imagesArray[imageIndex]].toString(),fit: BoxFit.cover,
                             loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Center(
