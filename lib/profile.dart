@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:testing_app/home.dart';
 import 'package:testing_app/main.dart';
+import 'constants.dart';
 
 class profile extends StatefulWidget{
   profile({Key key, this.gsi, this.signIn, this.parent, this.child}) : super(key: key);
@@ -103,7 +104,7 @@ class _profileState extends State<profile>{
     return new Scaffold(
         appBar: AppBar(
 
-          title: Text('Profile', style: TextStyle(color: Colors.white, fontSize:24)),
+          title: Text(profilePageTitle, style: TextStyle(color: Colors.white, fontSize:24)),
           backgroundColor: Colors.orange[900],
           centerTitle: true,
         ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:testing_app/constants.dart';
 
 
 /// USER CLASS
@@ -35,10 +36,10 @@ class user {
     });
 
     // Set variables
-    childName = userInfo[0][userId]['ChildFirstName'];
-    name = userInfo[0][userId]['FirstName'];
-    weeklyGoal = userInfo[0][userId]['WeeklyGoal'];
-    recentActivity = userInfo[0][userId]['RecentActivity'];
+    childName = userInfo[zeroIndex][userId]['ChildFirstName'];
+    name = userInfo[zeroIndex][userId]['FirstName'];
+    weeklyGoal = userInfo[zeroIndex][userId]['WeeklyGoal'];
+    recentActivity = userInfo[zeroIndex][userId]['RecentActivity'];
     email = userEmail;
   }
 

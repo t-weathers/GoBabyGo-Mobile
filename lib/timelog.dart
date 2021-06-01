@@ -10,6 +10,7 @@ import 'package:testing_app/timelog_manual_entry.dart';
 import 'package:testing_app/user.dart';
 import 'package:testing_app/userData.dart';
 import 'package:testing_app/weekly_progress.dart';
+import 'constants.dart';
 
 /// Function: formatTime
 /// Description: Function to format the timer to 00:00:00
@@ -82,7 +83,6 @@ class _timelogState extends State<timelog>{
   //Initialize timer variables
   Stopwatch _stopwatch;
   Timer _timer;
-  Timer _updatetimer;
 
   DateTime startTime;
   DateTime stopTime;
@@ -104,7 +104,6 @@ class _timelogState extends State<timelog>{
   /// Description: gets all the users timelogs for a given week from database
   /// Params: none **/
   Future <void> getUsersTimelogs() async {
-
     // Get all the time log associated with that user
     DataSnapshot timelogData = await timelogRef.orderByChild('UserID')
         .equalTo(widget.userInfo.userId).once();
@@ -115,13 +114,9 @@ class _timelogState extends State<timelog>{
     weeklyRecordedTime.clear();
     timelogvalues.forEach((key, value){
       timelogInfo.add(timelogvalues);
-      print("looping, values = " + timelogvalues.toString());
-      print("timelogInfo[0][key]['TotalTime']: "+ timelogInfo[0][key]['TotalTime']);
-      print("timelogInfo[0][key]['StartTime']: "+ timelogInfo[0][key]['StartTime']);
-      var inWeeklyRange = isDateInRange(timelogInfo[0][key]['StartTime']);
+      var inWeeklyRange = isDateInRange(timelogInfo[zeroIndex][key]['StartTime']);
       if(inWeeklyRange){
-        print("this date is within this week");
-        weeklyRecordedTime.add(timelogInfo[0][key]['TotalTime']);
+        weeklyRecordedTime.add(timelogInfo[zeroIndex][key]['TotalTime']);
       }
     });
     totalRecordedTime = calculateTimeThisWeek(weeklyRecordedTime);
@@ -131,12 +126,11 @@ class _timelogState extends State<timelog>{
   @override
   void dispose(){
     _timer.cancel();
-    _updatetimer.cancel();
     super.dispose();
   }
 
   /// Function: handleStartStop
-  /// Description: handles if the timerr starts or stops
+  /// Description: handles if the timer starts or stops
   /// Params: none **/
   void handleStartStop(){
     if(_stopwatch.isRunning){
@@ -210,6 +204,7 @@ class _timelogState extends State<timelog>{
 
     //push new time log entry
     dbRef.push().set(timeLogData);
+    if(totalRecordedTime==null){ totalRecordedTime = 0; }
     totalRecordedTime += calcTime(formatTime(_stopwatch.elapsedMilliseconds)); //update the total recorded time
     setState(() { }); //re render the page
     _stopwatch.reset(); //reset the stopwatch
@@ -221,7 +216,7 @@ class _timelogState extends State<timelog>{
 
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Time Log', style: TextStyle(color: Colors.white, fontSize:24)),
+        title: Text(timeLogPageTitle, style: TextStyle(color: Colors.white, fontSize:24)),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.orange[900],
         centerTitle: true,
@@ -260,13 +255,12 @@ class _timelogState extends State<timelog>{
                 ),
                 FlatButton(onPressed: () {
                     //navigate to new page here
-                    //print("manual entry pressed");
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => timelogManualEntry(userId: widget.userInfo.userId,)),
                     );
                   },
-                    child: Text("Manual Entry", style: TextStyle(decoration: TextDecoration.underline))),
+                    child: Text(manualEntryPageTitle, style: TextStyle(decoration: TextDecoration.underline))),
                 SizedBox(height: 50),
                 _progressText(widget.userInfo.weeklyGoal, totalRecordedTime),
                 _progresssBar(widget.userInfo.weeklyGoal, totalRecordedTime),
@@ -281,7 +275,7 @@ class _timelogState extends State<timelog>{
                         splashColor: Colors.orange[900],
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black, width: 1.5),),
-                        child: new Text("EDIT GOAL"),
+                        child: new Text(editGoalPageTitle.toUpperCase()),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder:
@@ -296,8 +290,6 @@ class _timelogState extends State<timelog>{
                           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black, width: 1.5),),
                           child: new Text(" TIMELOGS "),
                           onPressed: () {
-                            //navigate to new page here
-                            //print("weekly progress pressed");
                             Navigator.push(context, MaterialPageRoute(builder: (context) => weeklyProgress(userInfo: widget.userInfo)),);
                           },
                           color: Colors.white,
