@@ -46,16 +46,12 @@ class _profileState extends State<profile>{
 
       Future.delayed(Duration.zero, () {
         Navigator.pushNamedAndRemoveUntil(ContextKeeper.buildContext, '/login', (_) => false);
-
-       // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),),);
       });
 
-        //WidgetsBinding.instance.addPostFrameCallback((_) {Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())); });
-    //  new LoginPage();
-
-     // Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext) => MyHomePage()));
-     // return new MyHomePage();
     }
+
+    //This is a function to populate the info for the profile page from the user currently in the database
+    //This pulls from database and stores into DataSnapshot
     Future <void> populateInfo() async {
       DataSnapshot data = await dbRef.orderByChild('Email').equalTo(
           widget.gsi.email).once();
@@ -67,11 +63,6 @@ class _profileState extends State<profile>{
         lists.add(values);
 
         entryKey = key;
-
-
-      //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
-      //  parentName = dbRef.child(key).child("FirstName").toString();
-        
       });
 
 
@@ -81,13 +72,10 @@ class _profileState extends State<profile>{
       parentName = lists[0][entryKey]['FirstName'];
 
     }
+
+    //populate variables from database when run
     populateInfo();
 
-
-   // childName = lists[0][entryKey]['ChildFirstName'];
-   // parentName = lists[0][entryKey]['FirstName'];
-
-    //grab all the info associated with a user through widget.
     final _controllerParentName = TextEditingController();
     _controllerParentName.text = widget.parent;
     final _controllerChildName = TextEditingController();
@@ -173,12 +161,6 @@ class _profileState extends State<profile>{
                         child: RaisedButton(
                       splashColor: Colors.grey,
                       color: Colors.orange[900],
-                      onPressed: () {
-                        //TODO: //add validation
-                        //add validation,
-                        //submit form,
-                        //push to next create acct page
-                      },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                       highlightElevation: 0,
                       child: Padding(

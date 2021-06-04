@@ -4,13 +4,9 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:testing_app/create_account1.dart';
 import 'package:testing_app/home.dart';
-import 'package:testing_app/loginGoogle.dart';
 import 'package:flutter/foundation.dart';
 
-
-import 'loginApple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -139,7 +135,6 @@ class _LoginPageState extends State<LoginPage> {
   Future<String> login() async {
     try {
 
-
       _googleSignInAccount = await _googleSignIn
           .signIn();
 
@@ -155,11 +150,13 @@ class _LoginPageState extends State<LoginPage> {
         (idToken: _googleSignInAuthentication.idToken,
           accessToken: _googleSignInAuthentication.accessToken);
 
+      //await authorization
       final AuthResult authResult = await _auth.signInWithCredential(
           credential);
 
       final FirebaseUser _user = authResult.user;
 
+      //make sure user has logged in
       assert(!_user.isAnonymous);
       assert(await _user.getIdToken() != null);
 
@@ -172,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
       if (data.value == null){
        // String newKey = data.value.keys[0];
 
+        //store values for database
         dbRef.push().set({
           'ChildFirstName': 'default:none',
           'Email': _googleSignInAccount.email,
@@ -192,22 +190,11 @@ class _LoginPageState extends State<LoginPage> {
       lists.clear();
       values.forEach((key, value){
         lists.add(values);
-
         entryKey = key;
-
-
-        //  childName = dbRef.child(key).child("ChildFirstName").once().toString();
-        //  parentName = dbRef.child(key).child("FirstName").toString();
-
       });
-
-
-
-
 
       childName = lists[0][entryKey]['ChildFirstName'];
       parentName = lists[0][entryKey]['FirstName'];
-
 
       setState(() {
         _isLoggedIn = true;
@@ -225,6 +212,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 
+//this is where the Apple Login Button will be implemented in the future
   Widget _buildAppleButton(){
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if (isIOS){
@@ -281,29 +269,16 @@ class _LoginPageState extends State<LoginPage> {
       splashColor: Colors.grey,
       color: Colors.white,
       onPressed: () async {
-         await login();
-         if (_isLoggedIn == true){
-           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignInAccount, signIn: _googleSignIn, parentsName: parentName, childsName: childName),),);
-         }
-
-
-        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
-        // Navigator.push(context, MterialPageRoute(builder: (context) => MyHomePage(gsi: _googleSignIn),
-
-        // Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
-        // Scaffold.of(context).showSnackBar(SnackBar(content: Text(_googleSignIn.currentUser.email),));
-         //Navigator.pushNamedAndRemoveUntil(context, "/MyHomePage", (_) => false);
-       // Navigator.push(
-        //  context,
-         // MaterialPageRoute(builder: (context) => home()),
-        //);
-      },
-      //onPressed: () {
- //         Navigator.push(
-   //         context,
-     //       MaterialPageRoute(builder: (context) => LoginGoogle()),
-       //   );
-      //},
+      await login();
+      if (_isLoggedIn == true) {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) =>
+              MyHomePage(gsi: _googleSignInAccount,
+                  signIn: _googleSignIn,
+                  parentsName: parentName,
+                  childsName: childName),),);
+      }
+    },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       
@@ -331,43 +306,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _signInAppleButton(){
-    return RaisedButton(
-      splashColor: Colors.grey,
-      color: Colors.white,
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginApple()),
-          );
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      
-      
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //change to apple logo
-            Image(image: AssetImage("assets/apple_logo.png"), height: 35.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Apple',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey[600],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+
 
 
 }
